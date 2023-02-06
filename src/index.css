@@ -1,0 +1,15 @@
+:root{
+    --color-green-1: #5FB324;
+    --color-green-2: #18A769;
+    --color-green-3: #BDDD6D;
+    --color-green-4: #B1E19B;
+    --color-background: linear-gradient(162deg, rgba(177, 225, 155, 1) 10%,rgba(24, 134, 167, 1) 80%);
+    --color-blue-1: #17006D;
+    --color-blue-2: #0D39DD;
+    --color-blue-2: #1886A7;
+    --color-purple: #9C075C;
+    --color-orange: #E14810;
+}
+*{
+    font-family: 'Poppins', sans-serif;
+}
