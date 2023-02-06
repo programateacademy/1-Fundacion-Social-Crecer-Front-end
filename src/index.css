@@ -13,3 +13,7 @@
 *{
     font-family: 'Poppins', sans-serif;
 }
+#root{
+    min-width: 100vw;
+    min-height: 100vh;
+}
