@@ -9,9 +9,17 @@
     --color-blue-2: #1886A7;
     --color-purple: #9C075C;
     --color-orange: #E14810;
+    /* TABLE COLORS */
+    --tb-unidad: #fcd5b4;
+    --tb-dupla: #b7dee8;
+    --tb-beneficiario: #c5d9f1;
+    --tb-acudiente: #8db4e2;
+    --tb-padre: #538dd5;
+    --tb-madre: #daeef3;
+    --tb-historial-medico: #92cddc;
 }
 *{
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', arial;
 }
 #root{
     min-width: 100vw;

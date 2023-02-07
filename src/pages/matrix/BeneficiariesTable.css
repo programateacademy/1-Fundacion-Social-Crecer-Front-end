@@ -1,0 +1,37 @@
+/* TABLE COLORS */
+
+table{
+    text-align: center;
+    margin: 1%;
+}
+thead td{
+    width: 100%;
+    min-width: 120px;
+    max-width: 170px;
+    padding: 2px;
+    font-size: clamp(.7rem, .65vw, .9rem);
+    font-weight: bold;
+    border: solid 2px var(--bs-gray);
+}
+
+.tb-unidad{
+    background: var(--tb-unidad);
+}
+.tb-dupla{
+    background: var(--tb-dupla);
+}
+.tb-beneficiario{
+    background: var(--tb-beneficiario);
+}
+.tb-acudiente{
+    background: var(--tb-acudiente);
+}
+.tb-padre{
+    background: var(--tb-padre);
+}
+.tb-madre{
+    background: var(--tb-madre);
+}
+.tb-historial-medico{
+    background: var(--tb-historial-medico);
+}
