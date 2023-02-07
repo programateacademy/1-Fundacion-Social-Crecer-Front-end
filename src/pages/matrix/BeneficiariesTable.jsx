@@ -63,60 +63,60 @@ function BeneficiariesTable() {
                             <td className='tb-beneficiario'>PUNTAJE SISBEN</td>
                             <td className='tb-beneficiario'>PERTENECE A FAMILIAS EN ACCIÓN</td>
                             <td className='tb-beneficiario'>EL BENEFICIARIO HA SIDO VICTIMA DIRECTA CONFLICTO ARMADO</td>
-                            <td>CRITERIOS DE FOCALIZACION</td>
-                            <td>SI NO CUMPLE CON NINGUN CRITERIO, CUENTA CON EL ACTA DONDE JUSTIFICA QUE EL BENEFICIARIO REQUIERE LA ATENCION</td>
-                            <td>TIPO DE RESPONSABLE</td>
-                            <td>TIPO DE DOCUMENTO ACUDIENTE</td>
-                            <td>NUMERO DE DOCUMENTO DEL ACUDIENTE</td>
-                            <td>PRIMER NOMBRE ACUDIENTE</td>
-                            <td>SEGUNDO NOMBRE ACUDIENTE</td>
-                            <td>PRIMER APELLIDO ACUDIENTE</td>
-                            <td>SEGUNDO APELLIDO ACUDIENTE</td>
-                            <td>FECHA DE NACIMIENTO ACUDIENTE</td>
-                            <td>PAIS DE NACIMIENTO ACUDIENTE</td>
-                            <td>DEPARTAMENTO DE NACIMIENTO ACUDIENTE</td>
-                            <td>MUNICIPIO DE NACIMIENTO ACUDIENTE</td>
-                            <td>TIPO DE DOCUMENTO PAPÁ</td>
-                            <td>NUMERO DE DOCUMENTO DEL PAPÁ</td>
-                            <td>PRIMER NOMBRE PAPÁ</td>
-                            <td>SEGUNDO NOMBRE PAPÁ</td>
-                            <td>PRIMER APELLIDO PAPÁ</td>
-                            <td>SEGUNDO APELLIDO PAPÁ</td>
-                            <td>FECHA DE NACIMIENTO PAPÁ</td>
-                            <td>EDAD PAPÁ (AÑOS)</td>
-                            <td>PAIS DE NACIMIENTO PAPÁ</td>
-                            <td>DEPARTAMENTO DE NACIMIENTO PAPÁ</td>
-                            <td>MUNICIPIO DE NACIMIENTO PAPÁ</td>
-                            <td>TIPO DE DOCUMENTO MAMÁ</td>
-                            <td>NUMERO DE DOCUMENTO DE LA MAMÁ</td>
-                            <td>PRIMER NOMBRE MAMÁ</td>
-                            <td>SEGUNDO NOMBRE MAMÁ</td>
-                            <td>PRIMER APELLIDO MAMÁ</td>
-                            <td>SEGUNDO APELLIDO MAMÁ</td>
-                            <td>FECHA DE NACIMIENTO MAMÁ</td>
-                            <td>EDAD MAMÁ</td>
-                            <td>PAIS DE NACIMIENTO MAMÁ</td>
-                            <td>DEPARTAMENTO DE NACIMIENTO MAMÁ</td>
-                            <td>MUNICIPIO DE NACIMIENTO MAMÁ</td>
-                            <td>REGIMEN</td>
-                            <td>EPS</td>
-                            <td>¿EL BENEFICIARIO CUENTA CON EL CARNET DE VACUNACIÓN? *</td>
-                            <td> FECHA DE VERIFICACIÓN DEL ESQUEMA DE VACUNACIÓN</td>
-                            <td>¿EL CARNET DE VACUNACIÓN SE ENCUENTRA AL DÍA EN LAS VACUNAS Y DOSIS QUE CORRESPONDEN A LA EDAD DEL NIÑO O NIÑA? *</td>
-                            <td>¿EL BENEFICIARIO PRESENTA CARNET DE CRECIMIENTO Y DESARROLLO? * </td>
-                            <td>SI EL NIÑO CUENTA CON EL CARNET, VERIFIQUE ¿CUÁNTOS CONTROLES DE CRECIMIENTO Y DESARROLLO HA RECIBIDO EL NIÑO, EN LOS ÚLTIMOS 6 MESES? </td>
-                            <td>ANTECEDENTE DE PREMATUREZ *</td>
-                            <td>A LA FECHA DE VALORACIÓN EL BENEFICIARIO TIENE MENOS DE 40 SEMANAS</td>
-                            <td>PERIMETRO CEFÁLICO</td>
-                            <td>EDAD GESTACIONAL AL NACER * </td>
-                            <td>PESO AL NACER (EN KILOGRAMOS) *</td>
-                            <td>TALLA AL NACER (EN CENTÍMETROS) *</td>
-                            <td>SI EL NIÑO O NIÑA ES MENOR DE 6 MESES, ¿ESTÁ SIENDO ALIMENTADO CON LECHE MATERNA DE FORMA EXCLUSIVA?</td>
-                            <td>DURACIÓN LACTANCIA MATERNA EXCLUSIVA (MESES)</td>
-                            <td>DURACIÓN LACTANCIA MATERNA TOTAL (MESES)</td>
-                            <td>X</td>
-                            <td>TIPO COMPLEMENTO</td>
-                            <td>SI EL BENEFICIARIO TIENE TICKET, INDIQUE EL NÚMERO DE TICKET</td>
+                            <td className='tb-beneficiario'>CRITERIOS DE FOCALIZACION</td>
+                            <td className='tb-beneficiario td-smaller-txt'>SI NO CUMPLE CON NINGÚN CRITERIO, CUENTA CON EL ACTA DONDE JUSTIFICA QUE EL BENEFICIARIO REQUIERE LA ATENCIÓN</td>
+                            <td className='tb-acudiente'>TIPO DE RESPONSABLE</td>
+                            <td className='tb-acudiente'>TIPO DE DOCUMENTO ACUDIENTE</td>
+                            <td className='tb-acudiente'>NUMERO DE DOCUMENTO DEL ACUDIENTE</td>
+                            <td className='tb-acudiente'>PRIMER NOMBRE ACUDIENTE</td>
+                            <td className='tb-acudiente'>SEGUNDO NOMBRE ACUDIENTE</td>
+                            <td className='tb-acudiente'>PRIMER APELLIDO ACUDIENTE</td>
+                            <td className='tb-acudiente'>SEGUNDO APELLIDO ACUDIENTE</td>
+                            <td className='tb-acudiente'>FECHA DE NACIMIENTO ACUDIENTE</td>
+                            <td className='tb-acudiente'>PAIS DE NACIMIENTO ACUDIENTE</td>
+                            <td className='tb-acudiente'>DEPARTAMENTO DE NACIMIENTO ACUDIENTE</td>
+                            <td className='tb-acudiente'>MUNICIPIO DE NACIMIENTO ACUDIENTE</td>
+                            <td className='tb-padre'>TIPO DE DOCUMENTO PAPÁ</td>
+                            <td className='tb-padre'>NUMERO DE DOCUMENTO DEL PAPÁ</td>
+                            <td className='tb-padre'>PRIMER NOMBRE PAPÁ</td>
+                            <td className='tb-padre'>SEGUNDO NOMBRE PAPÁ</td>
+                            <td className='tb-padre'>PRIMER APELLIDO PAPÁ</td>
+                            <td className='tb-padre'>SEGUNDO APELLIDO PAPÁ</td>
+                            <td className='tb-padre'>FECHA DE NACIMIENTO PAPÁ</td>
+                            <td className='tb-padre'>EDAD PAPÁ (AÑOS)</td>
+                            <td className='tb-padre'>PAIS DE NACIMIENTO PAPÁ</td>
+                            <td className='tb-padre'>DEPARTAMENTO DE NACIMIENTO PAPÁ</td>
+                            <td className='tb-padre'>MUNICIPIO DE NACIMIENTO PAPÁ</td>
+                            <td className='tb-madre'>TIPO DE DOCUMENTO MAMÁ</td>
+                            <td className='tb-madre'>NUMERO DE DOCUMENTO DE LA MAMÁ</td>
+                            <td className='tb-madre'>PRIMER NOMBRE MAMÁ</td>
+                            <td className='tb-madre'>SEGUNDO NOMBRE MAMÁ</td>
+                            <td className='tb-madre'>PRIMER APELLIDO MAMÁ</td>
+                            <td className='tb-madre'>SEGUNDO APELLIDO MAMÁ</td>
+                            <td className='tb-madre'>FECHA DE NACIMIENTO MAMÁ</td>
+                            <td className='tb-madre'>EDAD MAMÁ</td>
+                            <td className='tb-madre'>PAIS DE NACIMIENTO MAMÁ</td>
+                            <td className='tb-madre'>DEPARTAMENTO DE NACIMIENTO MAMÁ</td>
+                            <td className='tb-madre'>MUNICIPIO DE NACIMIENTO MAMÁ</td>
+                            <td className='tb-historial-medico'>REGIMEN</td>
+                            <td className='tb-historial-medico'>EPS</td>
+                            <td className='tb-historial-medico'>¿EL BENEFICIARIO CUENTA CON EL CARNET DE VACUNACIÓN? *</td>
+                            <td className='tb-historial-medico'> FECHA DE VERIFICACIÓN DEL ESQUEMA DE VACUNACIÓN</td>
+                            <td className='tb-historial-medico td-smaller-txt'>¿EL CARNET DE VACUNACIÓN SE ENCUENTRA AL DÍA EN LAS VACUNAS Y DOSIS QUE CORRESPONDEN A LA EDAD DEL NIÑO O NIÑA? *</td>
+                            <td className='tb-historial-medico'>¿EL BENEFICIARIO PRESENTA CARNET DE CRECIMIENTO Y DESARROLLO? * </td>
+                            <td className='tb-historial-medico td-smaller-txt'>SI EL NIÑO CUENTA CON EL CARNET, VERIFIQUE ¿CUÁNTOS CONTROLES DE CRECIMIENTO Y DESARROLLO HA RECIBIDO EL NIÑO, EN LOS ÚLTIMOS 6 MESES? </td>
+                            <td className='tb-historial-medico'>ANTECEDENTE DE PREMATUREZ *</td>
+                            <td className='tb-historial-medico'>A LA FECHA DE VALORACIÓN EL BENEFICIARIO TIENE MENOS DE 40 SEMANAS</td>
+                            <td className='tb-historial-medico'>PERIMETRO CEFÁLICO</td>
+                            <td className='tb-historial-medico'>EDAD GESTACIONAL AL NACER * </td>
+                            <td className='tb-historial-medico'>PESO AL NACER (EN KILOGRAMOS) *</td>
+                            <td className='tb-historial-medico'>TALLA AL NACER (EN CENTÍMETROS) *</td>
+                            <td className='tb-historial-medico td-smaller-txt'>SI EL NIÑO O NIÑA ES MENOR DE 6 MESES, ¿ESTÁ SIENDO ALIMENTADO CON LECHE MATERNA DE FORMA EXCLUSIVA?</td>
+                            <td className='tb-historial-medico'>DURACIÓN LACTANCIA MATERNA EXCLUSIVA (MESES)</td>
+                            <td className='tb-historial-medico'>DURACIÓN LACTANCIA MATERNA TOTAL (MESES)</td>
+                            <td className='tb-historial-medico'>X</td>
+                            <td className='tb-unidad'>TIPO COMPLEMENTO</td>
+                            <td className='tb-unidad'>SI EL BENEFICIARIO TIENE TICKET, INDIQUE EL NÚMERO DE TICKET</td>
                         </tr>
                     </thead>
                     <tbody>

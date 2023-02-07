@@ -14,6 +14,10 @@ thead td{
     border: solid 2px var(--bs-gray);
 }
 
+.td-smaller-txt{
+    font-size: clamp(.6rem, .55vw, .8rem);
+}
+
 .tb-unidad{
     background: var(--tb-unidad);
 }
