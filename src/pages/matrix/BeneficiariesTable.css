@@ -4,6 +4,11 @@ table{
     text-align: center;
     margin: 1%;
 }
+table input{
+    border: solid 1px #b3b3b3;
+    border-radius: 3px;
+    background: rgb(234, 234, 234);
+}
 thead td{
     width: 100%;
     min-width: 120px;
@@ -11,13 +16,12 @@ thead td{
     padding: 2px;
     font-size: clamp(.7rem, .65vw, .9rem);
     font-weight: bold;
-    border: solid 2px var(--bs-gray);
+    border: solid 3px var(--bs-gray);
+    border-width: 3px 2px;
 }
-
 .td-smaller-txt{
     font-size: clamp(.6rem, .55vw, .8rem);
 }
-
 .tb-unidad{
     background: var(--tb-unidad);
 }
@@ -38,4 +42,22 @@ thead td{
 }
 .tb-historial-medico{
     background: var(--tb-historial-medico);
+}
+tbody td{
+    border: solid 2px var(--bs-gray-500);
+}
+
+/* ADD MODAL */
+.flex-gap > div{
+    margin-right: 5rem;
+    display: flex;
+    flex-direction: column;
+}
+.flex-gap > div > input, .flex-gap > div > select{
+    width: 100%;
+    height: 30px;
+    background: #e9e9e9;
+    border: 2px solid #767676;
+    border-radius: 7px;
+    margin-bottom: 25px;
 }
