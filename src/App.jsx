@@ -1,12 +1,14 @@
-import './components/header/Header.css'
-import Header from './components/header/Header.jsx'
-
+import React from 'react';
+import Header from'./components/header/Header.jsx';
+import CardUser from './pages/managers/CardUser.jsx';
+import './pages/managers/Managers.css';
 function App() {
   return (
     <>
-      <Header/>
+      <Header />
+      <CardUser/>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
