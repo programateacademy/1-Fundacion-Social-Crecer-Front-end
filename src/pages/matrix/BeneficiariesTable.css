@@ -49,15 +49,27 @@ tbody td{
 
 /* ADD MODAL */
 .flex-gap > div{
+    display: inline-block;
     margin-right: 5rem;
     display: flex;
     flex-direction: column;
 }
-.flex-gap > div > input, .flex-gap > div > select{
+.flex-gap > div > input, .flex-gap > div > select, .flex-gap > div > textarea{
+    display: inline-block;
     width: 100%;
+    min-width: 208px;
     height: 30px;
-    background: #e9e9e9;
-    border: 2px solid #767676;
-    border-radius: 7px;
+    min-height: 30px;
+    background: #dde0ff;
+    border: 2px solid #538dd5;
+    border-radius: 4px;
     margin-bottom: 25px;
+}
+.flex-gap h4{
+    width: 100%;
+    margin: 3% 0;
+    font-weight: 800;
+}
+.flex-gap label{
+    color: black;
 }
