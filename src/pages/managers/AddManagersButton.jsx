@@ -1,5 +1,5 @@
 import { IoIosAddCircleOutline } from 'react-icons/io';
-function AddManagers() {
+function AddManagersButton() {
     return (
         <button className='addUser'>
             <span className='iconAddUser'><IoIosAddCircleOutline /></span>
@@ -7,4 +7,4 @@ function AddManagers() {
         </button>
     )
 }
-export default AddManagers
+export default AddManagersButton

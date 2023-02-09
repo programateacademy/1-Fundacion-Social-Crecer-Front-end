@@ -1,4 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&display=swap');
+.userCards{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 1200px;
+    margin:auto;
+    margin-top:1rem;
+}
 .cardUser{
     height: 215px;
     width: 521px;
