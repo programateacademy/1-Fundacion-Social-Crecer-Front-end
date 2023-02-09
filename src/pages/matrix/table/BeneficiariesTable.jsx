@@ -1,5 +1,4 @@
 import React from 'react'
-import AddBeneficiaries from './AddBeneficiaries'
 import './BeneficiariesTable.css'
 import Tbody from './Tbody'
 import Thead from './Thead'
@@ -7,8 +6,7 @@ import Thead from './Thead'
 function BeneficiariesTable() {
 
     return (  
-        <section>
-            <AddBeneficiaries />
+        <section className='marix-table'>
             <table>
                 <Thead />
                 <tbody>

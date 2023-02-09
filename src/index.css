@@ -1,8 +1,8 @@
 :root{
     --color-green-1: #5FB324;
     --color-green-2: #18A769;
-    --color-green-3: #BDDD6D;
-    --color-green-4: #B1E19B;
+    --color-green-3: #c3ff9e;
+    --color-green-4: #d0ffba;
     --color-background: linear-gradient(162deg, rgba(177, 225, 155, 1) 10%,rgba(24, 134, 167, 1) 80%);
     --color-blue-1: #17006D;
     --color-blue-2: #0D39DD;
@@ -21,7 +21,3 @@
 *{
     font-family: 'Poppins', arial;
 }
-/* #root{
-    min-width: 100vw;
-    min-height: 100vh;
-} */

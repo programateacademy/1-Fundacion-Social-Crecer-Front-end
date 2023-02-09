@@ -1,15 +1,34 @@
-import React from 'react'
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 
 function AddBeneficiaries() {
     const [show, setShow] = useState(false);
+
+    const [departments, setDepartments] = useState([])
+    const fetchApiDepartments = async _=>{
+        try {
+            const res = await fetch('https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/departamentos.php')
+            const resJSON = await res.json();
+            setDepartments(resJSON)
+            console.log(resJSON)
+        } catch (error) {
+            console.log(error)
+            setDepartments({'estado': true,'resultado':[{
+                "CODIGO_DEPARTAMENTO": "91",
+                "NOMBRE_DEPARTAMENTO": "AMAZONAS"}]})
+        }
+    }
+    useEffect(()=>{
+        fetchApiDepartments()
+    }, [])
     return (
+        !departments.resultado ? 'Cargando' :(
         <>
-            <Button variant='primary' onClick={() => setShow(true)}>
-                Custom Width Modal
-            </Button>
+            <button className='addUser' variant='primary' onClick={() => setShow(true)}>
+                <span className='iconAddUser'><IoIosAddCircleOutline /></span>
+                <span className='createUser'>Añadir Beneficiario</span>
+            </button>
 
             <Modal
                 show={show}
@@ -18,7 +37,7 @@ function AddBeneficiaries() {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id='example-custom-modal-styling-title'>
-                        AÑADIR BENEFICIARIO
+                        <h3>AÑADIR BENEFICIARIO</h3>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className='modal-dialog-scrollable d-flex flex-wrap input-modal flex-gap'>
@@ -27,9 +46,9 @@ function AddBeneficiaries() {
                         <input type='text' />
                     </div>
                     <div>
-                        <label>¿ACTIVO O INACTIVO?</label>
+                        <label>¿ACTIVO O INACTIVO?*</label>
                         <select name='select'>
-                            <option value='value1' selected>ACTIVO</option>
+                            <option value='value1'>ACTIVO</option>
                             <option value='value2'>INACTIVO</option>
                         </select>
                     </div>
@@ -50,12 +69,13 @@ function AddBeneficiaries() {
                         <textarea name='' id='' cols='30' rows='10'></textarea>
                     </div>
                     <div>
-                        <label>SI EL MOTIVO DE EGRESO ES 'OTRO', INDIQUE EL POR QUÉ</label>
+                        <label>SI EL MOTIVO DE EGRESO ES 'OTRO', INDIQUE EL PORQUÉ</label>
                         <textarea name='' id='' cols='30' rows='10'></textarea>
                     </div>
                     <div>
-                        <label>UNIDAD</label>
+                        <label>UNIDAD*</label>
                         <select name='select'>
+{/*                             <option disabled hidden selected value='0'></option> */}
                             <option value='value1'>EDUCANDO ANDO</option>
                             <option value='value2'>SEMBRANDO ESPERANZA</option>
                             <option value='value3'>ESPACIOS CREATIVOS</option>
@@ -102,8 +122,7 @@ function AddBeneficiaries() {
                     <div>
                         <label>DOCENTE*</label>
                         <select name='select'>
-                            <option value='value1' selected>ACTIVO</option>
-                            <option value='value2'>INACTIVO</option>
+                            <option disabled hidden></option>
                         </select>
                     </div>
                     <h4>BENEFICIARIO</h4>
@@ -111,7 +130,7 @@ function AddBeneficiaries() {
                     <div>
                         <label>TIPO DE DOCUMENTO *</label>
                         <select name='select'>
-                            <option value='value1' selected>RC</option>
+                            <option value='value1'>RC</option>
                             <option value='value2'>CC</option>
                             <option value='value3'>TI</option>
                             <option value='value4'>PEP</option>
@@ -123,27 +142,28 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>PRIMER NOMBRE*</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>SEGUNDO NOMBRE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>PRIMER APELLIDO*</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>SEGUNDO APELLIDO*</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>FECHA DE NACIMIENTO*</label>
-                        <input  type='date' />
+                        <input type='date' />
                     </div>
                     <div>
                         <label>GÉNERO*</label>
                         <select name='select'>
+                            <option disabled hidden></option>
                             <option value='value1'>FEMENINO</option>
                             <option value='value2'>MASCULINO</option>
                             <option value='value3'>NO BINARIO</option>
@@ -165,9 +185,9 @@ function AddBeneficiaries() {
                     <div>
                         <label>DEPARTAMENTO DE NACIMIENTO</label>
                         <select name='select'>
-                            <option value='value1'>EJEMPLO</option>
-                            <option value='value2'>EJEMPLO</option>
-                            <option value='value3'>EJEMPLO</option>
+                            {departments.resultado.map(index=>{
+                                return <option key={index.CODIGO_DEPARTAMENTO} value={index.CODIGO_DEPARTAMENTO}>{index.NOMBRE_DEPARTAMENTO}</option>
+                            })}
                         </select>
                     </div>
                     {/* MUNICIPALITIES */}
@@ -193,7 +213,7 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>ENTIDAD QUE CERTIFICA LA DISCAPACIDAD</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>CATEGORÍA DE LA DISCAPACIDAD</label>
@@ -214,7 +234,7 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>ESPECIFICAR LA DISCAPACIDAD</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>¿ESTÁ INSCRITO EN EL REGISTRO PARA LA LOCALIZACIÓN Y CARACTERIZACIÓN DE PERSONAS CON DISCAPACIDAD?</label>
@@ -312,25 +332,25 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>NOMBRE DE LA ZONA RESTO</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>DIRECCIÓN</label>
-                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                        <textarea name= ' ' id= ' ' cols= '30 ' rows='10'></textarea>
                     </div>
                     <div>
                         <label>TELEFONO PRINCIPAL*</label>
-                        <input  type='number' />
+                        <input type='number' />
                     </div>
                     <div>
                         <label>TELEFONO SECUNDARIO</label>
-                        <input  type='number' />
+                        <input type='number' />
                     </div>
                     <div>
                         <label>ESTRATO DE HOGAR*</label>
                         <select name='select'>
                             <option value='1'>0</option>
-                            <option value='2' selected>1</option>
+{/*                             <option value='2' selected>1</option> */}
                             <option value='3'>2</option>
                         </select>
                     </div>
@@ -340,7 +360,7 @@ function AddBeneficiaries() {
                             <option value='1'>AFROCOLOMBIANO</option>
                             <option value='2'>INDÍGENA</option>
                             <option value='3'>RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA</option>
-                            <option value='4' selected>NO SE AUTORECONOCE EN  NINGUNO DE LOS ANTERIORES</option>
+{/*                             <option value='4' selected>NO SE AUTORECONOCE EN  NINGUNO DE LOS ANTERIORES</option> */}
                         </select>
                     </div>
                     <div>
@@ -376,14 +396,14 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>PERTENECE A FAMILIAS EN ACCIÓN</label>
-                        <select name="select">
+                        <select name='select'>
                             <option value='1'>NO</option>
                             <option value='2'>SI</option>
                         </select>
                     </div>
                     <div>
                         <label>EL BENEFICIARIO HA SIDO VICTIMA DIRECTA CONFLICTO ARMADO</label>
-                        <select name="select">
+                        <select name='select'>
                             <option value='1'>NO</option>
                             <option value='2'>SI</option>
                         </select>
@@ -410,7 +430,7 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>SI NO CUMPLE CON NINGUN CRITERIO, CUENTA CON EL ACTA DONDE JUSTIFICA QUE EL BENEFICIARIO REQUIERE LA ATENCION</label>
-                        <select name="select">
+                        <select name='select'>
                             <option value='1'>NO</option>
                             <option value='2'>SI</option>
                         </select>
@@ -444,27 +464,27 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>NÚMERO DE DOCUMENTO DEL ACUDIENTE</label>
-                        <input  type='number' />
+                        <input type='number' />
                     </div>
                     <div>
                         <label>PRIMER NOMBRE ACUDIENTE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>SEGUNDO NOMBRE ACUDIENTE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>PRIMER APELLIDO ACUDIENTE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>SEGUNDO APELLIDO ACUDIENTE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>FECHA DE NACIMIENTO ACUDIENTE</label>
-                        <input  type='date' />
+                        <input type='date' />
                     </div>
                     {/* COUNTRY */}
                     <div>
@@ -506,27 +526,27 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>NÚMERO DE DOCUMENTO DEL PADRE</label>
-                        <input  type='number' />
+                        <input type='number' />
                     </div>
                     <div>
                         <label>PRIMER NOMBRE PADRE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>SEGUNDO NOMBRE PADRE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>PRIMER APELLIDO PADRE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>SEGUNDO APELLIDO PADRE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>FECHA DE NACIMIENTO PADRE</label>
-                        <input  type='date' />
+                        <input type='date' />
                     </div>
                     {/* COUNTRY */}
                     <div>
@@ -567,27 +587,27 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>NÚMERO DE DOCUMENTO DEL MADRE</label>
-                        <input  type='number' />
+                        <input type='number' />
                     </div>
                     <div>
                         <label>PRIMER NOMBRE MADRE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>SEGUNDO NOMBRE MADRE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>PRIMER APELLIDO MADRE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>SEGUNDO APELLIDO MADRE</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                     <div>
                         <label>FECHA DE NACIMIENTO MADRE</label>
-                        <input  type='date' />
+                        <input type='date' />
                     </div>
                     {/* COUNTRY */}
                     <div>
@@ -672,7 +692,7 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label> FECHA DE VERIFICACIÓN DEL ESQUEMA DE VACUNACIÓN</label>
-                        <input  type='date' />
+                        <input type='date' />
                     </div>
                     <div>
                         <label>¿EL CARNET DE VACUNACIÓN SE ENCUENTRA AL DÍA EN LAS VACUNAS Y DOSIS QUE CORRESPONDEN A LA EDAD DEL NIÑO O NIÑA?*</label>
@@ -721,7 +741,7 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>TALLA AL NACER (EN CENTÍMETROS)*</label>
-                        <input  type='number' />
+                        <input type='number' />
                     </div>
                     <div>
                         <label>SI EL NIÑO O NIÑA ES MENOR DE 6 MESES, ¿ESTÁ SIENDO ALIMENTADO CON LECHE MATERNA DE FORMA EXCLUSIVA?</label>
@@ -732,20 +752,20 @@ function AddBeneficiaries() {
                     </div>
                     <div>
                         <label>DURACIÓN LACTANCIA MATERNA EXCLUSIVA (MESES)</label>
-                        <input  type='number' />
+                        <input type='number' />
                     </div>
                     <div>
                         <label>DURACIÓN LACTANCIA MATERNA TOTAL (MESES)</label>
-                        <input  type='number' />
+                        <input type='number' />
                     </div>
                     <div>
                         <label>X</label>
-                        <input  type='text' />
+                        <input type='text' />
                     </div>
                 </Modal.Body>
             </Modal>
         </>
-    )
+    ))
 }
 
 export default AddBeneficiaries
