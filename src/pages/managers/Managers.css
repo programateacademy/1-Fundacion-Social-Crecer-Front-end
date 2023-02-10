@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&display=swap');
+.userCards{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-width: 1200px;
+    margin:auto;
+    margin-top:1rem;
+}
+.cardUser{
+    height: 215px;
+    width: 521px;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #6A9A15;
+    border-radius:1em;
+    background-color: #F0FFD7;
+    padding: 27px;
+    margin: 27px;
+    box-shadow: 5px 5px 5px -6px black;
+}
+.dataUser{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.imgUser{
+    border: 2px solid #9D9D9D;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    width: 116px ;
+    height: 116px;
+}
+.profileUserButtons{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+.userButton{
+    border: none;
+    background-color: #5FB324;
+    color: white;
+    font-size: 15px;
+    font-weight: 800;
+    padding-left: 17px;
+    padding-right: 17px;
+    padding: 10px;
+    border-radius:0.5em;
+}
+.nameUser,.nameEmail,.idUser{
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+.nameUser{
+    font-size: 25px;
+}
+.nameEmail,.idUser{
+    font-size: 20px;
+}
+
+.searchManagers{
+    display: flex;
+    flex-direction: row;
+}
+.searchButton{
+    margin-left: 15px;
+    font-weight: 500px;
+    font-size: 20px;
+    border:3px solid #939393;
+    background-color: #D9D9D9;
+    border-radius:0.5em;
+}
+.searchManagers input{
+    font-weight: 500px;
+    font-size: 20px;
+    border:3px solid #939393;
+    background-color: #D9D9D9;
+    border-radius:0.5em;
+}
+.filaUno{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 30px;
+}
+.mb-2{
+    border:3px solid #767676;
+    background-color: #D9D9D9;
+    border-radius:0.5em;
+}

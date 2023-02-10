@@ -6,12 +6,14 @@
     justify-content: space-between;
     position: fixed;
     transition: all .2s;
+
 }
 .top-table:hover{
-    background: red;
+    background: #3ab73f;
 }
 .top-table div{
     display: flex;
+    margin-right: 1%;
 }
 .top-table input, .top-table select, .top-table div button{
     width: 100%;

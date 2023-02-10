@@ -21,3 +21,28 @@
 *{
     font-family: 'Poppins', sans-serif;
 }
+.addUser{
+    border: 2px solid var(--bs-green);        
+    background-color: var(--color-green-3);
+    height: 35px;
+    font-size: clamp(.9rem, 1.1vw, 1.1rem);
+    box-shadow: 2px 2px 5px 1px var(--bs-gray-400);
+    border-radius:0.5em;
+    display: flex;
+    align-items: center;
+    transition: all .15s;
+}
+.addUser:hover{
+    background-color: var(--color-green-4);
+}
+.addUser svg{
+    position: relative;
+    top: -2px;
+}
+.iconAddUser{
+    font-size: 25px;
+}
+.createUser{
+    margin:0 5px;
+}
+

@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Logo from "../../assets/img/logo.svg";
 import { BsFillPersonFill, BsFillLockFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 
 const LogIn = ({addFunction}) => {
@@ -18,7 +19,7 @@ const LogIn = ({addFunction}) => {
     addFunction({email,password})
   }
   return (
-    <>
+    < div className='bodyLogin'>
       <div className="containerLogIn">
           <div className="logoContainer">
             <img src={Logo} alt="Logo" />
@@ -57,11 +58,11 @@ const LogIn = ({addFunction}) => {
                   />
                 </Col>
               </Form.Group>
-              <Button type="submit">Ingresar</Button>
+              <Button type="submit"><Link to="matrix/">Ingresar</Link></Button>
             </Form>
           </div>
       </div>
-    </>
+    </div>
   );
 };
 
