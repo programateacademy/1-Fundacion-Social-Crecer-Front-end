@@ -1,12 +1,19 @@
-import './App.css'
-import LogIn from './components/login/LogIn.jsx'
+import "./App.css";
+import LogIn from "./components/login/LogIn.jsx";
+import admin from "./apis";
+
 
 function App() {
+  // Fetch data from backend
+  const add = async (item) => {
+    const { data } = await admin.post("/api/user/login", item);
+    console.log(data);
+  };
   return (
     <>
-      <LogIn/>
+      <LogIn addFunction={add} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
