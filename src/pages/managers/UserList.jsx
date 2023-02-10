@@ -1,4 +1,4 @@
-import modelUser from './userImage.png';
+import modelUser from '../assets/img/userImage.png';
 
 const UserList=[
     {   id:"1.000.001",

@@ -1,5 +1,5 @@
 import React from 'react'
-import logo  from './logo.jpg';
+import logo  from '../../assets/img/logo.svg';
 import { FaUserAlt } from "react-icons/fa";
 import './Header.css';
 
