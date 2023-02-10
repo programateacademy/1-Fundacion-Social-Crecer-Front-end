@@ -24,10 +24,10 @@ const addItem ={
   return (
     <div id="Form">
       <Form>
-        <Form.Group className="mb-2">
+        <Form.Group className="inputNewUser">
           <Form.Control type="text" placeholder="Numero de identificación" />
         </Form.Group>
-        <Form.Group className="mb-2">
+        <Form.Group className="inputNewUser">
           <Form.Control
             type="text"
             placeholder="Nombre"
@@ -35,20 +35,19 @@ const addItem ={
             value={name}
           />
         </Form.Group>
-        <Form.Group className="mb-2">
+        <Form.Group className="inputNewUser">
           <Form.Control type="text" placeholder="Correo electrónico"          
           onChange={(e) => {setEmail(e.target.value)}}
           value={email}/>
         </Form.Group>
-        <Form.Group className="mb-2">
+        <Form.Group className="inputNewUser">
           <Form.Control type="text" placeholder="Contraseña"          
           onChange={(e) => {setPassword(e.target.value)}}
           value={password}/>
         </Form.Group>
       </Form>
       {/* Button functionality assignment */}
-      <button onClick={()=>{add(addItem)}}>GUARDAR</button>
-      
+
     </div>
   );
 };
