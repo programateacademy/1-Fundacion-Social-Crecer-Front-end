@@ -26,8 +26,7 @@
 }
 .imgUser{
     border: 2px solid #9D9D9D;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
+    border-radius: 50%;
     width: 116px ;
     height: 116px;
 }
