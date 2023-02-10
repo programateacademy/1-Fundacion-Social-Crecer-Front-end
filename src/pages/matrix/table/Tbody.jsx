@@ -3,9 +3,7 @@ import React from 'react'
 function Tbody() {
     return (
         <tr>
-            <td>
-                a
-            </td>
+            <td>a</td>
         </tr>
     )
 }

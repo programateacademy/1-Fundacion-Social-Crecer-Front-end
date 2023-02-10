@@ -1,0 +1,31 @@
+.top-table{
+    width: 100vw;
+    padding: 20px 1%;
+    top: 0px;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    transition: all .2s;
+}
+.top-table:hover{
+    background: red;
+}
+.top-table div{
+    display: flex;
+}
+.top-table input, .top-table select, .top-table div button{
+    width: 100%;
+    min-width: 250px;
+    box-shadow: 2px 2px 5px 1px var(--bs-gray-400);
+    background-color: var(--bs-gray-200);
+    border: solid 2px var(--bs-gray-500);
+    border-radius:0.5em;
+    margin-left: 20px;
+    padding-left: 2%;
+    color: var(--bs-gray-600);
+}
+.top-table div button{
+    min-width: auto;
+    margin-left: 5px;
+    padding: 0% 1%;
+}
