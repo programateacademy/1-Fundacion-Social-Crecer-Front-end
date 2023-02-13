@@ -3,10 +3,12 @@ import './Matrix.css'
 import BeneficiariesTable from './table/BeneficiariesTable'
 import AddBeneficiaries from './AddBeneficiaries'
 import { BiSearch } from 'react-icons/bi';
+import Header from '../../components/header/Header'
 
 function Matrix() {
     return (
         <>
+            <Header/>
             <section className='top-table'>
                 <AddBeneficiaries/>
                 <div>

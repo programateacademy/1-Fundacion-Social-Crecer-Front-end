@@ -6,13 +6,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Logo from "../../assets/img/logo.svg";
 import { BsFillPersonFill, BsFillLockFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
 
 
 const LogIn = ({addFunction}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
- 
+
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(email, password)
@@ -58,7 +57,7 @@ const LogIn = ({addFunction}) => {
                   />
                 </Col>
               </Form.Group>
-              <Button type="submit"><Link to="matrix/">Ingresar</Link></Button>
+              <Button type="submit">Ingresar</Button>
             </Form>
           </div>
       </div>

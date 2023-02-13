@@ -1,8 +1,6 @@
-import React from 'react'
-
-function Thead() {
+function test() {
     return (
-        <thead>
+        <div className='xd'>
             <tr>
                 <td>EDITAR</td>
                 <td>NUMERO DE DOCUMENTO</td>
@@ -114,8 +112,8 @@ function Thead() {
                 <td className='tb-unidad'>TIPO COMPLEMENTO</td>
                 <td className='tb-unidad'>SI EL BENEFICIARIO TIENE TICKET, INDIQUE EL NÚMERO DE TICKET</td>
             </tr>
-        </thead>
+        </div>
     )
 }
 
-export default Thead
+export default test
