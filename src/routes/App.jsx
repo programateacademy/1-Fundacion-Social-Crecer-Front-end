@@ -12,13 +12,14 @@ function App() {
   };
   return (
     <>
-      <HashRouter>
+{/*       <HashRouter>
         <Routes>
           <Route path="/" element={<LogIn addFunction={add} />} />
-          <Route path="matrix/" element={<Matrix />} />
-          <Route path="managers/" element={<Managers />} />
+          <Route path="/matrix" element={<Matrix />} />
+          <Route path="/managers" element={<Managers />} />
         </Routes>
-      </HashRouter>
+      </HashRouter> */}
+      <Matrix />
     </>
   );
 }

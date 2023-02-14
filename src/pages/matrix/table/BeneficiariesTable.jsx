@@ -3,19 +3,19 @@ import './BeneficiariesTable.css'
 import Tbody from './Tbody'
 import Thead from './Thead'
 import Test from './Test'
+import data from '../../../apis/model'
 
 function BeneficiariesTable() {
 
     return (  
-        <section className='marix-table'>
-            <table>
-                <Thead />
-                <tbody>
-{/*                     <Test/> */}
-                    <Tbody />
-                </tbody>
+
+            <table className='prin-table'>
+
+                <Thead trans= {true} />
+            {data.map( (item)  => 
+              <tbody><Tbody data = {item}/></tbody> )}
             </table>
-        </section>
+
     )
 }
 

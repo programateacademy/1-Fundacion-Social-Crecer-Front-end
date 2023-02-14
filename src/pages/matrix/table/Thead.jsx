@@ -1,8 +1,9 @@
 import React from 'react'
+import './BeneficiariesTable.css'
 
-function Thead() {
+function Thead({trans=false}) {
     return (
-        <thead>
+        <thead className={trans? 'transp':''}>
             <tr>
                 <td>EDITAR</td>
                 <td>NUMERO DE DOCUMENTO</td>

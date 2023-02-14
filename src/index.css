@@ -20,8 +20,8 @@
 }
 * {
     font-family: 'Poppins', sans-serif;
-    scrollbar-width: auto;
-    scrollbar-color: #1b4098 #f0f4ff;
+    scrollbar-width: 12px;
+    scrollbar-color:  rgba(255, 255, 255, 0.6);
 }
 *::-webkit-scrollbar {
     width: 12px;

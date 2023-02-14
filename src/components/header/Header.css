@@ -10,6 +10,7 @@
     font-weight: 500;
     justify-content: space-between;
     box-shadow: 0px 5px 5px -6px black;
+    z-index: 150;
 }
 
 .adminInfo{
@@ -24,7 +25,7 @@
 .buttonsHeader{
     width: 328px;
     justify-content: space-between;
-    font-size: 20px;
+    font-size: 16px;
     
     
 }
@@ -42,13 +43,13 @@ border-bottom: 3px solid blue;
     align-items: center;
 }
 .adminName{
-    font-size: 25px;
+    font-size: 16px;
 }
 .adminProfile{
     font-size: 15px;
 }
 .iconUser{
-    font-size: 30px;
+    font-size: 16px;
     margin-right: 10px;
     color:gray;
 }
