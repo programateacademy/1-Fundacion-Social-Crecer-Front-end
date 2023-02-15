@@ -15,7 +15,7 @@ import React from 'react';
                 value={searchValue}
                 placeholder="Buscar Usuario"
             />
-            <button className="searchButton">Buscar</button>
+            {/* <button className="searchButton">Buscar</button> */}
         </div>
         </>
         

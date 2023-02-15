@@ -1,22 +1,24 @@
 //   Imports the main React component and hook
 import { useState } from "react";
 //   Imports form Bootstrap
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import modelUser from '../../assets/img/userImage.png';
 
-
-const AddManagersModal = ({add}) => {
+const AddManagersModal = ({add,setShow}) => {
 
   //   States for item document
+  const [id, setId]=useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
 
-//   Item model 
+//   Managers model 
 const addItem ={
+    id:id,
     name: name,
     email: email,
+    img:modelUser,
     password: password,
 };
 
@@ -25,7 +27,9 @@ const addItem ={
     <div id="Form">
       <Form>
         <Form.Group className="inputNewUser">
-          <Form.Control type="text" placeholder="Numero de identificación" />
+          <Form.Control type="text" placeholder="Numero de identificación" 
+            onChange={(e) => {setId(e.target.value)}}
+          />
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
@@ -47,7 +51,10 @@ const addItem ={
         </Form.Group>
       </Form>
       {/* Button functionality assignment */}
-
+      <div className="btnsCreateUser">
+          <button className="btnCreateUser" onClick={()=>{add(addItem), setShow(false)}} >Crear</button>
+          <button className="btnCancelUser" onClick={() => setShow(false)}>Cancelar</button>
+        </div>
     </div>
   );
 };
