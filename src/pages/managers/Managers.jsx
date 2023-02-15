@@ -55,8 +55,7 @@ function Managers() {
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
         <ModalContainerAddUser add={addManagers}/>
       </div>
-      <CardUser managers={searchedManagers} setManagers={setManagers}
-      />
+      <CardUser managers={searchedManagers} setManagers={setManagers}/>
     </>
   );
 }
