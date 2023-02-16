@@ -9,7 +9,7 @@ import { BsFillPersonFill, BsFillLockFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 
-const LogIn = ({addFunction, onLogin, onLogout }) => {
+const LogIn = ({loginFunction, onLogin, onLogout }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const LogIn = ({addFunction, onLogin, onLogout }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     console.log(email, password)
-    const sucess = await addFunction({email,password});
+    const sucess = await loginFunction({email,password});
     if  (sucess){
       onLogin();
       navigate("/matrix/");
