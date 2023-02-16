@@ -19,7 +19,7 @@ const AdminLockedModal = (props) => {
           Oh! se ha bloqueado tu cuenta
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body className="d-flex gap-4">
+      <Modal.Body className="d-flex gap-4 p-5">
         <IconPadLock />
         <div className="d-flex flex-column justify-content-between fs-4">
           <p>Has excedido la cantidad maxima de intentos para iniciar sesion</p>
