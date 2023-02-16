@@ -4,7 +4,6 @@ export const RequireAuth = ({isLogged, children}) => {
   if(!isLogged){
     console.log("No logueado")
     return <Navigate to='/'/>
-    
     }
     console.log("logueado")
   return (
