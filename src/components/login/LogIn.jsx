@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import Logo from "../../assets/img/logo.svg";
 import { BsFillPersonFill, BsFillLockFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import Matrix from "../../pages/matrix/Matrix";
+
 
 const LogIn = ({addFunction, onLogin, onLogout }) => {
   const [email, setEmail] = useState();
@@ -29,7 +29,7 @@ const LogIn = ({addFunction, onLogin, onLogout }) => {
   }
 
   return (
-    <>
+    < div className='bodyLogin'>
       <div className="containerLogIn">
           <div className="logoContainer">
             <img src={Logo} alt="Logo" />
@@ -72,7 +72,7 @@ const LogIn = ({addFunction, onLogin, onLogout }) => {
             </Form>
           </div>
       </div>
-    </>
+    </div>
   );
 };
 

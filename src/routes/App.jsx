@@ -7,7 +7,6 @@ import { RequireAuth } from "../components/login/RequireAuth";
 import { useState } from "react";
 
 
-
 function App() {
   //Login status
   const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false );
@@ -43,18 +42,13 @@ function App() {
           <Route
             path="matrix/"
             element={
-              <RequireAuth isLogged={isLogged}  
-               children= {<Matrix  onLogout={handleLogout} />}/>
-             
-           
+              <RequireAuth isLogged={isLogged} children= {<Matrix  onLogout={handleLogout} />}/>
             }
           />
           <Route
             path="managers/"
             element={
-              <RequireAuth>
-                <Managers isLogged={isLogged} onLogout={handleLogout} />
-              </RequireAuth>
+              <RequireAuth isLogged={isLogged} children= {<Managers onLogout={handleLogout} />}/>
             }
           />
         </Routes>
