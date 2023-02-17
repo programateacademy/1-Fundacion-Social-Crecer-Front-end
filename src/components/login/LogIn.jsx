@@ -7,13 +7,17 @@ import Col from "react-bootstrap/Col";
 import Logo from "../../assets/img/logo.svg";
 import { BsFillPersonFill, BsFillLockFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import AdminLockedModal from "../modals/lockedaccountmodals/AdminLockedModal";
+
 
 
 const LogIn = ({loginFunction, onLogin, onLogout }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
+  const [showLockedModal, setShowLockedModal] = useState(false);
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
     console.log(email, password)
@@ -29,7 +33,7 @@ const LogIn = ({loginFunction, onLogin, onLogout }) => {
   }
 
   return (
-    < div className='bodyLogin'>
+    <div className="bodyLogin">
       <div className="containerLogIn">
           <div className="logoContainer">
             <img src={Logo} alt="Logo" />
@@ -72,6 +76,14 @@ const LogIn = ({loginFunction, onLogin, onLogout }) => {
             </Form>
           </div>
       </div>
+      <Button variant="primary" onClick={() => setShowLockedModal(true)}>
+        Launch vertically centered modal
+      </Button>
+      <AdminLockedModal
+        show={showLockedModal}
+        onHide={() => setShowLockedModal(false)}
+        role="superadmin"
+      />
     </div>
   );
 };
