@@ -62,6 +62,16 @@ function Managers() {
     }
 
   };
+  const eliminateManager = (id, setUser) => {
+    const index = managers.findIndex((usuario) => usuario.id === id);
+  
+    if (index !== -1) {
+      const nuevosManagers = [...managers];
+      nuevosManagers.splice(index, 1);
+      setUser(nuevosManagers);
+    }
+  };
+  
   return (
     <>
       <Header/>
@@ -69,7 +79,7 @@ function Managers() {
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
         <ModalContainerAddUser add={addManagers}/>
       </div>
-      <CardUser managers={searchedManagers} setManagers={setManagers} editManagers={editarUsuario}/>
+      <CardUser managers={searchedManagers} setManagers={setManagers} editManagers={editarUsuario} eliminateManager={eliminateManager}/>
     </>
   );
 }

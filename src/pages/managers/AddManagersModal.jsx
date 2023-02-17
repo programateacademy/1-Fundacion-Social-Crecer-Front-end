@@ -1,58 +1,90 @@
-//   Imports the main React component and hook
-import { useState } from "react";
-//   Imports form Bootstrap
+import { useState, useRef } from "react";
 import Form from "react-bootstrap/Form";
 import modelUser from '../../assets/img/userImage.png';
 
-const AddManagersModal = ({add,setShow}) => {
-
-  //   States for item document
-  const [id, setId]=useState('');
+const AddManagersModal = ({ add, setShow }) => {
+  const [validated, setValidated] = useState(false);
+  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
 
+  const formRef = useRef(null);
 
-//   Managers model 
-const addItem ={
-    id:id,
-    name: name,
-    email: email,
-    img:modelUser,
-    password: password,
-};
+  const handleCreate = (e) => {
+    e.preventDefault();
+    const form = formRef.current;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else if (password !== password2) {
+      alert("Las contraseñas no coinciden");
+    } else {
+      const addItem = {
+        id: id,
+        name: name,
+        email: email,
+        img: modelUser,
+        password: password
+      };
+      add(addItem);
+      setShow(false);
+    }
+    setValidated(true);
+  };
 
-  //   Component return
   return (
     <div id="Form">
-      <Form>
+      <Form noValidate validated={validated} ref={formRef}>
         <Form.Group className="inputNewUser">
-          <Form.Control type="text" placeholder="Numero de identificación" 
-            onChange={(e) => {setId(e.target.value)}}
+          <Form.Control
+            type="text"
+            placeholder="Numero de identificación"
+            required
+            value={id}
+            onChange={(e) => { setId(e.target.value) }}
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
             type="text"
             placeholder="Nombre"
-            onChange={(e) => {setName(e.target.value)}}
+            required
             value={name}
+            onChange={(e) => { setName(e.target.value) }}
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
-          <Form.Control type="text" placeholder="Correo electrónico"          
-          onChange={(e) => {setEmail(e.target.value)}}
-          value={email}/>
+          <Form.Control
+            type="email"
+            placeholder="Correo electrónico"
+            required
+            value={email}
+            onChange={(e) => { setEmail(e.target.value) }}
+          />
         </Form.Group>
         <Form.Group className="inputNewUser">
-          <Form.Control type="text" placeholder="Contraseña"          
-          onChange={(e) => {setPassword(e.target.value)}}
-          value={password}/>
+          <Form.Control
+            type="password"
+            placeholder="Contraseña"
+            required
+            value={password}
+            onChange={(e) => { setPassword(e.target.value) }}
+          />
+        </Form.Group>
+        <Form.Group className="inputNewUser">
+          <Form.Control
+            type="password"
+            placeholder="Repetir contraseña"
+            value={password2}
+            onChange={(e) => { setPassword2(e.target.value) }}
+            required
+          />
         </Form.Group>
       </Form>
       {/* Button functionality assignment */}
       <div className="btnsCreateUser">
-          <button className="btnCreateUser" onClick={()=>{add(addItem), setShow(false)}} >Crear</button>
+          <button className="btnCreateUser" onClick={handleCreate} >Crear</button>
           <button className="btnCancelUser" onClick={() => setShow(false)}>Cancelar</button>
         </div>
     </div>

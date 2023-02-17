@@ -4,7 +4,7 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import modelUser from '../../assets/img/userImage.png';
 
-const EditManagersModal = ({ id1, name1, email1,setShow,editManagers,setManagers}) => {
+const EditManagersModal = ({ id1, name1, email1,setShow,editManagers,setManagers,eliminateManager}) => {
 
   //   States for item document
   const [id, setId]=useState(id1);
@@ -36,15 +36,15 @@ const editItem ={
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
-          <Form.Control type="text" placeholder={email1}        
+          <Form.Control type="email" placeholder={email1}        
           onChange={(e) => {setNewEmail(e.target.value)}}
           />
         </Form.Group>
       </Form>
       {/* Button functionality assignment */}
-      <div className="btnsCreateUser">
+      <div className="btnsUser">
           <button className="btnCreateUser" onClick={()=>{editManagers(id1, setManagers,newName,newEmail),setShow(false)}} >Editar</button>
-          <button className="btnCancelUser" onClick={() => setShow(false)}>Cancelar</button>
+          <button className="btnEliminateUser" onClick={() => {eliminateManager(id1, setManagers),setShow(false)}}>Eliminar</button>
         </div>
     </div>
   );

@@ -99,7 +99,7 @@
     color:#5FB324 !important;
 
 }
-.btnsCreateUser{
+.btnsUser{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -117,7 +117,7 @@
     padding-left: 25px;
     padding-right: 25px;
 }
-.btnCancelUser{
+.btnEliminateUser{
     border: 2px solid #FD8686;        
     background-color: #FFB7B7;
     font-size: 20px;
