@@ -6,7 +6,7 @@ import { BiSearch } from 'react-icons/bi';
 import Header from '../../components/header/Header'
 import Thead from './table/Thead';
 import Tbody from './table/Tbody';
-
+import { Filter } from './Filter';
 
 function Matrix() {
     return (
@@ -14,6 +14,9 @@ function Matrix() {
             <Header/>
             <section className='top-table'>
                 <AddBeneficiaries/>
+                <section className='filter-space'>
+                <Filter/>
+                </section>
                 <div>
                     <select name='select'>
                         <option hidden value='0'>Filtrar por:</option>

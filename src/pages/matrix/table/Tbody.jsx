@@ -1,11 +1,12 @@
 import React from 'react'
 import './BeneficiariesTable.css'
+import edit from '../../../assets/icons/edit.svg'
 
 function Tbody({data}) {
     return (
         <>
-            <td>{/*edit*/}
-                a
+            <td className='edit-button'>{/*edit*/}
+                <img src={edit} alt="" />
             </td>
             <td>
                 {data.numDoc}
@@ -35,7 +36,7 @@ function Tbody({data}) {
                 {data.duoId}
             </td>
             <td>
-                {data.TeacherId}
+                {`${data.TeacherId[0]}, ${data.TeacherId[1]}`}
             </td>
             <td>
                 {data.documentType}
@@ -326,7 +327,7 @@ function Tbody({data}) {
                 {data.x}
             </td>
             <td>
-                {data.complementType}
+                {data.beneficiaryType}
             </td>
             <td>
                 {data.ticketNumber}

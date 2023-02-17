@@ -1,10 +1,10 @@
 function test() {
     return (
-        <div className='xd'>
+        <div>
             <tr>
-                <td>EDITAR</td>
-                <td>NUMERO DE DOCUMENTO</td>
-                <td>¿ACTIVO O INACTIVO?</td>
+                <td>EDITAR </td>
+                <td><div>NUMERO DE DOCUMENTO ss</div></td>
+                <td>¿ACTIVO O INACTIVO? <div><p>hola</p></div></td>
                 <td>FECHA DE INGRESO</td>
                 <td>FECHA DE EGRESO</td>
                 <td>INGRESA POR:</td>
