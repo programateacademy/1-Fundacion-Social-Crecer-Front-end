@@ -1,9 +1,6 @@
 export const numberF = Intl.NumberFormat("es-ES") 
-import { useState } from 'react';
-import { IoMdReturnLeft } from 'react-icons/io';
 import EditManagerContainerButton from './EditManagerContainerButton.jsx'
-export default function CardUser({managers,setManagers}){
-    
+export default function CardUser({managers,setManagers, editManagers}){
     return(
         <div className="userCards">
                 {managers.map((values)=>{
@@ -21,7 +18,7 @@ export default function CardUser({managers,setManagers}){
                             </div>
                             <div className="profileUserButtons">
                                 <button className="userButton">CAMBIAR CONTRASEÑA</button>
-                                <EditManagerContainerButton id={id} name={name} email={email}/>
+                                <EditManagerContainerButton id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers}/>
                             </div>
                         </div>
                     </>

@@ -4,6 +4,7 @@ import './Managers.css';
 import SearchManagers from './SearchManagers.jsx';
 import ModalContainerAddUser from './ModalContainerAddUser.jsx';
 import UserList from "./UserList.jsx";
+import EditManager from './EditManagerContainerButton.jsx';
 function Managers() {
   const localStorageManagers=localStorage.getItem('MANAGERS_V1');
   let parsedManagers;
@@ -49,13 +50,24 @@ function Managers() {
     UserList.push(item);
   };
 
+  const editarUsuario=(id,setUser,nuevoNombre,nuevoEmail)  => {
+    const  usuarioIndex=managers.findIndex((usuario)=>usuario.id===id);
+
+    if (usuarioIndex!==-1){
+      const usuariosActualizados=[...managers];
+      usuariosActualizados[usuarioIndex].name=nuevoNombre;
+      usuariosActualizados[usuarioIndex].email=nuevoEmail;
+      setUser(usuariosActualizados);
+    }
+
+  };
   return (
     <>
       <div className='filaUno'>
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
         <ModalContainerAddUser add={addManagers}/>
       </div>
-      <CardUser managers={searchedManagers} setManagers={setManagers}/>
+      <CardUser managers={searchedManagers} setManagers={setManagers} editManagers={editarUsuario}/>
     </>
   );
 }

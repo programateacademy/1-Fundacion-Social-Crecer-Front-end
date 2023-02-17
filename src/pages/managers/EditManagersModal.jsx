@@ -4,20 +4,20 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import modelUser from '../../assets/img/userImage.png';
 
-const EditManagersModal = ({id1, name1, email1,setShow,edit}) => {
+const EditManagersModal = ({ id1, name1, email1,setShow,editManagers,setManagers}) => {
 
   //   States for item document
   const [id, setId]=useState(id1);
-  const [name, setName] = useState(name1);
-  const [email, setEmail] = useState(email1);
+  const [newName, setNewName] = useState(name1);
+  const [newEmail, setNewEmail] = useState(email1);
 
 
-//   Managers model 
+/* //   Managers model 
 const editItem ={
-    id:id,
-    name: name,
-    email: email,
-};
+    newId:newId,
+    newName: newName,
+    newEmail: newEmail,
+}; */
 
   //   Component return
   return (
@@ -25,26 +25,25 @@ const editItem ={
       <Form>
         <Form.Group className="inputNewUser">
           <Form.Control type="text" placeholder={id1}
-            onChange={(e) => {setId(e.target.value)}}
+            onChange={(e) => {setNewId(e.target.value)}}
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
             type="text"
             placeholder={name1}
-            onChange={(e) => {setName(e.target.value)}}
-            value={name1}
+            onChange={(e) => {setNewName(e.target.value)}} 
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control type="text" placeholder={email1}        
-          onChange={(e) => {setEmail(e.target.value)}}
-          value={email1}/>
+          onChange={(e) => {setNewEmail(e.target.value)}}
+          />
         </Form.Group>
       </Form>
       {/* Button functionality assignment */}
       <div className="btnsCreateUser">
-          <button className="btnCreateUser" onClick={()=>{edit(theManager._id, editItem), setShow(false)}} >Editar</button>
+          <button className="btnCreateUser" onClick={()=>{editManagers(id1, setManagers,newName,newEmail),setShow(false)}} >Editar</button>
           <button className="btnCancelUser" onClick={() => setShow(false)}>Cancelar</button>
         </div>
     </div>
