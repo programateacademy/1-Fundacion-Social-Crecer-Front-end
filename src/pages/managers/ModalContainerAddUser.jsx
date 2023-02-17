@@ -28,10 +28,10 @@ function ModalContainerAddUser({add}) {
       ))}
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Crear nuevo Usuario</Modal.Title>
+          <Modal.Title>Crear nuevo usuario</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AddManagersModal add={add}/>
+          <AddManagersModal add={add} setShow={setShow}/>
         </Modal.Body>
         <Modal.Footer>
         </Modal.Footer>

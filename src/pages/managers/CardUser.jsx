@@ -1,11 +1,9 @@
-import React,{useState} from "react";
-import UserList from "./UserList.jsx";
-
-export default function CardUser(){
-    const [data,setData]=useState(UserList);
+export const numberF = Intl.NumberFormat("es-ES") 
+import EditManagerContainerButton from './EditManagerContainerButton.jsx'
+export default function CardUser({managers,setManagers, editManagers}){
     return(
         <div className="userCards">
-                {data.map((values)=>{
+                {managers.map((values)=>{
                 const {id,name,email,img}=values;
                 return(
                     <>
@@ -14,13 +12,13 @@ export default function CardUser(){
                                 <div className="stringUser">
                                     <div className="nameUser">{name}</div>
                                     <div className="nameEmail">{email}</div>
-                                    <div className="idUser">{id}</div>
+                                    <div className="idUser">{numberF.format(id)}</div>
                                 </div>
                                 <img className="imgUser" src={img} alt="" />
                             </div>
                             <div className="profileUserButtons">
                                 <button className="userButton">CAMBIAR CONTRASEÑA</button>
-                                <button className="userButton">EDITAR PERFIL</button>
+                                <EditManagerContainerButton id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers}/>
                             </div>
                         </div>
                     </>
