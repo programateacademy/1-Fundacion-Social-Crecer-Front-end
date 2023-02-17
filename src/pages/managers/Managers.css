@@ -26,8 +26,7 @@
 }
 .imgUser{
     border: 2px solid #9D9D9D;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
+    border-radius: 50%;
     width: 116px ;
     height: 116px;
 }
@@ -59,22 +58,7 @@
 .nameEmail,.idUser{
     font-size: 20px;
 }
-.addUser{
-        border: 2px solid #BDBDBD;        
-        background-color: #F0FFD7;
-        font-size: 20px;
-        font-weight: 500;
-        box-shadow: 5px 5px 5px -6px black;
-        border-radius:0.5em;
-        display: flex;
-}
-.iconAddUser{
-    font-size: 25px;
-}
-.createUser{
-    margin-top: 5px;
-    margin-left: 10px;
-}
+
 .searchManagers{
     display: flex;
     flex-direction: row;

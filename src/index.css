@@ -1,8 +1,8 @@
 :root{
     --color-green-1: #5FB324;
     --color-green-2: #18A769;
-    --color-green-3: #BDDD6D;
-    --color-green-4: #B1E19B;
+    --color-green-3: #c3ff9e;
+    --color-green-4: #d0ffba;
     --color-background: linear-gradient(162deg, rgba(177, 225, 155, 1) 10%,rgba(24, 134, 167, 1) 80%);
     --color-blue-1: #17006D;
     --color-blue-2: #0D39DD;
@@ -19,9 +19,30 @@
     --tb-historial-medico: #92cddc;
 }
 *{
-    font-family: 'Poppins', arial;
+    font-family: 'Poppins', sans-serif;
 }
-/* #root{
-    min-width: 100vw;
-    min-height: 100vh;
-} */
+.addUser{
+    border: 2px solid var(--bs-green);        
+    background-color: var(--color-green-3);
+    height: 35px;
+    font-size: clamp(.9rem, 1.1vw, 1.1rem);
+    box-shadow: 2px 2px 5px 1px var(--bs-gray-400);
+    border-radius:0.5em;
+    display: flex;
+    align-items: center;
+    transition: all .15s;
+}
+.addUser:hover{
+    background-color: var(--color-green-4);
+}
+.addUser svg{
+    position: relative;
+    top: -2px;
+}
+.iconAddUser{
+    font-size: 25px;
+}
+.createUser{
+    margin:0 5px;
+}
+

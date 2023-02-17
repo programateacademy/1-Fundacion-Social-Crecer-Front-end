@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.bodyLogin {
+  background: linear-gradient(
+    162deg,
+    rgba(177, 225, 155, 1) 10%,
+    rgba(24, 134, 167, 1) 80%
+  );
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow: hidden;
+}
+.containerLogIn{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+.logoContainer{
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logoContainer img{
+  width: 45%;
+}
+.form{
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  padding:5% 2%;
+  border-radius:7%;
+  margin:5% 9%;
+}
+hr{
+  width: 90%;
+  color: #6A9A15 !important;
+  opacity: 1 !important;
+  margin: 0 0 1.5rem 0 !important;
+}
+.inputsForm{
+  width: 90%;
+}
+div.vr{
+  height:70%;
+  align-self: center;
+  color: white;
+  opacity: 1;
+  width: 2px;
+}
+.log-in{
+  color: #6A9A15;
+  font-weight: bold;
+}
+.form-control{
+  width: 100%;
+  margin-bottom: 10%;
+  border:1.5px solid #6A9A15 !important; 
+}
+button.btn.btn-primary{
+  width: 100%;
+  --bs-btn-bg: #6A9A15;
+  --bs-btn-border-color: #6A9A15;
+  --bs-btn-disabled-bg: #6A9A15;
+  --bs-btn-disabled-border-color: #6A9A15; 
+  --bs-btn-hover-bg: #89ca19;
+  --bs-btn-hover-border-color: #89ca19;
+}
+
+@media (max-width:768px) {
+  body{
+    overflow: auto;
+  }
+  .containerLogIn{
+    margin-top: 5%;
+    justify-content:center;
+  }
+  div.vr{
+    display: none;
+  }
+  .logoContainer{
+    width: 100%;
+    justify-content: center;
+  }
+  .logoContainer img{
+    width: 45%;
+  }
+  .form{
+    width: 90%;
+  }
+}

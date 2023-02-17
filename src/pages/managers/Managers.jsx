@@ -5,6 +5,7 @@ import SearchManagers from './SearchManagers.jsx';
 import ModalContainerAddUser from './ModalContainerAddUser.jsx';
 import UserList from "./UserList.jsx";
 import EditManager from './EditManagerContainerButton.jsx';
+import Header from '../../components/header/Header.jsx';
 function Managers() {
   const localStorageManagers=localStorage.getItem('MANAGERS_V1');
   let parsedManagers;
@@ -63,6 +64,7 @@ function Managers() {
   };
   return (
     <>
+      <Header/>
       <div className='filaUno'>
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
         <ModalContainerAddUser add={addManagers}/>
