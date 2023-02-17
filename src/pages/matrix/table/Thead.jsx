@@ -1,18 +1,130 @@
-import React from 'react'
+import data from '../../../apis/model'
+import './BeneficiariesTable.css'
+import { useState, useEffect } from 'react'
+import { useArrayContext } from '../../../context/context'
+import { useSetArrayContext } from '../../../context/context'
 
-function Thead() {
-    return (
-        <thead>
+
+function Thead({trans=false}) {
+
+    let setArray = useSetArrayContext();
+    //Variables for the filters
+    const [curState, setCurState] = useState(0);
+    const [unity, setUnity] = useState(0);
+    const [dupla, setDupla] = useState(0);
+    const [benef, setBenef] = useState(0);
+    const [foca, setFoca] = useState(0);
+    //Update context array because actions
+    useEffect(() => {
+        setArray(arrayfilter);
+    },[curState, unity, dupla, benef, foca]);
+    
+    // filter all solicitated data
+    let arrayfilter = data.filter(item=> item.curState == (curState==0? item.curState: curState ) && item.unitId == (unity==0? item.unitId: unity )&& item.duoId == (dupla==0? item.duoId: dupla ) && item.beneficiaryType == (benef==0? item.beneficiaryType: benef) && item.focusingCriteria == (foca==0? item.focusingCriteria: foca ))
+    
+    return ( 
+        
+        <thead className={trans? 'transp':''}>
             <tr>
+                {console.log(curState)}
+                <td>EDITAR</td>
                 <td>NUMERO DE DOCUMENTO</td>
-                <td>¿ACTIVO O INACTIVO?</td>
+                <td>¿ACTIVO O INACTIVO? <br/>
+                <select name='select' value={curState} onChange={(e)=>{setCurState(e.target.value)}}>
+                        <option value= {0}>NO FILTRAR</option>
+                        <option value='INACTIVO' >INACTIVO</option>
+                        <option value='ACTIVO'>ACTIVO</option>
+                    </select>
+                    {/*<button onClick={()=>{setCurState(0)}}>change</button>*/}
+                </td>
                 <td>FECHA DE INGRESO</td>
                 <td>FECHA DE EGRESO</td>
                 <td>INGRESA POR:</td>
                 <td>MOTIVO DE EGRESO</td>
                 <td>SI EL MOTIVO DE EGRESO ES "OTRO", INDIQUE EL POR QUÉ</td>
-                <td className='tb-unidad'>UNIDAD</td>
-                <td className='tb-dupla'>DUPLA</td>
+                <td className='tb-unidad'>UNIDAD <br/>
+                <select name='select' onChange={(e)=>{setUnity(e.target.value)}}>
+                        <option value={0}>NO FILTRAR</option>
+                        <option value='FISCALA' >FISCALA- U1</option>
+                        <option value='USME'>USME- U2</option>
+                        <option value='SERRANIAS'>SERRANIAS- U3</option>
+                        <option value='VIRREY'>VIRREY- U4</option>
+                        <option value='SAN JUAN A'>SAN JUAN A- U5</option>
+                        <option value='EL UVAL'>EL UVAL - U6</option>
+                        <option value='TRIANGULO'>TRIANGULO - U7</option>
+                        <option value='LORENZO'>LORENZO- U8</option>
+                    </select>
+                </td>
+                <td className='tb-dupla'>DUPLA<br/>
+                <select name='select' onChange={(e)=>{setDupla(e.target.value)}}>
+                        {unity == 'FISCALA'&&<><option value={0}>NO FILTRAR</option>
+                        <option value='GA 1' >GA 1</option>
+                        <option value='GA 2' >GA 2</option>
+                        <option value='GA 3' >GA 3</option>
+                        <option value='GA 4' >GA 4</option>
+                        <option value='GA 5' >GA 5</option>
+                        <option value='GA 6' >GA 6</option>
+                        </> }
+                        {unity == 'USME'&&<><option value={0}>NO FILTRAR</option>
+                        <option value='CRECIENDO CON AMOR' >CRECIENDO CON AMOR</option>
+                        <option value='PEQUEÑAS GRANDEZAS' >PEQUEÑAS GRANDEZAS</option>
+                        <option value='AMOR SIN FRONTERAS' >AMOR SIN FRONTERAS</option>
+                        <option value='CLAN SONRISAS' >CLAN SONRISAS</option>
+                        <option value='PARAISO KIDS' >PARAISO KIDS</option>
+                        <option value='DEJANDO HUELLA' >DEJANDO HUELLA</option>
+                        </> }
+                        {unity == 'SERRANIAS'&&<><option value={0}>NO FILTRAR</option>
+                        <option value='CRECIENDO JUNTOS' >CRECIENDO JUNTOS</option>
+                        <option value='FABRICANDO SONRISAS' >FABRICANDO SONRISAS</option>
+                        <option value='HUELLAS INFANTILES' >HUELLAS INFANTILES</option>
+                        <option value='MI SEGUNDO HOGAR' >MI SEGUNDO HOGAR</option>
+                        <option value='NIDO DE AMOR' > NIDO DE AMOR</option>
+                        <option value='TEJEDORAS' >TEJEDORAS</option>
+                        </> }
+                        {unity == 'VIRREY'&&<><option value={0}>NO FILTRAR</option>
+                        <option value='KAWIYARÍ' >KAWIYARÍ</option>
+                        <option value='AWÁ' >AWÁ</option>
+                        <option value='MAYU' >MAYU</option>
+                        <option value='KOGUI' >KOGUI</option>
+                        <option value='YAGUA' >YAGUA</option>
+                        <option value='YUKUNA' >YUKUNA</option>
+                        </> }
+                        {unity == 'SAN JUAN A'&&<><option value={0}>NO FILTRAR</option>
+                        <option value=' A1' > A1</option>
+                        <option value='A2' >A2</option>
+                        <option value='A3' >A3</option>
+                        <option value='A4' >A4</option>
+                        <option value='A5' >A5</option>
+                        <option value='A6' >A6</option>
+                        </> }
+                        {unity == 'EL UVAL'&&<><option value={0}>NO FILTRAR</option>
+                        <option value='MIS ANGELITOS' >MIS ANGELITOS</option>
+                        <option value='TEJIENDO SABERES' >TEJIENDO SABERES</option>
+                        <option value='SEMILLAS DE PAZ' >SEMILLAS DE PAZ</option>
+                        <option value='GRANDES TALENTOS' >GRANDES TALENTOS</option>
+                        <option value='HILANDO CAMINOS' >HILANDO CAMINOS</option>
+                        <option value='TIHUAQUE' >TIHUAQUE</option>
+                        </> }
+                        {unity == 'TRIANGULO'&&<><option value={0}>NO FILTRAR</option>
+                        <option value='MARIA CALDERO' >MARIA CALDERO</option>
+                        <option value='LUZ DARY SOLANO' >LUZ DARY SOLANO</option>
+                        <option value='DALLAN SIERRA' >DALLAN SIERRA</option>
+                        <option value='ALIX FONSECA' >ALIX FONSECA</option>
+                        <option value='ANGIE YARA' >ANGIE YARA</option>
+                        <option value='ADRIANA MONROY' >ADRIANA MONROY</option>
+                        </> }
+                        {unity == 'LORENZO'&&<><option value={0}>NO FILTRAR</option>
+                        <option value='AURA TORRES' >AURA TORRES</option>
+                        <option value='CEILA FERNANDEZ' >CEILA FERNANDEZ</option>
+                        <option value=' CLAUDIA RODRIGUEZ' > CLAUDIA RODRIGUEZ</option>
+                        <option value='LINA RODRIGUEZ' >LINA RODRIGUEZ</option>
+                        <option value='SANDRA RAMIREZ' >SANDRA RAMIREZ</option>
+                        <option value='VICTORIA TORRE' >VICTORIA TORRE</option>
+                        <option value='YENI PAOLA ROA' >YENI PAOLA ROA</option>
+                        </> }
+                    </select>
+                    </td>
+                    
                 <td className='tb-unidad'>DOCENTE</td>
                 <td className='tb-beneficiario'>TIPO DE DOCUMENTO</td>
                 <td className='tb-beneficiario'>PRIMER NOMBRE</td>
@@ -25,7 +137,14 @@ function Thead() {
                 <td className='tb-beneficiario'>MESES</td>
                 <td className='tb-beneficiario'>DÍAS</td>
                 <td className='tb-beneficiario'>EDAD</td>
-                <td className='tb-beneficiario'>TIPO DE BENEFICIARIO</td>
+                <td className='tb-beneficiario'>TIPO DE BENEFICIARIO<br/>
+                <select name='select' onChange={(e)=>{setBenef(e.target.value)}}>
+                        <option value={0}>NO FILTRAR</option>
+                        <option value='MUJER GESTANTE' >MUJER GESTANTE</option>
+                        <option value='MENOR DE SEIS MESES'>MENOR DE SEIS MESES</option>
+                        <option value='NIÑO O NIÑA ENTRE 6 MESES Y 5 AÑOS Y 11 MESES'>NIÑO O NIÑA ENTRE 6 MESES Y 5 AÑOS Y 11 MESES</option>
+                    </select>
+                    </td>
                 <td className='tb-beneficiario'>GÉNERO</td>
                 <td className='tb-beneficiario'>PAÍS DE NACIMIENTO</td>
                 <td className='tb-beneficiario'>DEPARTAMENTO DE NACIMIENTO</td>
@@ -58,7 +177,26 @@ function Thead() {
                 <td className='tb-beneficiario'>PUNTAJE SISBEN</td>
                 <td className='tb-beneficiario'>PERTENECE A FAMILIAS EN ACCIÓN</td>
                 <td className='tb-beneficiario'>EL BENEFICIARIO HA SIDO VICTIMA DIRECTA CONFLICTO ARMADO</td>
-                <td className='tb-beneficiario'>CRITERIOS DE FOCALIZACION</td>
+                <td className='tb-beneficiario'>CRITERIOS DE FOCALIZACION<br/>
+                <select name='select' onChange={(e)=>{setFoca(e.target.value)}}>
+                        <option value={0}>NO FILTRAR</option>
+                        <option value='A. PERTENECIENTES A HOGARES CON PUNTAJE SISBEN.' >A. PERTENECIENTES A HOGARES CON PUNTAJE SISBEN.</option>
+                        <option value='B. PERTENECIENTES A FAMILIAS IDENTIFICADAS A TRAVÉS DE LA ESTRATEGIA PARA LA SUPERACIÓN DE LA POBREZA EXTREMA – RED UNIDOS.'>B. PERTENECIENTES A FAMILIAS IDENTIFICADAS A TRAVÉS DE LA ESTRATEGIA PARA LA SUPERACIÓN DE LA POBREZA EXTREMA – RED UNIDOS.</option>
+                        <option value='C. NIÑAS, NIÑOS Y MUJERES GESTANTES PERTENECIENTES AL PROGRAMA FAMILIAS EN ACCIÓN DE PROSPERIDAD SOCIAL.'>C. NIÑAS, NIÑOS Y MUJERES GESTANTES PERTENECIENTES AL PROGRAMA FAMILIAS EN ACCIÓN DE PROSPERIDAD SOCIAL.</option>
+                        <option value='D. NIÑAS Y NIÑOS EGRESADOS DE LA ESTRATEGIA DE ATENCIÓN Y PREVENCIÓN DE LA DESNUTRICIÓN AGUDA (CENTROS DE RECUPERACIÓN NUTRICIONAL -CRN- Y 1000 DÍAS PARA CAMBIAR EL MUNDO Y UNIDADES DE BÚSQUEDA ACTIVA).'>D. NIÑAS Y NIÑOS EGRESADOS DE LA ESTRATEGIA DE ATENCIÓN Y PREVENCIÓN DE LA DESNUTRICIÓN AGUDA (CENTROS DE RECUPERACIÓN NUTRICIONAL -CRN- Y 1000 DÍAS PARA CAMBIAR EL MUNDO Y UNIDADES DE BÚSQUEDA ACTIVA).</option>
+                        <option value='E. REMITIDOS POR LAS ENTIDADES DEL SISTEMA NACIONAL DE BIENESTAR FAMILIAR -SNBF- QUE SE ENCUENTREN EN SITUACIÓN DE VULNERABILIDAD, RIESGO DE VULNERACIÓN DE DERECHOS O PROGRAMAS DE PROTECCIÓN DEL ICBF.'>E. REMITIDOS POR LAS ENTIDADES DEL SISTEMA NACIONAL DE BIENESTAR FAMILIAR -SNBF- QUE SE ENCUENTREN EN SITUACIÓN DE VULNERABILIDAD, RIESGO DE VULNERACIÓN DE DERECHOS O PROGRAMAS DE PROTECCIÓN DEL ICBF.</option>
+                        <option value='F. VÍCTIMAS DE HECHOS VIOLENTOS ASOCIADOS AL CONFLICTO ARMADO, DE ACUERDO CON LAS DIRECTRICES ESTABLECIDAS EN LA LEY 1448 DE 2011 Y LOS DECRETOS LEY 4633, 4634 Y 4635 DE 2011, ASÍ COMO LA SENTENCIA T-025 DE 2004 PROFERIDA POR LA CORTE CONSTITUCIONAL Y DEMÁS DESARROLLOS JURISPRUDENCIALES EN TORNO A LA EXISTENCIA DE UN ESTADO DE COSAS INCONSTITUCIONAL; PARA LO CUAL SE CONSIDERARÁN AQUELLOS CUYO ESTADO SE ENCUENTRE INCLUIDO DENTRO DEL RUV.'>F. VÍCTIMAS DE HECHOS VIOLENTOS ASOCIADOS AL CONFLICTO ARMADO, DE ACUERDO CON LAS DIRECTRICES ESTABLECIDAS EN LA LEY 1448 DE 2011 Y LOS DECRETOS LEY 4633, 4634 Y 4635 DE 2011, ASÍ COMO LA SENTENCIA T-025 DE 2004 PROFERIDA POR LA CORTE CONSTITUCIONAL Y DEMÁS DESARROLLOS JURISPRUDENCIALES EN TORNO A LA EXISTENCIA DE UN ESTADO DE COSAS INCONSTITUCIONAL; PARA LO CUAL SE CONSIDERARÁN AQUELLOS CUYO ESTADO SE ENCUENTRE INCLUIDO DENTRO DEL RUV.</option>
+                        <option value='G. PERTENECIENTES A COMUNIDADES ÉTNICAS (INDÍGENAS, COMUNIDADES NEGRAS, AFROCOLOMBIANAS, PALENQUEROS, RAIZALES Y RROM), QUE DEMANDEN EL SERVICIO.'>G. PERTENECIENTES A COMUNIDADES ÉTNICAS (INDÍGENAS, COMUNIDADES NEGRAS, AFROCOLOMBIANAS, PALENQUEROS, RAIZALES Y RROM), QUE DEMANDEN EL SERVICIO.</option>
+                        <option value='H. NIÑOS Y NIÑAS CON DISCAPACIDAD QUE REQUIEREN DIVERSOS TIPOS DE APOYO PARA SU PARTICIPACIÓN EFECTIVA Y QUE DEMANDAN ACOMPAÑAMIENTO EN LAS ACTIVIDADES DE CUIDADO; ASÍ COMO LOS QUE SEAN REMITIDOS POR LAS ENTIDADES DEL SNBF CON BASE EN EL REGISTRO PARA LA LOCALIZACIÓN Y CARACTERIZACIÓN DE PERSONAS CON DISCAPACIDAD DEL MINISTERIO DE SALUD Y PROTECCIÓN SOCIAL, COMO DE LOS COMITÉS TERRITORIALES Y LOCALES DE DISCAPACIDAD Y LAS ENTIDADES TERRITORIALES EN SALUD.'>H. NIÑOS Y NIÑAS CON DISCAPACIDAD QUE REQUIEREN DIVERSOS TIPOS DE APOYO PARA SU PARTICIPACIÓN EFECTIVA Y QUE DEMANDAN ACOMPAÑAMIENTO EN LAS ACTIVIDADES DE CUIDADO; ASÍ COMO LOS QUE SEAN REMITIDOS POR LAS ENTIDADES DEL SNBF CON BASE EN EL REGISTRO PARA LA LOCALIZACIÓN Y CARACTERIZACIÓN DE PERSONAS CON DISCAPACIDAD DEL MINISTERIO DE SALUD Y PROTECCIÓN SOCIAL, COMO DE LOS COMITÉS TERRITORIALES Y LOCALES DE DISCAPACIDAD Y LAS ENTIDADES TERRITORIALES EN SALUD.</option>
+                        <option value='I. USUARIOS DEL SUBSIDIO EN ESPECIE PARA POBLACIÓN VULNERABLE, DEL QUE TRATA EL ARTÍCULO 12 DE LA LEY 1537 DE 2012 (VIVIENDA DE INTERÉS SOCIAL Y VIVIENDA DE INTERÉS PRIORITARIO), Y EL DECRETO 1921 DE 2012 O EL QUE REGLAMENTE LA MATERIA.'>I. USUARIOS DEL SUBSIDIO EN ESPECIE PARA POBLACIÓN VULNERABLE, DEL QUE TRATA EL ARTÍCULO 12 DE LA LEY 1537 DE 2012 (VIVIENDA DE INTERÉS SOCIAL Y VIVIENDA DE INTERÉS PRIORITARIO), Y EL DECRETO 1921 DE 2012 O EL QUE REGLAMENTE LA MATERIA.</option>
+                        <option value='J. NIÑAS Y NIÑOS CUYOS PADRES ESTÉN EN ESTABLECIMIENTOS DE RECLUSIÓN.'>J. NIÑAS Y NIÑOS CUYOS PADRES ESTÉN EN ESTABLECIMIENTOS DE RECLUSIÓN.</option>
+                        <option value='K. POBLACIÓN MIGRANTE, REFUGIADA O APÁTRIDA QUE CUMPLA CON ALGUNA DE LAS SIGUIENTES CARACTERÍSTICAS: AUSENCIA DE VIVIENDA O CONDICIONES DE HACINAMIENTO, QUE NO CUENTEN CON ACCESO A SERVICIOS PÚBLICOS DOMICILIARIOS O QUE NO CUENTEN CON NINGÚN TIPO DE AFILIACIÓN AL SISTEMA GENERAL DE SEGURIDAD SOCIAL EN SALUD.'>K. POBLACIÓN MIGRANTE, REFUGIADA O APÁTRIDA QUE CUMPLA CON ALGUNA DE LAS SIGUIENTES CARACTERÍSTICAS: AUSENCIA DE VIVIENDA O CONDICIONES DE HACINAMIENTO, QUE NO CUENTEN CON ACCESO A SERVICIOS PÚBLICOS DOMICILIARIOS O QUE NO CUENTEN CON NINGÚN TIPO DE AFILIACIÓN AL SISTEMA GENERAL DE SEGURIDAD SOCIAL EN SALUD.</option>
+                        <option value='L. NIÑAS Y NIÑOS REMITIDOS DEL SERVICIO HCB FAMI Y DIMF QUE AL CUMPLIR LOS DOS (2) AÑOS DEBEN TRANSITAR A OTROS SERVICIOS DE EDUCACIÓN INICIAL DE ATENCIÓN PERMANENTE.'>L. NIÑAS Y NIÑOS REMITIDOS DEL SERVICIO HCB FAMI Y DIMF QUE AL CUMPLIR LOS DOS (2) AÑOS DEBEN TRANSITAR A OTROS SERVICIOS DE EDUCACIÓN INICIAL DE ATENCIÓN PERMANENTE.</option>
+                        <option value='M. NIÑAS Y NIÑOS CUYOS PADRES ESTÉN ACTIVOS EN LA RUTA DE REINCORPORACIÓN E IDENTIFICADOS EN LAS BASES DE DATOS REMITIDAS DE FORMA OFICIAL AL ICBF POR LA AGENCIA PARA LA REINCORPORACIÓN Y LA NORMALIZACIÓN – ARN.'>M. NIÑAS Y NIÑOS CUYOS PADRES ESTÉN ACTIVOS EN LA RUTA DE REINCORPORACIÓN E IDENTIFICADOS EN LAS BASES DE DATOS REMITIDAS DE FORMA OFICIAL AL ICBF POR LA AGENCIA PARA LA REINCORPORACIÓN Y LA NORMALIZACIÓN – ARN.</option>
+                        <option value='N. PARA EL SERVICIO DE HOGAR INFANTIL SE ATENDERÁ PRIORITARIAMENTE NIÑOS Y NIÑAS HIJOS DE TRABAJADORES QUE EVIDENCIEN VINCULACIÓN LABORAL Y DEMÁS REQUISITOS ESTABLECIDOS EN LA RESOLUCIÓN 1740 DE 2010.'>N. PARA EL SERVICIO DE HOGAR INFANTIL SE ATENDERÁ PRIORITARIAMENTE NIÑOS Y NIÑAS HIJOS DE TRABAJADORES QUE EVIDENCIEN VINCULACIÓN LABORAL Y DEMÁS REQUISITOS ESTABLECIDOS EN LA RESOLUCIÓN 1740 DE 2010.</option>
+                        <option value='O. INGRESOS IGUALES O INFERIORES A 1.5 SMLV.'>O. INGRESOS IGUALES O INFERIORES A 1.5 SMLV.</option>
+                        
+                    </select></td>
                 <td className='tb-beneficiario td-smaller-txt'>SI NO CUMPLE CON NINGÚN CRITERIO, CUENTA CON EL ACTA DONDE JUSTIFICA QUE EL BENEFICIARIO REQUIERE LA ATENCIÓN</td>
                 <td className='tb-acudiente'>TIPO DE RESPONSABLE</td>
                 <td className='tb-acudiente'>TIPO DE DOCUMENTO ACUDIENTE</td>
@@ -110,7 +248,14 @@ function Thead() {
                 <td className='tb-historial-medico'>DURACIÓN LACTANCIA MATERNA EXCLUSIVA (MESES)</td>
                 <td className='tb-historial-medico'>DURACIÓN LACTANCIA MATERNA TOTAL (MESES)</td>
                 <td className='tb-historial-medico'>X</td>
-                <td className='tb-unidad'>TIPO COMPLEMENTO</td>
+                <td className='tb-unidad'>TIPO COMPLEMENTO
+                <select name='select' onChange={(e)=>{setBenef(e.target.value)}}>
+                        <option value={0}>NO FILTRAR</option>
+                        <option value='MUJER GESTANTE' >MUJER GESTANTE</option>
+                        <option value='MENOR DE SEIS MESES'>MENOR DE SEIS MESES</option>
+                        <option value='NIÑO O NIÑA ENTRE 6 MESES Y 5 AÑOS Y 11 MESES'>NIÑO O NIÑA ENTRE 6 MESES Y 5 AÑOS Y 11 MESES</option>
+                    </select>
+                </td>
                 <td className='tb-unidad'>SI EL BENEFICIARIO TIENE TICKET, INDIQUE EL NÚMERO DE TICKET</td>
             </tr>
         </thead>

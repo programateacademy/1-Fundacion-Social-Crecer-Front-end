@@ -11,12 +11,9 @@ function AddBeneficiaries() {
             const res = await fetch('https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/departamentos.php')
             const resJSON = await res.json();
             setDepartments(resJSON)
-            console.log(resJSON)
+            //console.log(resJSON)
         } catch (error) {
             console.log(error)
-            setDepartments({'estado': true,'resultado':[{
-                "CODIGO_DEPARTAMENTO": "91",
-                "NOMBRE_DEPARTAMENTO": "AMAZONAS"}]})
         }
     }
     useEffect(()=>{
@@ -75,7 +72,7 @@ function AddBeneficiaries() {
                     <div>
                         <label>UNIDAD*</label>
                         <select name='select'>
-{/*                             <option disabled hidden selected value='0'></option> */}
+                            <option value="DEFAULT"></option>
                             <option value='value1'>EDUCANDO ANDO</option>
                             <option value='value2'>SEMBRANDO ESPERANZA</option>
                             <option value='value3'>ESPACIOS CREATIVOS</option>
@@ -360,7 +357,7 @@ function AddBeneficiaries() {
                             <option value='1'>AFROCOLOMBIANO</option>
                             <option value='2'>INDÍGENA</option>
                             <option value='3'>RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA</option>
-{/*                             <option value='4' selected>NO SE AUTORECONOCE EN  NINGUNO DE LOS ANTERIORES</option> */}
+                            <option value='4'>NO SE AUTORECONOCE EN  NINGUNO DE LOS ANTERIORES</option>
                         </select>
                     </div>
                     <div>

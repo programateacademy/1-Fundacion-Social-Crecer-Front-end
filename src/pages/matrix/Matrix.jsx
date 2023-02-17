@@ -5,6 +5,9 @@ import AddBeneficiaries from './AddBeneficiaries'
 import { BiSearch } from 'react-icons/bi';
 import { FiLogOut } from "react-icons/fi";
 import users from "../../apis";
+import Header from '../../components/header/Header'
+import Thead from './table/Thead';
+import { Filter } from './Filter';
 
 
 function Matrix({onLogout, token}) {
@@ -28,10 +31,14 @@ function Matrix({onLogout, token}) {
     
     return (
         <>
+            <Header/>
             <section className='top-table'>
                 <h3>{user.name}</h3>
                 <h3>{user.role}</h3>
                 <AddBeneficiaries/>
+                <section className='filter-space'>
+                <Filter/>
+                </section>
                 <div>
                   
                     <select name='select'>
@@ -43,6 +50,11 @@ function Matrix({onLogout, token}) {
                     <button onClick={()=>{onLogout()}}><FiLogOut/></button>
                 </div>
             </section>
+            <div className='table-head'>
+            <table>
+            <Thead />
+            </table>
+            </div>
             <BeneficiariesTable/>
         </>
     )

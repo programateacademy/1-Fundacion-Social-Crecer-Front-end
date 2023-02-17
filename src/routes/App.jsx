@@ -36,7 +36,7 @@ function App() {
  
   return (
     <>
-      <HashRouter>
+    <HashRouter>
         <Routes>
           <Route
             path="/"
@@ -55,7 +55,8 @@ function App() {
             }
           />
         </Routes>
-      </HashRouter>
+      </HashRouter>  
+
     </>
   );
 }

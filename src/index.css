@@ -1,12 +1,12 @@
-:root{
+:root {
     --color-green-1: #5FB324;
     --color-green-2: #18A769;
     --color-green-3: #c3ff9e;
     --color-green-4: #d0ffba;
-    --color-background: linear-gradient(162deg, rgba(177, 225, 155, 1) 10%,rgba(24, 134, 167, 1) 80%);
+    --color-background: linear-gradient(162deg, rgba(177, 225, 155, 1) 10%, rgba(24, 134, 167, 1) 80%);
     --color-blue-1: #17006D;
     --color-blue-2: #0D39DD;
-    --color-blue-2: #1886A7;
+    --color-blue-3: #1886A7;
     --color-purple: #9C075C;
     --color-orange: #E14810;
     /* TABLE COLORS */
@@ -18,31 +18,48 @@
     --tb-madre: #daeef3;
     --tb-historial-medico: #92cddc;
 }
-*{
+* {
     font-family: 'Poppins', sans-serif;
+    scrollbar-width: 12px;
+    scrollbar-color:  rgba(255, 255, 255, 0.6);
 }
-.addUser{
-    border: 2px solid var(--bs-green);        
+*::-webkit-scrollbar {
+    width: 12px;
+}
+*::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.6);
+}
+*::-webkit-scrollbar-thumb {
+    background-color: var(--bs-gray-500);
+    border-radius: 5px;
+    border: 1px solid var(--bs-gray-600);
+}
+
+.addUser {
+    border: 2px solid var(--bs-green);
     background-color: var(--color-green-3);
     height: 35px;
     font-size: clamp(.9rem, 1.1vw, 1.1rem);
     box-shadow: 2px 2px 5px 1px var(--bs-gray-400);
-    border-radius:0.5em;
+    border-radius: 0.5em;
     display: flex;
     align-items: center;
     transition: all .15s;
 }
-.addUser:hover{
+
+.addUser:hover {
     background-color: var(--color-green-4);
 }
-.addUser svg{
+
+.addUser svg {
     position: relative;
     top: -2px;
 }
-.iconAddUser{
+
+.iconAddUser {
     font-size: 25px;
 }
-.createUser{
-    margin:0 5px;
-}
 
+.createUser {
+    margin: 0 5px;
+}

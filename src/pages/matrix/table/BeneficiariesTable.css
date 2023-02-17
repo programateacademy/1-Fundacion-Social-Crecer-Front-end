@@ -1,28 +1,37 @@
 /* TABLE COLORS */
 .marix-table{
-    margin-top: 80px;
+    margin-top: 50px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    
 }
 table{
+    position: relative;
     text-align: center;
     margin: 1%;
 }
+
 table input{
     border: solid 1px #b3b3b3;
     border-radius: 3px;
     background: rgb(234, 234, 234);
 }
-thead td{
-    width: 100%;
-    min-width: 120px;
-    max-width: 170px;
-    padding: 2px;
-    font-size: clamp(.7rem, .65vw, .9rem);
-    font-weight: bold;
-    border: solid 3px var(--bs-gray);
-    border-width: 3px 2px;
+thead{
+    position: sticky;
 }
+thead td{
+    top: 0;
+    min-width:150px;
+    padding: 2px 1px;
+    font-size: 10px;
+    font-weight: 500 ;
+    border: solid 2px var(--bs-gray);
+    background-color: white;
+}
+
+
 .td-smaller-txt{
-    font-size: clamp(.6rem, .55vw, .8rem);
+    font-size: 12px;
 }
 .tb-unidad{
     background: var(--tb-unidad);
@@ -46,6 +55,9 @@ thead td{
     background: var(--tb-historial-medico);
 }
 tbody td{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight:normal;
     border: solid 2px var(--bs-gray-500);
 }
 
@@ -77,3 +89,41 @@ tbody td{
     color: black;
 }
 
+/*visible table*/
+.table-head{
+    z-index: 100;
+    position: sticky;
+    top: 150px;
+    margin-bottom: -100px;
+}
+.table-head td{
+    border: solid 2px var(--bs-gray);
+}
+
+
+
+
+/*transparent table*/
+.transp td{
+    background-color: transparent;
+    color: transparent;
+    border-color: transparent ;
+}
+/*paint odd child table (gray)*/
+.prin-table tbody:nth-child(odd) {
+    background-color: #e4e0e0;
+}
+ /*Edit button styles*/
+.edit-button img{
+    width: 30px;
+    
+}
+.edit-button{
+    transition: 0.5s;
+}
+.edit-button:hover{
+    background-color: #c4ffd1;
+    transition: 0.5s;
+    cursor: pointer;
+    border: 1px  solid rgb(17, 104, 14);
+}
