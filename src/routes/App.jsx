@@ -2,7 +2,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import LogIn from "../components/login/LogIn";
 import Managers from "../pages/managers/Managers";
 import Matrix from "../pages/matrix/Matrix";
-import users from "../apis";
+import users from "../apis/index";
 import { RequireAuth } from "../components/login/RequireAuth";
 import { useState, useEffect } from "react";
 
