@@ -26,7 +26,6 @@ function Thead({trans=false}) {
         
         <thead className={trans? 'transp':''}>
             <tr>
-                {console.log(curState)}
                 <td>EDITAR</td>
                 <td>NUMERO DE DOCUMENTO</td>
                 <td>¿ACTIVO O INACTIVO? <br/>

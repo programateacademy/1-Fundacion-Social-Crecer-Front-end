@@ -9,6 +9,7 @@ table{
     position: relative;
     text-align: center;
     margin: 1%;
+    margin-top: 45px;
 }
 
 table input{
@@ -16,11 +17,8 @@ table input{
     border-radius: 3px;
     background: rgb(234, 234, 234);
 }
-thead{
-    position: sticky;
-}
+
 thead td{
-    top: 0;
     min-width:150px;
     padding: 2px 1px;
     font-size: 10px;
@@ -93,7 +91,7 @@ tbody td{
 .table-head{
     z-index: 100;
     position: sticky;
-    top: 150px;
+    top: 125px;
     margin-bottom: -100px;
 }
 .table-head td{

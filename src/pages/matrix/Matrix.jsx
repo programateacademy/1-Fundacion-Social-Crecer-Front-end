@@ -33,8 +33,6 @@ function Matrix({onLogout, token}) {
         <>
             <Header/>
             <section className='top-table'>
-                <h3>{user.name}</h3>
-                <h3>{user.role}</h3>
                 <AddBeneficiaries/>
                 <section className='filter-space'>
                 <Filter/>
