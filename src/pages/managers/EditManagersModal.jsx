@@ -1,51 +1,75 @@
-//   Imports the main React component and hook
 import { useState } from "react";
-//   Imports form Bootstrap
 import Form from "react-bootstrap/Form";
-import modelUser from '../../assets/img/userImage.png';
 
-const EditManagersModal = ({ id1, name1, email1,setShow,editManagers,setManagers,eliminateManager}) => {
+const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManagers, eliminateManager }) => {
 
-  //   States for item document
-  const [id, setId]=useState(id1);
+  const [id, setId] = useState(id1);
   const [newName, setNewName] = useState(name1);
   const [newEmail, setNewEmail] = useState(email1);
+  const [emailError, setEmailError] = useState("");
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-/* //   Managers model 
-const editItem ={
-    newId:newId,
-    newName: newName,
-    newEmail: newEmail,
-}; */
+  const handleEmailChange = (e) => {
+    setNewEmail(e.target.value);
+  };
 
-  //   Component return
+  const handleEditClick = () => {
+    if (!validateEmail(newEmail)) {
+      setEmailError("Por favor, ingrese un correo electrónico válido");
+    } else {
+      setEmailError("");
+      editManagers(id1, setManagers, newName, newEmail);
+      setShow(false);
+    }
+  };
+
   return (
     <div id="Form">
       <Form>
         <Form.Group className="inputNewUser">
-          <Form.Control type="text" placeholder={id1}
-            onChange={(e) => {setNewId(e.target.value)}}
+          <Form.Control
+            type="text"
+            placeholder={id1}
+            onChange={(e) => { setId(e.target.value) }}
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
             type="text"
             placeholder={name1}
-            onChange={(e) => {setNewName(e.target.value)}} 
+            onChange={(e) => { setNewName(e.target.value) }}
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
-          <Form.Control type="email" placeholder={email1}        
-          onChange={(e) => {setNewEmail(e.target.value)}}
+          <Form.Control
+            type="email"
+            placeholder={email1}
+            onChange={handleEmailChange}
           />
+          {emailError && <p style={{ color: "red" }}>{emailError}</p>}
         </Form.Group>
       </Form>
-      {/* Button functionality assignment */}
       <div className="btnsUser">
-          <button className="btnCreateUser" onClick={()=>{editManagers(id1, setManagers,newName,newEmail),setShow(false)}} >Editar</button>
-          <button className="btnEliminateUser" onClick={() => {eliminateManager(id1, setManagers),setShow(false)}}>Eliminar</button>
-        </div>
+        <button
+          className="btnCreateUser"
+          onClick={handleEditClick}
+        >
+          Editar
+        </button>
+        <button
+          className="btnEliminateUser"
+          onClick={() => {
+            eliminateManager(id1, setManagers);
+            setShow(false);
+          }}
+        >
+          Eliminar
+        </button>
+      </div>
     </div>
   );
 };

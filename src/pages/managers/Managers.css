@@ -86,7 +86,7 @@
 }
 .form-control{
     margin-top: 15px;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
     background-color:#D9D9D9 !important;
     border: 2px solid #767676 !important;
 }
@@ -117,7 +117,7 @@
     padding-left: 25px;
     padding-right: 25px;
 }
-.btnEliminateUser{
+.btnEliminateUser, .btnCancelUser{
     border: 2px solid #FD8686;        
     background-color: #FFB7B7;
     font-size: 20px;

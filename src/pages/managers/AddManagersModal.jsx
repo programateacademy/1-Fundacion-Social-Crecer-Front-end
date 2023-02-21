@@ -83,7 +83,7 @@ const AddManagersModal = ({ add, setShow }) => {
         </Form.Group>
       </Form>
       {/* Button functionality assignment */}
-      <div className="btnsCreateUser">
+      <div className="btnsUser">
           <button className="btnCreateUser" onClick={handleCreate} >Crear</button>
           <button className="btnCancelUser" onClick={() => setShow(false)}>Cancelar</button>
         </div>
