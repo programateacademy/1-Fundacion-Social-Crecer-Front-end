@@ -28,7 +28,7 @@ const LogIn = ({loginFunction, onLogin, onLogout }) => {
     }else {
       console.log("NO Llamo a handleLogin")
       onLogout();
-
+      
     }
   }
 
