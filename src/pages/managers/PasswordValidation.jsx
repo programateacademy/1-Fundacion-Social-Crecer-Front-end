@@ -31,13 +31,12 @@ function PasswordValidation({ id, name, email, setManagers, editManagers, elimin
         {isEditing ? (
           <EditManagerContainerButton id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager} setShow={() => setShowPasswordModal(true)} />
         ) : null}
-        <div style={{ display: isEditing ? 'none' : 'block' }}>
+        <div>
           <button className='userButton' onClick={handleEditClick}>EDITAR PERFIL</button>
         </div>
       </div>
     </>
   );
 }
-
 
 export default PasswordValidation;
