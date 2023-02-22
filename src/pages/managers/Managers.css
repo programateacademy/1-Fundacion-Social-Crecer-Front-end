@@ -128,4 +128,10 @@
     padding-left: 25px;
     padding-right: 25px;
 }
+.modal-footer{
+    flex-wrap:nowrap;
+    justify-content: space-evenly !important;
+    color: black !important;
+
+}
 
