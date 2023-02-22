@@ -7,7 +7,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 function EditManager({ id,name,email, setManagers, editManagers,eliminateManager}) {
     const values = [true];
     const [fullscreen, setFullscreen] = useState(true);
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
   
     // Show modal function
     function handleShow(breakpoint) {
@@ -16,12 +16,6 @@ function EditManager({ id,name,email, setManagers, editManagers,eliminateManager
     }
 return(
     <div>
-    {values.map((v, idx) => (
-      <button key={idx} className="userButton" onClick={() => handleShow(v)}>
-        {typeof v === "string" && `below ${v.split("-")[0]}`}
-        <span className='createUserButton'>EDITAR PERFIL</span>
-        </button>
-    ))}
     <Modal show={show} onHide={() => setShow(false)}>
       <Modal.Header closeButton>
         <Modal.Title>Editar Usuario</Modal.Title>
@@ -36,4 +30,4 @@ return(
 );
 }
 
-export default EditManager
+export default EditManager;

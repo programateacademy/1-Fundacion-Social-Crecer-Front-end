@@ -1,7 +1,8 @@
 import { useState } from "react";
 import PasswordValidationModal from "./PasswordValidationModal";
+import EditManagerContainerButton from "./EditManagerContainerButton.jsx";
 
-const PasswordValidation = () => {
+function PasswordValidation({ id, name, email, setManagers, editManagers, eliminateManager }) {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -20,9 +21,7 @@ const PasswordValidation = () => {
   };
 
   return (
-    
     <>
-    
       <PasswordValidationModal
         show={showPasswordModal}
         onClose={handleClosePasswordModal}
@@ -30,16 +29,15 @@ const PasswordValidation = () => {
       />
       <div>
         {isEditing ? (
-          <input type="text" placeholder="Ingrese un nuevo valor" />
-        ) : (
-          <div>
-            <span>Valor actual</span>
-            <button className='userButton' onClick={handleEditClick}>EDITAR PERFIL</button>
-          </div>
-        )}
+          <EditManagerContainerButton id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager} setShow={() => setShowPasswordModal(true)} />
+        ) : null}
+        <div style={{ display: isEditing ? 'none' : 'block' }}>
+          <button className='userButton' onClick={handleEditClick}>EDITAR PERFIL</button>
+        </div>
       </div>
     </>
   );
-};
+}
+
 
 export default PasswordValidation;

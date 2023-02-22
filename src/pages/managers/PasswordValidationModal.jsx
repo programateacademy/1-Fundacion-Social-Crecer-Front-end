@@ -11,7 +11,7 @@ const PasswordValidationModal = ({ show, onClose, onConfirm }) => {
   };
 
   const handleConfirm = () => {
-    if (password === "password123") { // Cambiar "password123" por la contraseña que se desea validar
+    if (password === "1234") { // Cambiar "1234" por la contraseña que se desea validar
       onConfirm();
     } else {
       setErrorMessage("Contraseña incorrecta");

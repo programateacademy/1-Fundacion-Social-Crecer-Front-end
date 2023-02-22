@@ -20,7 +20,7 @@ export default function CardUser({managers,setManagers, editManagers,eliminateMa
                             <div className="profileUserButtons">
                                 <button className="userButton">CAMBIAR CONTRASEÑA</button>
                                 {/*<EditManagerContainerButton id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager}/>*/}
-                                <PasswordValidation/>
+                                <PasswordValidation id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager}/>
                             </div>
                         </div>
                     </>
