@@ -12,7 +12,8 @@ function App() {
   //Login status
   const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false );
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [locked, setLocked] = useState(false)
+  //Object with the user info
+  const [userInfo, setUserInfo] = useState({})
 
   const handleLogin = () => {
     setIsLogged(true);
@@ -27,6 +28,8 @@ function App() {
 
 
   const login = (item) => {
+    console.log(userInfo)
+
     return users.post("/api/login", item)
       .then((response) => {
         setToken(response.data.data);
@@ -39,11 +42,10 @@ function App() {
         return response.status == 200 && !!response.data.data;
       })
       .catch((error) => {
-         console.log(error.response.data)
-        if(error.response.data.isLocked) {
-          setLocked(true)
-          console.log(error.response.data)
-        }
+        //Update the userInfo state if is locked
+        if(error.response.data.userData.isLocked) {
+          setUserInfo(error.response.data.userData)
+        } 
         return false;
       });
   };
@@ -54,7 +56,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<LogIn loginFunction={login} onLogin={handleLogin} onLogout={handleLogout} />}
+            element={<LogIn loginFunction={login} onLogin={handleLogin} onLogout={handleLogout} userInfo={userInfo}/>}
           />
           <Route
             path="matrix/"

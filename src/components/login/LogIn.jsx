@@ -11,7 +11,7 @@ import AdminLockedModal from "../modals/lockedaccountmodals/AdminLockedModal";
 
 
 
-const LogIn = ({loginFunction, onLogin, onLogout }) => {
+const LogIn = ({loginFunction, onLogin, onLogout, userInfo }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
@@ -25,6 +25,8 @@ const LogIn = ({loginFunction, onLogin, onLogout }) => {
     if  (sucess){
       onLogin();
       navigate("/matrix/");
+    }else if(userInfo.isLocked){
+      setShowLockedModal(true)
     }else {
       console.log("NO Llamo a handleLogin")
       onLogout();
@@ -76,13 +78,10 @@ const LogIn = ({loginFunction, onLogin, onLogout }) => {
             </Form>
           </div>
       </div>
-      <Button variant="primary" onClick={() => setShowLockedModal(true)}>
-        Launch vertically centered modal
-      </Button>
       <AdminLockedModal
         show={showLockedModal}
         onHide={() => setShowLockedModal(false)}
-        role="superadmin"
+        role={userInfo.role}
       />
     </div>
   );
