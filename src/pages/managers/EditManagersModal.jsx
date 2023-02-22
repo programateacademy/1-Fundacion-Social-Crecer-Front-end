@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 
-const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManagers, eliminateManager }) => {
+const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManagers, eliminateManager,onClose }) => {
 
   const [id, setId] = useState(id1);
   const [newName, setNewName] = useState(name1);
@@ -56,7 +56,7 @@ const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManag
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={handleEditClick}
+          onClick={()=>{handleEditClick;onClose();}}
         >
           Editar
         </button>
@@ -64,7 +64,7 @@ const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManag
           className="btnEliminateUser"
           onClick={() => {
             eliminateManager(id1, setManagers);
-            setShow(false);
+            setShow(false);onClose();
           }}
         >
           Eliminar

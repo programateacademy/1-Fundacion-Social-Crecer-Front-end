@@ -19,6 +19,9 @@ function PasswordValidation({ id, name, email, setManagers, editManagers, elimin
   const handleClosePasswordModal = () => {
     setShowPasswordModal(false);
   };
+  const handleEditClose = () => {
+    setIsEditing(false);
+  }; 
 
   return (
     <>
@@ -29,7 +32,7 @@ function PasswordValidation({ id, name, email, setManagers, editManagers, elimin
       />
       <div>
         {isEditing ? (
-          <EditManagerContainerButton id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager} setShow={() => setShowPasswordModal(true)} />
+          <EditManagerContainerButton id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager} setShow={() => setShowPasswordModal(true)} onClose={handleEditClose}/>
         ) : null}
         <div>
           <button className='userButton' onClick={handleEditClick}>EDITAR PERFIL</button>
