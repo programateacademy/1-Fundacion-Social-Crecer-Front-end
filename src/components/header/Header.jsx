@@ -15,7 +15,7 @@ function Header({onLogout, token}) {
         if (!token){
             onLogout()
         } else {
-            const {data} = await users.get("/api/superAdmin",
+            const {data} = await users.get("/api/admin",
             {
                 headers: {
                     'Authorization': token
