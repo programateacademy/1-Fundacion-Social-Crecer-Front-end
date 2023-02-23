@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import IconPadLock from "../../icons/IconPadLock";
 
-const AdminLockedModal = (props) => {
+const AdminLockedModal = ( props ) => {
   const superAdminMessagge =
     "Se ha enviado un mensaje deseguridad a tu email registrado";
   const adminMessagge = "Ponte en contacto con el encargado ";
