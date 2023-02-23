@@ -25,7 +25,7 @@ const LogIn = ({loginFunction, onLogin, onLogout, userInfo }) => {
     if  (sucess){
       onLogin();
       navigate("/matrix/");
-    }else if(userInfo.isLocked){
+    }else if(userInfo[0]){
       setShowLockedModal(true)
     }else {
       console.log("NO Llamo a handleLogin")
@@ -81,7 +81,7 @@ const LogIn = ({loginFunction, onLogin, onLogout, userInfo }) => {
       <AdminLockedModal
         show={showLockedModal}
         onHide={() => setShowLockedModal(false)}
-        role={userInfo.role}
+        role={userInfo[1]}
       />
     </div>
   );

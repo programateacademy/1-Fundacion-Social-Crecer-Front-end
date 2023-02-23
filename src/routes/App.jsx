@@ -13,7 +13,7 @@ function App() {
   const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false );
   const [token, setToken] = useState(localStorage.getItem("token"));
   //Object with the user info
-  const [userInfo, setUserInfo] = useState({})
+  const [userInfo, setUserInfo] = useState([])
 
   const handleLogin = () => {
     setIsLogged(true);
@@ -43,7 +43,8 @@ function App() {
       })
       .catch((error) => {
         //Update the userInfo state if is locked
-        if(error.response.data.userData.isLocked) {
+        console.log(error.response.data)
+        if(error.response.data.userData[0]) {
           setUserInfo(error.response.data.userData)
         } 
         return false;
