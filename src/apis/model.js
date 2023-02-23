@@ -217,7 +217,8 @@ const bene =[{
     x: 'SEM 23',
     complementType: 'NIÑOS Y NIÑAS DE 6 MESES A 11 MESES 29 DIAS',
     ticketNumber: null
-}, {
+}, 
+{
     numDoc: 1000555388, 
     curState: 'ACTIVO', 
     joinDate: '2000-02-29', 
@@ -326,7 +327,8 @@ const bene =[{
     x: 'SEM 23',
     complementType: 'NIÑOS Y NIÑAS DE 6 MESES A 11 MESES 29 DIAS',
     ticketNumber: null
-}, {
+},
+{
     numDoc: 13333333338, 
     curState: 'ACTIVO', 
     joinDate: '2000-02-29', 

@@ -11,7 +11,6 @@ export const useSetArrayContext =()=>{
     return useContext(SetArrayContext)
 }
 
-
 export const GeneralProvider= (props) =>{
 
     const [array, setArray] = useState([])

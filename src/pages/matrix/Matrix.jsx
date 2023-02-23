@@ -50,9 +50,10 @@ function Matrix({ onLogout, token }) {
             <div className="table-head">
                 <table>
                     <Thead />
+                    <BeneficiariesTable />
                 </table>
             </div>
-            <BeneficiariesTable />
+            
         </>
     );
 }
