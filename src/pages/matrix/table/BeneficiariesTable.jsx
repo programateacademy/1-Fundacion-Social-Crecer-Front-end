@@ -8,12 +8,13 @@ import { useArrayContext } from '../../../context/context'
 
 function BeneficiariesTable() {
   let data = useArrayContext();
+ 
     return (  
             
             <table className='prin-table'>
                 <Thead trans= {true} />
             {data.map( (item)  => 
-              <tbody><Tbody data = {item}/></tbody> )}
+              <tbody><Tbody data = {item} /></tbody> )}
             </table>
 
     )

@@ -11,9 +11,6 @@
     z-index: 100;
 
 }
-.top-table:hover{
-    background: #3ab73f;
-}
 .top-table div{
     display: flex;
     font-size: 14px;

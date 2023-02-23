@@ -1,9 +1,9 @@
 const bene =[{
-    numDoc: 1111111111, 
+    numDoc: 1211111111, 
     curState: 'INACTIVO', 
     joinDate: '2000-02-29', 
     exitDate: null, 
-    enterBy: 'DIEGO RODRIGUEZ', 
+    enterBy: 'DIEGo RODRIGUEZ', 
     reasonForExit: null, 
     otherExitReason: null,
     unitId: 'EL UVAL',

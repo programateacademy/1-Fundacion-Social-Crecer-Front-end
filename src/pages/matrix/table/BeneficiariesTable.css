@@ -13,9 +13,9 @@ table{
 }
 
 table input{
-    border: solid 1px #b3b3b3;
+    border: solid 1px transparent;
     border-radius: 3px;
-    background: rgb(234, 234, 234);
+    background: transparent;
 }
 
 thead td{

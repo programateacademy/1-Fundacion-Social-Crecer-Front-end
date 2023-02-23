@@ -1,15 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './BeneficiariesTable.css'
-import edit from '../../../assets/icons/edit.svg'
+import EditBeneficiaries from './EditBeneficiaries'
 
-function Tbody({data}) {
+function Tbody({ data }) {
+    const [beneficiaryData, setBeneficiaryData] = useState(data)
+    //  edit
+    const onChangeInput = (e, beneficiaryId) => {
+        const { firstName, value } = e.target
+        console.log('firstName', data.firstName)
+        
+        const editData = beneficiaryData.map((item) =>
+            item.beneficiaryId === beneficiaryId && data.firstName ? { ...item, [firstName]: value } : item)
+        console.log('editData', editData)
+        setBeneficiaryData(editData)
+    }
     return (
         <>
-            <td className='edit-button'>{/*edit*/}
-                <img src={edit} alt="" />
+            <td className='edit-button'>
+                <EditBeneficiaries />
             </td>
             <td>
-                {data.numDoc}
+                <input
+                    name='numDoc'
+                    value={data.numDoc}
+                    type='text'
+                    onChange={onChangeInput}
+                />
             </td>
             <td>
                 {data.curState}

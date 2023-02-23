@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import LogIn from "../components/login/LogIn";
 import Managers from "../pages/managers/Managers";
 import Matrix from "../pages/matrix/Matrix";
@@ -22,8 +22,8 @@ function App() {
   };
   // Fetch data from backend
   const login = async (item) => {
+    const {data, status}  = await users.post("/api/login", item);
     try {
-      const {data, status}  = await users.post("/api/login", item);
       setToken(data.data)
       localStorage.setItem("token", data.data)
       console.log(token)
@@ -33,29 +33,30 @@ function App() {
       return false
     }   
   };
- 
+
+
   return (
     <>
-    <HashRouter>
+    <BrowserRouter>
         <Routes>
           <Route
             path="/"
-            element={<LogIn loginFunction={login} onLogin={handleLogin} onLogout={handleLogout} />}
+            element={<LogIn loginFunction={login} onLogin={handleLogin} />}
           />
           <Route
-            path="matrix/"
+            path="/matrix"
             element={
               <RequireAuth isLogged={isLogged}  children= {<Matrix  onLogout={handleLogout} token={token} />}/>
             }
           />
           <Route
-            path="managers/"
+            path="/managers"
             element={
               <RequireAuth isLogged={isLogged} token={token} children= {<Managers onLogout={handleLogout} />}/>
             }
           />
         </Routes>
-      </HashRouter>  
+      </BrowserRouter>  
 
     </>
   );

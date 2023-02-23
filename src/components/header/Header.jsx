@@ -1,22 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import logo  from '../../assets/img/logo.svg';
 import { FaUserAlt } from "react-icons/fa";
 import './Header.css';
+import { Link } from 'react-router-dom';
+import users from "../../apis";
+import { FiLogOut } from "react-icons/fi";
 
-function Header() {
+function Header({onLogout, token}) {
+    const [user, setUser] = useState({})
+    useEffect(() =>   {
+        fetchData();
+    },[])
+    async function fetchData(){
+        if (!token){
+            onLogout()
+        } else {
+            const {data} = await users.get("/api/superAdmin",
+            {
+                headers: {
+                    'Authorization': token
+                }
+            })
+        setUser(data.data.user)
+        }
+        console.log(data.data.user.name)
+    }
     return (
         <div className='header'>
             <img className='elLogo' src={logo} alt='fundacionCrecer'/>
             <div className='buttonsHeader'>
-                <button type="button" className="buttonHeader ">Inicio</button>
-                <button type="button" className="buttonHeader">Funcionarios</button>
+                <button type="button" className="buttonHeader"><Link to='/matrix'>Inicio</Link></button>
+                <button type="button" className="buttonHeader"><Link to='/managers'>Funcionarios</Link></button>
             </div>
             <div className='profile'>
                 <span className='iconUser' ><FaUserAlt /></span>
                 <div className='adminInfo'>
-                    <span className='adminName'>Laura Montana</span>
-                    <span className='adminProfile'>Administradora</span>
+                    <h3>{user.name}</h3>
+                    <h4>{user.role}</h4>
                 </div> 
+                <button onClick={()=>{onLogout()}}><FiLogOut/></button>
             </div>
         </div>
     )

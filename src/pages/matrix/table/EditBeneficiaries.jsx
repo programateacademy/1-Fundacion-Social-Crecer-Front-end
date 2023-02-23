@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
-import { IoIosAddCircleOutline } from 'react-icons/io';
+import './BeneficiariesTable.css'
+import edit from '../../../assets/icons/edit.svg'
 
 function EditBeneficiaries() {
     const [show, setShow] = useState(false);
@@ -11,7 +12,6 @@ function EditBeneficiaries() {
             const res = await fetch('https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/departamentos.php')
             const resJSON = await res.json();
             setDepartments(resJSON)
-            //console.log(resJSON)
         } catch (error) {
             console.log(error)
         }
@@ -22,9 +22,8 @@ function EditBeneficiaries() {
     return (
         !departments.resultado ? 'Cargando' :(
         <>
-            <button className='addUser' variant='primary' onClick={() => setShow(true)}>
-                <span className='iconAddUser'><IoIosAddCircleOutline /></span>
-                <span className='createUser'>Añadir Beneficiario</span>
+            <button className='edit-button' variant='primary' onClick={() => setShow(true)}>
+                <img src={edit} alt="" /> 
             </button>
 
             <Modal
@@ -34,7 +33,7 @@ function EditBeneficiaries() {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id='example-custom-modal-styling-title'>
-                        <h3>AÑADIR BENEFICIARIO</h3>
+                        <h3>EDITAR BENEFICIARIO</h3>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className='modal-dialog-scrollable d-flex flex-wrap input-modal flex-gap'>
