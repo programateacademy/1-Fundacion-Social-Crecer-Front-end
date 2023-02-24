@@ -11,7 +11,8 @@ const PasswordValidationModal = ({ show, onClose, onConfirm }) => {
   };
 
   const handleConfirm = () => {
-    if (password === "1234") { // Cambiar "1234" por la contraseña que se desea validar
+    if (password === "1234") { // Cambiar "1234" por la contraseña que se desea validar hacer petición post desde
+      //este frontend, mirar el login de cami
       onConfirm();
     } else {
       setErrorMessage("Contraseña incorrecta");
