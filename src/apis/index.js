@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const BASE_URL=  "https://funcrecer-back-admins.vercel.app/";
+const BASE_URL=  "http://localhost:3001/";
 
 const API = axios.create({
-    baseURL:  BASE_URL
+    baseURL:BASE_URL
 });
 export default API;

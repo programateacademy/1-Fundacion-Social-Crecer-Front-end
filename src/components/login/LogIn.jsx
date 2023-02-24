@@ -6,20 +6,34 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Logo from "../../assets/img/logo.svg";
 import { BsFillPersonFill, BsFillLockFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import AdminLockedModal from "../modals/lockedaccountmodals/AdminLockedModal";
 
 
-const LogIn = ({addFunction}) => {
+
+const LogIn = ({loginFunction, onLogin, onLogout }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
- 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const [showLockedModal, setShowLockedModal] = useState(false);
+
+  
+  const handleSubmit = async (e) => {
     e.preventDefault()
     console.log(email, password)
-    addFunction({email,password})
+    const sucess = await loginFunction({email,password});
+    if  (sucess){
+      onLogin();
+      navigate("/matrix/");
+    }else {
+      console.log("NO Llamo a handleLogin")
+      onLogout();
+
+    }
   }
+
   return (
-    < div className='bodyLogin'>
+    <div className="bodyLogin">
       <div className="containerLogIn">
           <div className="logoContainer">
             <img src={Logo} alt="Logo" />
@@ -58,10 +72,18 @@ const LogIn = ({addFunction}) => {
                   />
                 </Col>
               </Form.Group>
-              <Button type="submit"><Link to="matrix/">Ingresar</Link></Button>
+              <Button type="submit">Ingresar</Button>
             </Form>
           </div>
       </div>
+      <Button variant="primary" onClick={() => setShowLockedModal(true)}>
+        Launch vertically centered modal
+      </Button>
+      <AdminLockedModal
+        show={showLockedModal}
+        onHide={() => setShowLockedModal(false)}
+        role="superadmin"
+      />
     </div>
   );
 };
