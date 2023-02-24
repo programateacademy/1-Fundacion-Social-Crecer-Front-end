@@ -18,7 +18,8 @@ function Matrix({onLogout, token}) {
     async function fetchData(){
         if (!token){
             onLogout()
-        } else {
+        } 
+        /* else {
             const {data} = await users.get("/api/admin",
             {
                 headers: {
@@ -26,7 +27,7 @@ function Matrix({onLogout, token}) {
                 }
             })
         setUser(data.data.user)
-        }
+        } */
     }
     
     return (

@@ -2,18 +2,20 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import LogIn from "../components/login/LogIn";
 import Managers from "../pages/managers/Managers";
 import Matrix from "../pages/matrix/Matrix";
+import RecoveryPassword from "../pages/recoverypassword/RecoveryPassword";
 import users from "../apis/index";
 import { RequireAuth } from "../components/login/RequireAuth";
 import { useState, useEffect } from "react";
 
-
 function App() {
-  console.log(users)
+  console.log(users);
   //Login status
-  const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false );
+  const [isLogged, setIsLogged] = useState(
+    localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false
+  );
   const [token, setToken] = useState(localStorage.getItem("token"));
   //Object with the user info
-  const [userInfo, setUserInfo] = useState([])
+  const [userInfo, setUserInfo] = useState([]);
 
   const handleLogin = () => {
     setIsLogged(true);
@@ -22,58 +24,72 @@ function App() {
 
   const handleLogout = () => {
     setIsLogged(false);
-    localStorage.setItem("isLogged", false)
+    localStorage.setItem("isLogged", false);
     // BORRAR TOOODOOO EL LOCALSTORAGE
   };
 
-
   const login = (item) => {
-    console.log(userInfo)
+    console.log(userInfo);
 
-    return users.post("/api/login", item)
+    return users
+      .post("/api/login", item)
       .then((response) => {
         setToken(response.data.data);
         localStorage.setItem("token", response.data.data);
         console.log(token);
         console.log(response.data);
-        
+
         //Check if the status is correct and the token seems valid
-        // !! convert data.data into a boolean value 
+        // !! convert data.data into a boolean value
         return response.status == 200 && !!response.data.data;
       })
       .catch((error) => {
         //Update the userInfo state if is locked
-        console.log(error.response.data)
-        if(error.response.data.userData[0]) {
-          setUserInfo(error.response.data.userData)
-        } 
+        console.log(error.response.data);
+        if (error.response.data.userData[0]) {
+          setUserInfo(error.response.data.userData);
+        }
         return false;
       });
   };
- 
+
   return (
     <>
-    <HashRouter>
+      <HashRouter>
         <Routes>
           <Route
             path="/"
-            element={<LogIn loginFunction={login} onLogin={handleLogin} onLogout={handleLogout} userInfo={userInfo}/>}
+            element={
+              <LogIn
+                loginFunction={login}
+                onLogin={handleLogin}
+                onLogout={handleLogout}
+                userInfo={userInfo}
+              />
+            }
           />
           <Route
             path="matrix/"
             element={
-              <RequireAuth isLogged={isLogged}  children= {<Matrix  onLogout={handleLogout} token={token} />}/>
+              <RequireAuth
+                isLogged={isLogged}
+                children={<Matrix onLogout={handleLogout} token={token} />}
+              />
             }
           />
           <Route
             path="managers/"
             element={
-              <RequireAuth isLogged={isLogged} token={token} children= {<Managers onLogout={handleLogout} />}/>
+              <RequireAuth
+                isLogged={isLogged}
+                token={token}
+                children={<Managers onLogout={handleLogout} />}
+              />
             }
           />
+          <Route path="/recover-password/" element={<RecoveryPassword />} />
         </Routes>
-      </HashRouter>  
-
+      </HashRouter>
     </>
   );
 }
