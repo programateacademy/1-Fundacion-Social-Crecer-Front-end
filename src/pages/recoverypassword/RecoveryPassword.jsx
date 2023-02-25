@@ -2,6 +2,7 @@ import { useState } from "react";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import './RecoveryPassword.css'
 
 const RecoveryPassword = () => {
   // States for password inputs
@@ -15,8 +16,8 @@ const RecoveryPassword = () => {
 
   return (
     <>
-      <div className="vw-100 vh-100 d-flex justify-content-center align-items-center">
-        <div className="w-75 h-75">
+      <div className="recovery__password">
+        <div className="recovery__password--container">
           <Form>
             <Col>
               <Form.Group className="inputNewPass">
@@ -43,7 +44,7 @@ const RecoveryPassword = () => {
               />
             </Form.Group>
           </Form>
-          <Button variant="primary" type="submit">
+          <Button id="recovery__password--save-button" variant="primary" type="submit">
             Guardar cambios
           </Button>
         </div>
