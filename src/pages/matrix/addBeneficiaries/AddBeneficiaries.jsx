@@ -1,32 +1,51 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import { IoIosAddCircleOutline } from 'react-icons/io';
+import './AddBeneficiaries.css'
 
 function AddBeneficiaries() {
+    // Modal state
     const [show, setShow] = useState(false);
-
+    // Apis state
     const [departments, setDepartments] = useState([])
-    const fetchApiDepartments = async _=>{
+    const [municipalities, setMunicipalities] = useState([])
+    const [localities, setLocalities] = useState([])
+    // Current State
+    const [curDepartment, setCurDepartment] = useState(11) //Bogotá D.C. by default '11'
+
+    //We request the APIs used for selects
+    const fetchApis = async _=>{
         try {
-            const res = await fetch('https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/departamentos.php')
-            const resJSON = await res.json();
-            setDepartments(resJSON)
-            //console.log(resJSON)
+            /* Departments */
+            const resDepartments = await fetch('https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/departamentos.php')
+            const resDepartmentsJSON = await resDepartments.json();
+            setDepartments(resDepartmentsJSON)
+            /* Municipalities - Depending on the department code, make the query to the municipality belonging to that department */
+            const resMunicipalities = await fetch(`https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartment}`)
+            const resMunicipalitiesJSON = await resMunicipalities.json();
+            setMunicipalities(resMunicipalitiesJSON)
+            /* Localities */
+            const resLocalities = await fetch('https://datosabiertos.bogota.gov.co/dataset/856cb657-8ca3-4ee8-857f-37211173b1f8/resource/497b8756-0927-4aee-8da9-ca4e32ca3a8a/download/loca.json')
+            const resLocalitiesJSON = await resLocalities.json();
+            setLocalities(resLocalitiesJSON)
         } catch (error) {
             console.log(error)
         }
     }
-    useEffect(()=>{
-        fetchApiDepartments()
+    useEffect(()=>{ //Perform the first fetch of all APIs on page load
+        fetchApis()
     }, [])
+    useEffect(()=>{ //Updates the info when the variables inside the array have been modified
+        fetchApis()
+    }, [curDepartment])
+
     return (
-        !departments.resultado ? 'Cargando' :(
         <>
-            <button className='addUser' variant='primary' onClick={() => setShow(true)}>
+            <button className='addUser' variant='primary' onClick={() => {setShow(true)}}>
                 <span className='iconAddUser'><IoIosAddCircleOutline /></span>
                 <span className='createUser'>Añadir Beneficiario</span>
             </button>
-
+            {/* MODAL */}
             <Modal
                 show={show}
                 onHide={() => setShow(false)}
@@ -72,7 +91,7 @@ function AddBeneficiaries() {
                     <div>
                         <label>UNIDAD*</label>
                         <select name='select'>
-                            <option value="DEFAULT"></option>
+                            <option value='DEFAULT'></option>
                             <option value='value1'>EDUCANDO ANDO</option>
                             <option value='value2'>SEMBRANDO ESPERANZA</option>
                             <option value='value3'>ESPACIOS CREATIVOS</option>
@@ -180,10 +199,10 @@ function AddBeneficiaries() {
                     </div>
                     {/* DEPARTMENTS */}
                     <div>
-                        <label>DEPARTAMENTO DE NACIMIENTO</label>
-                        <select name='select'>
-                            {departments.resultado.map(index=>{
-                                return <option key={index.CODIGO_DEPARTAMENTO} value={index.CODIGO_DEPARTAMENTO}>{index.NOMBRE_DEPARTAMENTO}</option>
+                        <label>DEPARTAMENTO DE NACIMIENTO 🗃️🗃️🗃️🗃️</label>
+                        <select name='select' onChange={(e)=>{setCurDepartment(e.target.value)}}>
+                            {!departments.resultado ? 'Cargando' : departments.resultado.map(department=>{
+                                return <option key={department.NOMBRE_DEPARTAMENTO} value={department.CODIGO_DEPARTAMENTO}>{department.NOMBRE_DEPARTAMENTO}</option>
                             })}
                         </select>
                     </div>
@@ -191,7 +210,9 @@ function AddBeneficiaries() {
                     <div>
                         <label>MUNICIPIO DE NACIMIENTO</label>
                         <select name='select'>
-                            <option value='1'>EJEMPLO</option>
+                            {!municipalities.resultado ? 'Cargando' : municipalities.resultado.map(municipality=>{
+                                return <option key={municipality.NOMBRE_MUNICIPIO} value={municipality.CODIGO_MUNICIPIO}>{municipality.NOMBRE_MUNICIPIO}</option>
+                            })}
                         </select>
                     </div>
                     <div>
@@ -291,7 +312,7 @@ function AddBeneficiaries() {
                     <div>
                         <label>DEPARTAMENTO DE RESIDENCIA</label>
                         <select name='select'>
-                            <option value='1'>BOGOTÁ</option>
+                            <option value='1'>BOGOTÁ, D.C.</option>
                         </select>
                     </div>
                     <div>
@@ -312,20 +333,16 @@ function AddBeneficiaries() {
                     {/* LOCATIONS BY CITY */}
                     <div>
                         <label>NOMBRE LOCALIDAD/COMUNAS/NOMBRE DE ZONA RESTO</label>
-                        <select name='select'>
-                            <option value='1'>EJEMPLO</option>
-                            <option value='2'>EJEMPLO</option>
-                            <option value='3'>EJEMPLO</option>
+                        <select name='select' onChange={(e)=>{setCurLocality(e.target.value)}}>
+                            {!localities.features ? 'Cargando' : localities.features.map(feature=>{
+                                return <option key={feature.attributes.LocNombre} value={feature.attributes.LocNombre}>{feature.attributes.LocNombre}</option>
+                            })}
                         </select>
                     </div>
                     {/* NEIGHBORHOODS BY LOCATION */}
                     <div>
-                        <label>BARRIO</label>
-                        <select name='select'>
-                            <option value='1'>EJEMPLO</option>
-                            <option value='2'>EJEMPLO</option>
-                            <option value='3'>EJEMPLO</option>
-                        </select>
+                        <label>BARRIO*</label>
+                        <input type='text'></input>
                     </div>
                     <div>
                         <label>NOMBRE DE LA ZONA RESTO</label>
@@ -347,7 +364,7 @@ function AddBeneficiaries() {
                         <label>ESTRATO DE HOGAR*</label>
                         <select name='select'>
                             <option value='1'>0</option>
-{/*                             <option value='2' selected>1</option> */}
+                            <option value='2'>1</option>
                             <option value='3'>2</option>
                         </select>
                     </div>
@@ -405,25 +422,45 @@ function AddBeneficiaries() {
                             <option value='2'>SI</option>
                         </select>
                     </div>
-                    <div>
-                        <label>CRITERIOS DE FOCALIZACIÓN</label>
-                        <select name='select'>
-                            <option value='1'>a. Pertenecientes a hogares con puntaje SISBEN</option>
-                            <option value='2'>b. Pertenecientes a familias identificadas a través de la Estrategia para la Superación de la Pobreza Extrema – Red UNIDOS.</option>
-                            <option value='3'>c. Niñas, niños y mujeres gestantes pertenecientes al programa Familias en Acción de Prosperidad Social.</option>
-                            <option value='4'>d. Niñas y niños egresados de la estrategia de atención y prevención de la desnutrición aguda (Centros de Recuperación Nutricional -CRN- y 1000 días para cambiar el mundo y unidades de búsqueda activa).</option>
-                            <option value='5'>e. Remitidos por las entidades del Sistema Nacional de Bienestar Familiar -SNBF- que se encuentren en situación de vulnerabilidad, riesgo de vulneración de derechos o programas de protección del ICBF.</option>
-                            <option value='6'>f. Víctimas de hechos violentos asociados al conflicto armado, de acuerdo con las directrices establecidas en la Ley 1448 de 2011 y los Decretos ley 4633, 4634 y 4635 de 2011, así como la Sentencia T-025 de 2004 proferida por la Corte Constitucional y demás desarrollos jurisprudenciales en torno a la existencia de un estado de cosas inconstitucional; para lo cual se considerarán aquellos cuyo estado se encuentre incluido dentro del RUV.</option>
-                            <option value='7'>g. Pertenecientes a comunidades étnicas (indígenas, comunidades negras, afrocolombianas, Palenqueros, Raizales y Rrom), que demanden el servicio.</option>
-                            <option value='8'>h. Niños y niñas con discapacidad que requieren diversos tipos de apoyo para su participación efectiva y que demandan acompañamiento en las actividades de cuidado; así como los que sean remitidos por las entidades del SNBF con base en el registro para la localización y caracterización de personas con discapacidad del Ministerio de Salud y Protección Social, como de los comités territoriales y locales de discapacidad y las entidades territoriales en salud.</option>
-                            <option value='9'>i. Usuarios del subsidio en especie para población vulnerable, del que trata el artículo 12 de la Ley 1537 de 2012 (Vivienda de Interés Social y Vivienda de Interés Prioritario), y el Decreto 1921 de 2012 o el que reglamente la materia.</option>
-                            <option value='10'>j. Niñas y niños cuyos padres estén en establecimientos de reclusión.</option>
-                            <option value='11'>k. Población migrante, refugiada o apátrida que cumpla con alguna de las siguientes características: ausencia de vivienda o condiciones de hacinamiento, que no cuenten con acceso a servicios públicos domiciliarios o que no cuenten con ningún tipo de afiliación al Sistema General de Seguridad Social en Salud.</option>
-                            <option value='12'>l. Niñas y niños remitidos del servicio HCB FAMI y DIMF que al cumplir los dos (2) años deben transitar a otros servicios de educación inicial de atención permanente.</option>
-                            <option value='13'>m. Niñas y niños cuyos padres estén activos en la ruta de reincorporación e identificados en las bases de datos remitidas de forma oficial al ICBF por la Agencia para la Reincorporación y la Normalización – ARN.</option>
-                            <option value='14'>n. Para el servicio de Hogar Infantil se atenderá prioritariamente niños y niñas hijos de trabajadores que evidencien vinculación laboral y demás requisitos establecidos en la resolución 1740 de 2010.</option>
-                            <option value='15'>o. Ingresos iguales o inferiores a 1.5 Smlv</option>
-                        </select>
+                    <div className=' long-select'>
+                        <label >CRITERIOS DE FOCALIZACIÓN</label>
+                        <br/>
+                        <div>
+                            <select name='select'>
+                                <option value='1'>A</option>
+                                <option value='2'>B</option>
+                                <option value='1'>C</option>
+                                <option value='2'>D</option>
+                                <option value='1'>E</option>
+                                <option value='2'>F</option>
+                                <option value='1'>G</option>
+                                <option value='2'>H</option>
+                                <option value='1'>I</option>
+                                <option value='2'>J</option>
+                                <option value='1'>K</option>
+                                <option value='2'>L</option>
+                                <option value='1'>M</option>
+                                <option value='2'>N</option>
+                                <option value='2'>O</option>
+                            </select>
+                            <div className='d-flex flex-row justify-content-between m-0 letter-select'>
+                                <span flow='down' tooltip='Pertenecientes a hogares con puntaje SISBEN' >A</span>
+                                <span flow='down' tooltip='Pertenecientes a familias identificadas a través de la Estrategia para la Superación de la Pobreza Extrema – Red UNIDOS.' >B</span>
+                                <span flow='down' tooltip='Niñas, niños y mujeres gestantes pertenecientes al programa Familias en Acción de Prosperidad Social.' >C</span>
+                                <span flow='down' tooltip='Niñas y niños egresados de la estrategia de atención y prevención de la desnutrición aguda (Centros de Recuperación Nutricional -CRN- y 1000 días para cambiar el mundo y unidades de búsqueda activa).' >D</span>
+                                <span flow='down' tooltip='Remitidos por las entidades del Sistema Nacional de Bienestar Familiar -SNBF- que se encuentren en situación de vulnerabilidad, riesgo de vulneración de derechos o programas de protección del ICBF.' >E</span>
+                                <span flow='down' tooltip='Víctimas de hechos violentos asociados al conflicto armado, de acuerdo con las directrices establecidas en la Ley 1448 de 2011 y los Decretos ley 4633, 4634 y 4635 de 2011, así como la Sentencia T-025 de 2004 proferida por la Corte Constitucional y demás desarrollos jurisprudenciales en torno a la existencia de un estado de cosas inconstitucional; para lo cual se considerarán aquellos cuyo estado se encuentre incluido dentro del RUV.' >F</span>
+                                <span flow='down' tooltip='Pertenecientes a comunidades étnicas (indígenas, comunidades negras, afrocolombianas, Palenqueros, Raizales y Rrom), que demanden el servicio.' >G</span>
+                                <span flow='down' tooltip='Niños y niñas con discapacidad que requieren diversos tipos de apoyo para su participación efectiva y que demandan acompañamiento en las actividades de cuidado; así como los que sean remitidos por las entidades del SNBF con base en el registro para la localización y caracterización de personas con discapacidad del Ministerio de Salud y Protección Social, como de los comités territoriales y locales de discapacidad y las entidades territoriales en salud.' >H</span>
+                                <span flow='down' tooltip='Usuarios del subsidio en especie para población vulnerable, del que trata el artículo 12 de la Ley 1537 de 2012 (Vivienda de Interés Social y Vivienda de Interés Prioritario), y el Decreto 1921 de 2012 o el que reglamente la materia.' >I</span>
+                                <span flow='down' tooltip='Niñas y niños cuyos padres estén en establecimientos de reclusión.' >J</span>
+                                <span flow='down' tooltip='Población migrante, refugiada o apátrida que cumpla con alguna de las siguientes características: ausencia de vivienda o condiciones de hacinamiento, que no cuenten con acceso a servicios públicos domiciliarios o que no cuenten con ningún tipo de afiliación al Sistema General de Seguridad Social en Salud.' >K</span>
+                                <span flow='down' tooltip='Niñas y niños remitidos del servicio HCB FAMI y DIMF que al cumplir los dos (2) años deben transitar a otros servicios de educación inicial de atención permanente.' >L</span>
+                                <span flow='down' tooltip='Niñas y niños cuyos padres estén activos en la ruta de reincorporación e identificados en las bases de datos remitidas de forma oficial al ICBF por la Agencia para la Reincorporación y la Normalización – ARN.' >M</span>
+                                <span flow='down' tooltip='Para el servicio de Hogar Infantil se atenderá prioritariamente niños y niñas hijos de trabajadores que evidencien vinculación laboral y demás requisitos establecidos en la resolución 1740 de 2010.' >N</span>
+                                <span flow='down' tooltip='Ingresos iguales o inferiores a 1.5 Smlv' >O</span>
+                            </div><br/>
+                        </div>
                     </div>
                     <div>
                         <label>SI NO CUMPLE CON NINGUN CRITERIO, CUENTA CON EL ACTA DONDE JUSTIFICA QUE EL BENEFICIARIO REQUIERE LA ATENCION</label>
@@ -733,7 +770,7 @@ function AddBeneficiaries() {
                         <input type='number' step='any'/>
                     </div>
                     <div>
-                        <label>PESO AL NACER (EN KILOGRAMOS)*</label>
+                        <label>PESO AL NACER (EN GRAMOS)*</label>
                         <input type='number' step='any'/>
                     </div>
                     <div>
@@ -756,13 +793,13 @@ function AddBeneficiaries() {
                         <input type='number' />
                     </div>
                     <div>
-                        <label>X</label>
-                        <input type='text' />
+                        <label>SEMANAS DE GESTACIÓN</label>
+                        <input type='number' />
                     </div>
                 </Modal.Body>
             </Modal>
         </>
-    ))
+    )
 }
 
 export default AddBeneficiaries

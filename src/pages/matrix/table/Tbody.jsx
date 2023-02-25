@@ -6,7 +6,7 @@ function Tbody({data}) {
     return (
         <>
             <td className='edit-button'>{/*edit*/}
-                <img src={edit} alt="" />
+                <img src={edit} alt="Editar" />
             </td>
             <td>
                 {data.numDoc}

@@ -34,7 +34,7 @@
     border-radius: 5px;
     border: 1px solid var(--bs-gray-600);
 }
-
+/* Buttons */
 .addUser {
     border: 2px solid var(--bs-green);
     background-color: var(--color-green-3);
@@ -53,7 +53,7 @@
 
 .addUser svg {
     position: relative;
-    top: -2px;
+    top: -1px;
 }
 
 .iconAddUser {
@@ -62,4 +62,8 @@
 
 .createUser {
     margin: 0 5px;
+    line-height: 1;
+}
+select:focus ,input:focus, textarea:focus{
+    outline: 1px solid var(--color-blue-3);
 }
