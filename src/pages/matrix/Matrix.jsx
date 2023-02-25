@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Matrix.css'
 import BeneficiariesTable from './table/BeneficiariesTable'
-import AddBeneficiaries from './AddBeneficiaries'
+import AddBeneficiaries from './addBeneficiaries/AddBeneficiaries'
 import { BiSearch } from 'react-icons/bi';
 import { FiLogOut } from "react-icons/fi";
 import users from "../../apis";
@@ -19,13 +19,14 @@ function Matrix({onLogout, token}) {
         if (!token){
             onLogout()
         } else {
-            const {data} = await users.get("/api/admin",
+            console.log('holaaaaaaaaaaaaaa')
+/*             const {data} = await users.get("/api/admin",
             {
                 headers: {
                     'Authorization': token
                 }
             })
-        setUser(data.data.user)
+        setUser(data.data.user) */
         }
     }
     
@@ -38,7 +39,6 @@ function Matrix({onLogout, token}) {
                 <Filter/>
                 </section>
                 <div>
-                  
                     <select name='select'>
                         <option hidden value='0'>Filtrar por:</option>
                         <option value='value2'>INACTIVO</option>

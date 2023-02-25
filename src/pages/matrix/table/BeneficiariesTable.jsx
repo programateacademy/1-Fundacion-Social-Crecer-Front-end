@@ -12,8 +12,10 @@ function BeneficiariesTable() {
             
             <table className='prin-table'>
                 <Thead trans= {true} />
-            {data.map( (item)  => 
-              <tbody><Tbody data = {item}/></tbody> )}
+                <tbody>
+                {data.map( (item)  => 
+                  <tr><Tbody data = {item}/></tr> )}
+                </tbody>
             </table>
 
     )

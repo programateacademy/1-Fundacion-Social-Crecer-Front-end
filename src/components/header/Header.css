@@ -34,10 +34,14 @@
     background-color: white;
     height: 45px;
     align-self: center;
+    background-image: linear-gradient(var(--color-blue-2),var(--color-blue-2),var(--color-blue-2));
+    background-repeat: no-repeat;
+    background-size: 0% 3px;
+    background-position: 50% 80%;
+    transition: background-size .17s ease-in-out;
 }
 .buttonHeader:hover{
-    text-decoration: none;
-border-bottom: 3px solid blue;
+    background-size: 100% 3px;
 }
 .profile{
     align-items: center;

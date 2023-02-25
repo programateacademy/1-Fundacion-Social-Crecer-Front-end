@@ -21,15 +21,13 @@ table input{
 thead td{
     min-width:150px;
     padding: 2px 1px;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 500 ;
     border: solid 2px var(--bs-gray);
     background-color: white;
 }
-
-
-.td-smaller-txt{
-    font-size: 12px;
+thead select{
+    border-radius: 4px;
 }
 .tb-unidad{
     background: var(--tb-unidad);
@@ -59,34 +57,6 @@ tbody td{
     border: solid 2px var(--bs-gray-500);
 }
 
-/* ADD MODAL */
-.flex-gap > div{
-    display: inline-block;
-    margin-right: 5rem;
-    display: flex;
-    flex-direction: column;
-}
-.flex-gap > div > input, .flex-gap > div > select, .flex-gap > div > textarea{
-    display: inline-block;
-    width: 100%;
-    min-width: 208px;
-    height: 30px;
-    min-height: 30px;
-    background: #dde0ff;
-    border: 2px solid #538dd5;
-    border-radius: 4px;
-    margin-bottom: 25px;
-}
-.flex-gap h4{
-    width: 100%;
-    margin: 4% 0;
-    border-radius: 1px;
-    border-bottom: solid 3px #538dd5;
-}
-.flex-gap label{
-    color: black;
-}
-
 /*visible table*/
 .table-head{
     z-index: 100;
@@ -98,9 +68,6 @@ tbody td{
     border: solid 2px var(--bs-gray);
 }
 
-
-
-
 /*transparent table*/
 .transp td{
     background-color: transparent;
@@ -111,7 +78,7 @@ tbody td{
 .prin-table tbody:nth-child(odd) {
     background-color: #e4e0e0;
 }
- /*Edit button styles*/
+/*Edit button styles*/
 .edit-button img{
     width: 30px;
     
