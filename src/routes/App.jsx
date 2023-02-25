@@ -46,7 +46,7 @@ function App() {
       .catch((error) => {
         //Update the userInfo state if is locked
         console.log(error.response.data);
-        if (error.response.data.userData[0]) {
+        if (error.response.data.userData?.at(0)) {
           setUserInfo(error.response.data.userData);
         }
         return false;
