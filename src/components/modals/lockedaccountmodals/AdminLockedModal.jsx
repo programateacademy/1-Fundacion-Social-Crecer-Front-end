@@ -5,19 +5,36 @@ import Modal from "react-bootstrap/Modal";
 import IconPadLock from "../../icons/IconPadLock";
 
 const AdminLockedModal = ( props ) => {
-  const superAdminMessagge = "Se ha enviado un mensaje deseguridad a tu email registrado";
+  const [codeSendMessage, setCodeSendMessage] = useState('')
+  const [userCode, setUserCode] = useState('')
+
+  const superAdminMessagge = codeSendMessage || "¿Quires que se te envie un correo con el codigo de recuperacion?";
   const adminMessagge = "Ponte en contacto con el encargado ";
 
-  const [Code, setCode] = useState()
+  
 
-  const handleCodeVerification = async () => {
+  const handleSendCode = async () => {
     try {
-      const response = await app.get('/api/code', { headers: { Code: process.env.VITE_CODE_KEY }});
-      setCode(response.data.code);
+      const response = await app.get('/api/code', { headers: { Code: import.meta.env.VITE_CODE_KEY }});
+      setCodeSendMessage(response.data.message)
     } catch (error) {
       console.error(error);
     }
   }
+
+  const handleCodeVerify = async (e) => {
+    e.preventDefault();
+    try {
+    const response = await app.post('/api/code/verify-code', { code: userCode }, {
+      headers: {
+        Code: import.meta.env.VITE_CODE_KEY 
+      }
+    });
+    console.log(response.status);
+    }catch (error){
+      console.error(error)
+    }
+  } 
   
   return (
     <Modal
@@ -35,12 +52,21 @@ const AdminLockedModal = ( props ) => {
         <IconPadLock />
         <div className="d-flex flex-column justify-content-between fs-4">
           <p>Has excedido la cantidad maxima de intentos para iniciar sesion</p>
-          <p> {props.role == "admin" ? adminMessagge : superAdminMessagge}</p>
+          <p> {props.role === "admin" ? adminMessagge : superAdminMessagge}</p>
           <div>
-            {props.role == "superadmin" ? 
-            <Button variant="primary" className="w-50" size="sm" onClick={() => handleCodeVerification() }>
-              Enviame el codigo
-            </Button> : ''}
+            {
+              !codeSendMessage // si el código no fue enviado
+                ? props.role == "superadmin" && // mostrar botón si es superadmin
+                  <Button variant="primary" className="w-50" size="sm" onClick={handleSendCode}>
+                    Enviame el codigo
+                  </Button>
+                : 
+                <form className='mt-2' onSubmit={handleCodeVerify}> 
+                  <label htmlFor="">Tu codigo de recuperacion</label>
+                  <input type='text' placeholder='codigo' value={userCode} name='userCode' onChange={(e) =>setUserCode(e.target.value)}></input>
+                  <button type='submit' name='sendUserCode' >Continuar</button>
+                </form>  
+            }
           </div>
         </div>
       </Modal.Body>

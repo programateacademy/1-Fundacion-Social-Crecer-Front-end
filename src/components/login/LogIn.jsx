@@ -47,7 +47,7 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
         <div className="form">
           <p className="log-in">Iniciar sesión</p>
           <hr />
-          {showErrorAlert ? <Alert variant='warning' className="w-75" >Las credenciales son incorrectas</Alert> : '' }
+          {showErrorAlert && <Alert variant='warning' className="w-75" >Las credenciales son incorrectas</Alert>}
           <Form className="inputsForm" onSubmit={handleSubmit}>
             <Form.Group as={Row}>
               <Form.Label column sm="1">
