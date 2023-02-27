@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import logo  from '../../assets/img/logo.svg';
+import logo from '../../assets/img/logo.svg';
 import { FaUserAlt } from "react-icons/fa";
 import './Header.css';
 import { Link } from 'react-router-dom';
-import users from "../../apis";
 import { FiLogOut } from "react-icons/fi";
+import users from "../../apis/index";
+import { useEffect, useState } from 'react';
 
-function Header({onLogout, token}) {
-    const [user, setUser] = useState({})
+
+function Header({ onLogout, token }) {
+    const [userInfo, setUserInfo] = useState({})
     useEffect(() =>   {
         fetchData();
     },[])
@@ -21,24 +22,27 @@ function Header({onLogout, token}) {
                     'Authorization': token
                 }
             })
-        setUser(data.data.user)
+            setUserInfo(data.data.user)
         }
-        console.log(data.data.user.name)
     }
     return (
         <div className='header'>
-            <img className='elLogo' src={logo} alt='fundacionCrecer'/>
+            <img className='elLogo' src={logo} alt='fundacionCrecer' />
             <div className='buttonsHeader'>
                 <button type="button" className="buttonHeader"><Link to='/matrix'>Inicio</Link></button>
-                <button type="button" className="buttonHeader"><Link to='/managers'>Funcionarios</Link></button>
+                {userInfo && userInfo.role === 'superAdmin' && (
+                    <button type="button" className="buttonHeader"><Link to='/managers'>Funcionarios</Link></button>
+                )}
             </div>
             <div className='profile'>
-                <span className='iconUser' ><FaUserAlt /></span>
-                <div className='adminInfo'>
-                    <h3>{user.name}</h3>
-                    <h4>{user.role}</h4>
-                </div> 
-                <button onClick={()=>{onLogout()}}><FiLogOut/></button>
+                <span className='iconuserInfo' ><FaUserAlt /></span>
+                {userInfo && (
+                    <div className='adminInfo'>
+                        <p>{userInfo.name}</p>
+                        <p>{userInfo.role}</p>
+                    </div>
+                )}
+                <button onClick={() => { onLogout() }}><FiLogOut /></button>
             </div>
         </div>
     )

@@ -1,72 +1,84 @@
 /* TABLE COLORS */
-.marix-table{
+.marix-table {
     margin-top: 50px;
     overflow-y: scroll;
     overflow-x: scroll;
-    
+
 }
-table{
+
+table {
     position: relative;
     text-align: center;
     margin: 1%;
     margin-top: 45px;
 }
 
-table input{
+table input {
     border: solid 1px transparent;
     border-radius: 3px;
     background: transparent;
 }
 
-thead td{
-    min-width:150px;
+thead td {
+    min-width: 150px;
     padding: 2px 1px;
     font-size: 10px;
-    font-weight: 500 ;
+    font-weight: 500;
     border: solid 2px var(--bs-gray);
     background-color: white;
 }
 
 
-.td-smaller-txt{
+.td-smaller-txt {
     font-size: 12px;
 }
-.tb-unidad{
+
+.tb-unidad {
     background: var(--tb-unidad);
 }
-.tb-dupla{
+
+.tb-dupla {
     background: var(--tb-dupla);
 }
-.tb-beneficiario{
+
+.tb-beneficiario {
     background: var(--tb-beneficiario);
 }
-.tb-acudiente{
+
+.tb-acudiente {
     background: var(--tb-acudiente);
 }
-.tb-padre{
+
+.tb-padre {
     background: var(--tb-padre);
 }
-.tb-madre{
+
+.tb-madre {
     background: var(--tb-madre);
 }
-.tb-historial-medico{
+
+.tb-historial-medico {
     background: var(--tb-historial-medico);
 }
-tbody tr{
-    font-family:Arial, Helvetica, sans-serif;
+
+tbody tr {
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 15px;
-    font-weight:normal;
+    font-weight: normal;
     border: solid 2px var(--bs-gray-500);
 }
 
 /* ADD MODAL */
-.flex-gap > div{
+.flex-gap>div {
     display: inline-block;
     margin-right: 5rem;
     display: flex;
     flex-direction: column;
 }
-.flex-gap > div > input, .flex-gap > div > select, .flex-gap > div > textarea{
+
+.flex-gap>div>input,
+.flex-gap>div>select,
+.flex-gap>div>textarea {
     display: inline-block;
     width: 100%;
     min-width: 208px;
@@ -77,24 +89,51 @@ tbody tr{
     border-radius: 4px;
     margin-bottom: 25px;
 }
-.flex-gap h4{
+
+.flex-gap h4 {
     width: 100%;
     margin: 4% 0;
     border-radius: 1px;
     border-bottom: solid 3px #538dd5;
 }
-.flex-gap label{
+
+.flex-gap label {
     color: black;
 }
 
+select option {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    position: relative;
+}
+
+select option:hover::before {
+    content: attr(title);
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    padding: 5px;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    white-space: normal;
+}
+
 /*visible table*/
-.table-head{
+.table-head {
     z-index: 100;
     position: sticky;
     top: 125px;
     margin-bottom: -100px;
 }
-.table-head td{
+
+.table-head td {
     border: solid 2px var(--bs-gray);
 }
 
@@ -102,26 +141,30 @@ tbody tr{
 
 
 /*transparent table*/
-.transp td{
+.transp td {
     background-color: transparent;
     color: transparent;
-    border-color: transparent ;
+    border-color: transparent;
 }
+
 /*paint odd child table (gray)*/
 .prin-table tbody:nth-child(odd) {
     background-color: #e4e0e0;
 }
- /*Edit button styles*/
-.edit-button img{
+
+/*Edit button styles*/
+.edit-button img {
     width: 30px;
-    
+
 }
-.edit-button{
+
+.edit-button {
     transition: 0.5s;
 }
-.edit-button:hover{
+
+.edit-button:hover {
     background-color: #c4ffd1;
     transition: 0.5s;
     cursor: pointer;
-    border: 1px  solid rgb(17, 104, 14);
+    border: 1px solid rgb(17, 104, 14);
 }

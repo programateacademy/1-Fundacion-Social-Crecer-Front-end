@@ -12,7 +12,10 @@
     box-shadow: 0px 5px 5px -6px black;
     z-index: 150;
 }
-
+a {
+    color: black;
+    text-decoration: none;
+}
 .adminInfo{
     display: flex;
     flex-direction: column;
