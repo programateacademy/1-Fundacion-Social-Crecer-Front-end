@@ -65,7 +65,7 @@ const AdminLockedModal = ( props ) => {
                 ? props.role == "superAdmin" && // Show button if user has a superAdmin role
                   <Button variant="primary" className="w-50" size="sm" onClick={handleSendCode}>
                     Enviame el codigo
-                  </Button>
+                  </Button>            
                 : 
                 <form className='mt-2' onSubmit={handleCodeVerify}> 
                   <label htmlFor="">Tu codigo de recuperacion</label>
