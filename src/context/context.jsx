@@ -1,26 +1,28 @@
-import React, {useState, useContext} from "react" 
+import React, { useState, useContext } from "react";
 
-const ArrayContext = React.createContext(); 
+const ArrayContext = React.createContext();
 const SetArrayContext = React.createContext();
 
+export const useArrayContext = () => {
+    return useContext(ArrayContext);
+};
 
-export const useArrayContext =()=>{  
-    return useContext(ArrayContext)
-}
-export const useSetArrayContext =()=>{  
-    return useContext(SetArrayContext)
-}
+export const useSetArrayContext = () => {
+    return useContext(SetArrayContext);
+};
 
+export const GeneralProvider = (props) => {
+    const [array, setArray] = useState([]);
 
-export const GeneralProvider= (props) =>{
+    const updateArray = (newArray) => {
+        setArray(newArray);
+    };
 
-    const [array, setArray] = useState([])
-
-return(
-<ArrayContext.Provider value = {array}>
-    < SetArrayContext.Provider value = {setArray}>
-    {props.children}
-    </ SetArrayContext.Provider>
-</ArrayContext.Provider>
-);
-}
+    return (
+        <ArrayContext.Provider value={array}>
+            <SetArrayContext.Provider value={updateArray}>
+                {props.children}
+            </SetArrayContext.Provider>
+        </ArrayContext.Provider>
+    );
+};

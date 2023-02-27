@@ -5,7 +5,8 @@ import SearchManagers from './SearchManagers.jsx';
 import ModalContainerAddUser from './ModalContainerAddUser.jsx';
 import UserList from "./UserList.jsx";
 import Header from '../../components/header/Header.jsx';
-function Managers() {
+
+function Managers({onLogout, token}) {
   const localStorageManagers=localStorage.getItem('MANAGERS_V1');
   let parsedManagers;
   if (!localStorageManagers){
@@ -73,7 +74,7 @@ function Managers() {
   
   return (
     <>
-      <Header/>
+      <Header onLogout={onLogout} token={token}/>
       <div className='filaUno'>
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
         <ModalContainerAddUser add={addManagers} managers={managers}/>
