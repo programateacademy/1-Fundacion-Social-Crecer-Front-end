@@ -2,19 +2,21 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import LogIn from "../components/login/LogIn";
 import Managers from "../pages/managers/Managers";
 import Matrix from "../pages/matrix/Matrix";
+import RecoveryPassword from "../pages/recoverypassword/RecoveryPassword";
 import users from "../apis/index";
 import { RequireAuth } from "../components/login/RequireAuth";
 import { useState} from "react";
 import { RequireAuthSuper } from "../components/login/RequireAuthSuper";
 
-
 function App() {
-  console.log(users)
+  console.log(users);
   //Login status
-  const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false );
+  const [isLogged, setIsLogged] = useState(
+    localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false
+  );
   const [token, setToken] = useState(localStorage.getItem("token"));
   //Object with the user info
-  const [userInfo, setUserInfo] = useState([])
+  const [userInfo, setUserInfo] = useState([]);
 
   const handleLogin = () => {
     setIsLogged(true);
@@ -43,9 +45,10 @@ function App() {
 }
 
   const login = (item) => {
-    console.log(userInfo)
+    console.log(userInfo);
 
-    return users.post("/api/login", item)
+    return users
+      .post("/api/login", item)
       .then((response) => {
         setToken(response.data.data);
         localStorage.setItem("token", response.data.data);
@@ -62,10 +65,10 @@ function App() {
       })
       .catch((error) => {
         //Update the userInfo state if is locked
-        console.log(error.response.data)
-        if(error.response.data.userData[0]) {
-          setUserInfo(error.response.data.userData)
-        } 
+        console.log(error.response.data);
+        if (error.response.data.userData?.at(0)) {
+          setUserInfo(error.response.data.userData);
+        }
         return false;
       });
   };
@@ -89,6 +92,10 @@ function App() {
             path="/managers"
             element={
               <RequireAuthSuper isLogged={isLogged} children= {<Managers onLogout={handleLogout}  token={token} />}/>
+            }
+          />
+          <Route path="/recover-password/" element={ 
+              <RequireAuthSuper isLogged={isLogged} children= {<RecoveryPassword onLogout={handleLogout}  token={token} />}/>
             }
           />
         </Routes>
