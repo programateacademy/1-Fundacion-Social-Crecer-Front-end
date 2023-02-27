@@ -4,7 +4,6 @@ import BeneficiariesTable from './table/BeneficiariesTable'
 import AddBeneficiaries from './addBeneficiaries/AddBeneficiaries'
 import { BiSearch } from 'react-icons/bi';
 import { FiLogOut } from "react-icons/fi";
-import users from "../../apis";
 import Header from '../../components/header/Header'
 import Thead from './table/Thead';
 import { Filter } from './Filter';

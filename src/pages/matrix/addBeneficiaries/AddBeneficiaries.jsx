@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import './AddBeneficiaries.css'
-// API 'Sector Catastral. Bogotá D.C'
+// API 'Sector Catastral Bogotá D.C.'
 import neighborhoods from '../../../apis/SECTOR.json'
 
 function AddBeneficiaries() {
