@@ -2,12 +2,17 @@ import { useState } from 'react';
 import app from '../../../apis/index'
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Alert from 'react-bootstrap/Alert'
 import IconPadLock from "../../icons/IconPadLock";
 
 const AdminLockedModal = ( props ) => {
+  // State for get request message 
   const [codeSendMessage, setCodeSendMessage] = useState('')
+  // State for post request message
+  const [codeVerifyMessage, setCodeVerifyMessage] = useState('')
+  // State for userCode input 
   const [userCode, setUserCode] = useState('')
-
+  // Modal messages 
   const superAdminMessagge = codeSendMessage || "¿Quires que se te envie un correo con el codigo de recuperacion?";
   const adminMessagge = "Ponte en contacto con el encargado ";
 
@@ -30,9 +35,10 @@ const AdminLockedModal = ( props ) => {
         Code: import.meta.env.VITE_CODE_KEY 
       }
     });
-    console.log(response.status);
+    console.log(response.data.message);
     }catch (error){
-      console.error(error)
+      setCodeVerifyMessage(error.response.data.message)
+      setTimeout(() => setCodeVerifyMessage(''), 4000)
     }
   } 
   
@@ -65,9 +71,10 @@ const AdminLockedModal = ( props ) => {
                   <label htmlFor="">Tu codigo de recuperacion</label>
                   <input type='text' placeholder='codigo' value={userCode} name='userCode' onChange={(e) =>setUserCode(e.target.value)}></input>
                   <button type='submit' name='sendUserCode' >Continuar</button>
-                </form>  
+                </form>    
             }
           </div>
+          {codeVerifyMessage ? <Alert className='w-75' variant='danger'>{codeVerifyMessage}</Alert> : ''}
         </div>
       </Modal.Body>
     </Modal>
