@@ -401,8 +401,10 @@ function AddBeneficiaries() {
                             return <option key={neighborhood.properties.SCACODIGO} value={neighborhood.properties.SCANOMBRE}>{neighborhood.properties.SCANOMBRE}</option>
                         })}
                         </select>
-                        <input type='text' value={searchText} onChange={handleSearchInputChange} placeholder='Buscar barrio' />
-                        <button onClick={handleSearchClick}>Buscar</button>
+                        <div>
+                            <input type='text' value={searchText} onChange={handleSearchInputChange} placeholder='Buscar barrio' />
+                            <button onClick={handleSearchClick}>Buscar</button>
+                        </div>
                     </div>
                     <div>
                         <label>NOMBRE DE LA ZONA RESTO</label>

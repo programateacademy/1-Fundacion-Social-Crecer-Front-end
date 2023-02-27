@@ -50,7 +50,7 @@
     border: solid 2px #538dd5;
     border-radius: 3px;
     padding: 2px 8px;
-    cursor: context-menu;
+    cursor: help;
 }
 [tooltip] {
     position: relative; /* opinion 1 */
