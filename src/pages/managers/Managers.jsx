@@ -5,6 +5,7 @@ import SearchManagers from './SearchManagers.jsx';
 import ModalContainerAddUser from './ModalContainerAddUser.jsx';
 import UserList from "./UserList.jsx";
 import Header from '../../components/header/Header.jsx';
+import Users from '../../apis'
 function Managers() {
   const localStorageManagers=localStorage.getItem('MANAGERS_V1');
   let parsedManagers;
