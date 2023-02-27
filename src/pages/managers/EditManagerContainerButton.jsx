@@ -4,7 +4,7 @@ import EditManagersModal from "./EditManagersModal";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 
-function EditManager({ id,name,email, setManagers, editManagers,eliminateManager,onClose }) {
+function EditManager({ id,name,email, setManagers, editManagers,eliminateManager,onClose, setIsEditing }) {
     const values = [true];
     const [fullscreen, setFullscreen] = useState(true);
     const [show, setShow] = useState(true);
@@ -21,7 +21,17 @@ return(
         <Modal.Title>Editar Usuario</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <EditManagersModal id1={id} name1={name} email1={email} setShow={setShow} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager} onClose={onClose}/>
+        <EditManagersModal 
+          id1={id} 
+          name1={name} 
+          email1={email} 
+          setShow={setShow} 
+          setManagers={setManagers} 
+          editManagers={editManagers} 
+          eliminateManager={eliminateManager} 
+          onClose={onClose} 
+          setIsEditing={setIsEditing}
+        />
       </Modal.Body>
       <Modal.Footer>
       </Modal.Footer>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 
-const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManagers, eliminateManager,onClose }) => {
+const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManagers, eliminateManager,onClose,setIsEditing }) => {
 
   const [id, setId] = useState(id1);
   const [newName, setNewName] = useState(name1);
@@ -23,10 +23,18 @@ const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManag
     } else {
       setEmailError("");
       editManagers(id1, setManagers, newName, newEmail);
+      setIsEditing(false);
       setShow(false);
     }
+  };  
+  
+  const handleClose = () => {
+    if (!emailError) {
+      setShow(false);
+      onClose();
+    }
   };
-
+  
   return (
     <div id="Form">
       <Form>
@@ -56,7 +64,7 @@ const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManag
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={()=>{handleEditClick;onClose();}}
+          onClick={handleEditClick}
         >
           Editar
         </button>
@@ -64,14 +72,13 @@ const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManag
           className="btnEliminateUser"
           onClick={() => {
             eliminateManager(id1, setManagers);
-            setShow(false);onClose();
+            setShow(false);
+            onClose();
           }}
         >
           Eliminar
         </button>
       </div>
     </div>
-  );
-};
-
+  );}
 export default EditManagersModal;

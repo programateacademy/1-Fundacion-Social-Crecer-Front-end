@@ -77,7 +77,7 @@ function Managers() {
       <Header/>
       <div className='filaUno'>
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
-        <ModalContainerAddUser add={addManagers}/>
+        <ModalContainerAddUser add={addManagers} managers={managers}/>
       </div>
       <CardUser managers={searchedManagers} setManagers={setManagers} editManagers={editarUsuario} eliminateManager={eliminateManager}/>
     </>
