@@ -1,4 +1,6 @@
-const bene =[{
+const bene =[
+    {
+    uuid: "601c4357-de40-4ca9-9529-21bd9ab80540",
     numDoc: 1211111111, 
     curState: 'INACTIVO', 
     joinDate: '2000-02-29', 
@@ -109,6 +111,8 @@ const bene =[{
     ticketNumber: null
 },
 {
+    uuid: "601c4357-de40-4ca9-9529-21bd9ab80541",
+
     numDoc: 1222112121, 
     curState: 'INACTIVO', 
     joinDate: '2000-02-29', 
@@ -219,6 +223,8 @@ const bene =[{
     ticketNumber: null
 }, 
 {
+    uuid: "601c4357-de40-4ca9-9529-21bd9ab80542",
+
     numDoc: 1000555388, 
     curState: 'ACTIVO', 
     joinDate: '2000-02-29', 
@@ -329,6 +335,8 @@ const bene =[{
     ticketNumber: null
 },
 {
+    uuid: "601c4357-de40-4ca9-9529-21bd9ab80543",
+
     numDoc: 13333333338, 
     curState: 'ACTIVO', 
     joinDate: '2000-02-29', 
