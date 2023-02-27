@@ -5,6 +5,7 @@ import Matrix from "../pages/matrix/Matrix";
 import users from "../apis/index";
 import { RequireAuth } from "../components/login/RequireAuth";
 import { useState} from "react";
+import { RequireAuthSuper } from "../components/login/RequireAuthSuper";
 
 
 function App() {
@@ -22,10 +23,24 @@ function App() {
 
   const handleLogout = () => {
     setIsLogged(false);
-    localStorage.setItem("isLogged", false)
-    // BORRAR TOOODOOO EL LOCALSTORAGE
+    localStorage.setItem("isLogged", false);
   };
 
+  async function fetchData() {
+    if (!token) {
+        onLogout();
+    } else {
+        const { data } = await users.get("/api/admin", {
+            headers: {
+                Authorization: token,
+            },
+        });
+        console.log("Data" , data)
+        setUserInfo(data.data.user);
+        localStorage.setItem("userData", JSON.stringify(data.data.user));
+
+    }
+}
 
   const login = (item) => {
     console.log(userInfo)
@@ -36,10 +51,14 @@ function App() {
         localStorage.setItem("token", response.data.data);
         console.log(token);
         console.log(response.data);
+        const validLogin = response.status == 200 && !!response.data.data;
+        if (validLogin){
+          fetchData()
+        }
         
         //Check if the status is correct and the token seems valid
         // !! convert data.data into a boolean value 
-        return response.status == 200 && !!response.data.data;
+        return validLogin;
       })
       .catch((error) => {
         //Update the userInfo state if is locked
@@ -63,13 +82,13 @@ function App() {
           <Route
             path="/matrix"
             element={
-              <RequireAuth isLogged={isLogged}  children= {<Matrix  onLogout={handleLogout} token={token} />}/>
+              <RequireAuth isLogged={isLogged}  children= {<Matrix  onLogout={handleLogout}  token={token} />}/>
             }
           />
           <Route
             path="/managers"
             element={
-              <RequireAuth isLogged={isLogged} token={token} children= {<Managers onLogout={handleLogout} />}/>
+              <RequireAuthSuper isLogged={isLogged} children= {<Managers onLogout={handleLogout}  token={token} />}/>
             }
           />
         </Routes>
