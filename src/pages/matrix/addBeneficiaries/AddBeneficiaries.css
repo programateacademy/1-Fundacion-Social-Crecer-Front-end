@@ -1,0 +1,121 @@
+/* ----------------------- ADD MODAL ----------------------- */
+.modal-title h3{
+    margin: 0;
+}
+.flex-gap div{
+    display: inline-block;
+    margin-right: 5rem;
+    display: flex;
+    flex-direction: column;
+}
+.flex-gap div input, .flex-gap div select, .flex-gap div textarea{
+    display: inline-block;
+    width: 100%;
+    min-width: 208px;
+    height: 30px;
+    min-height: 30px;
+    background: #dde0ff;
+    border: 2px solid #538dd5;
+    border-radius: 4px;
+    margin-bottom: 25px;
+}
+.flex-gap div button{
+    width: 70px;
+    color: white;
+    background: #538dd5;
+    border: 2px solid #538dd5;
+    border-radius: 4px;
+}
+.flex-gap h4{
+    width: 100%;
+    margin: 4% 0;
+    border-radius: 1px;
+    border-bottom: solid 3px #538dd5;
+}
+.flex-gap label{
+    color: black;
+}
+/* ----------------------- Hover Select A, B, C, D... ----------------------- */
+.long-select{
+    width: 100%;
+}
+.long-select select{
+    width: 100px !important;
+    margin: auto;
+}
+.letter-select span{
+    font-size: 18px;
+    font-weight: bolder;
+    color: #538dd5;
+    border: solid 2px #538dd5;
+    border-radius: 3px;
+    padding: 2px 8px;
+    cursor: context-menu;
+}
+[tooltip] {
+    position: relative; /* opinion 1 */
+}
+/* Applies to all tooltips */
+[tooltip]::before, [tooltip]::after {
+    text-transform: none; /* opinion 2 */
+    font-size: 1em; /* opinion 3 */
+    font-weight: 400;
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+    position: absolute;
+    display: none;
+    color: black;
+    opacity: 0;
+}
+[tooltip]::before {
+    content: '';
+    border: 5px solid transparent; /* opinion 4 */
+    z-index: 1001; /* absurdity 1 */
+}
+[tooltip]::after {
+    content: attr(tooltip);
+    font-family: Helvetica, sans-serif;
+    text-align: center;
+    width: 15em;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 1ch 1.5ch;
+    border-radius: 4px;
+    box-shadow: 0 1em 2em -.5em rgba(0, 0, 0, 0.35);
+    background: #dde0ff;
+    border: solid 2px var(--color-blue-3);
+    z-index: 1000; /* absurdity 2 */
+}
+[tooltip]:hover::before, [tooltip]:hover::after {
+    display: block;
+}
+/* FLOW: DOWN */
+[tooltip][flow^="down"]::before {
+    top: 100%;
+    border-top-width: 0;
+    border-bottom-color: #538dd5;
+}
+[tooltip][flow^="down"]::after {
+    top: calc(100% + 5px);
+}
+[tooltip][flow^="down"]::before,
+[tooltip][flow^="down"]::after {
+    left: 50%;
+    transform: translate(-50%, .5em);
+}
+/* KEYFRAMES */
+@keyframes tooltips-vert {
+    to {
+        opacity: .94;
+        transform: translate(-50%, 0);
+    }
+}
+/* FX All The Things */ 
+[tooltip]:not([flow]):hover::before,
+[tooltip]:not([flow]):hover::after,
+[tooltip][flow^="down"]:hover::before,
+[tooltip][flow^="down"]:hover::after {
+animation: tooltips-vert .3s ease-out forwards;
+}
