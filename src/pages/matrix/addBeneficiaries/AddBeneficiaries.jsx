@@ -2,18 +2,38 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import './AddBeneficiaries.css'
+// API 'Sector Catastral. Bogotá D.C'
+import neighborhoods from '../../../apis/SECTOR.json'
 
 function AddBeneficiaries() {
     // Modal state
     const [show, setShow] = useState(false);
     // Apis state
     const [departments, setDepartments] = useState([])
-    const [municipalities, setMunicipalities] = useState([])
     const [localities, setLocalities] = useState([])
-    // Current State
-    const [curDepartment, setCurDepartment] = useState(11) //Bogotá D.C. by default '11'
 
-    //We request the APIs used for selects
+    /* Contains the modifing fetch API */
+    // Beneficiary
+    const [municipalities, setMunicipalities] = useState([])
+    // Attendant
+    const [municipalitiesAttendant, setMunicipalitiesAttendant] = useState([])
+    // Father
+    const [municipalitiesFather, setMunicipalitiesFather] = useState([])
+    // Mother
+    const [municipalitiesMother, setMunicipalitiesMother] = useState([])
+
+    // Current State - has to have a default value for the relation between the department
+    const [curDepartment, setCurDepartment] = useState(11) //Bogotá D.C. by default '11'
+    const [curDepartmentAttendant, setCurDepartmentAttendant] = useState(11)
+    const [curDepartmentFather, setCurDepartmentFather] = useState(11)
+    const [curDepartmentMother, setCurDepartmentMother] = useState(11)
+
+    // Neighborhood
+    const [searchText, setSearchText] = useState('');
+    const [selectedValue, setSelectedValue] = useState('');
+
+
+// ---------------------- We request the APIs used for selects
     const fetchApis = async _=>{
         try {
             /* Departments */
@@ -21,9 +41,22 @@ function AddBeneficiaries() {
             const resDepartmentsJSON = await resDepartments.json();
             setDepartments(resDepartmentsJSON)
             /* Municipalities - Depending on the department code, make the query to the municipality belonging to that department */
+            // Beneficiary
             const resMunicipalities = await fetch(`https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartment}`)
             const resMunicipalitiesJSON = await resMunicipalities.json();
             setMunicipalities(resMunicipalitiesJSON)
+            // Attendant
+            const resMunicipalitiesAttendant = await fetch(`https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentAttendant}`)
+            const resMunicipalitiesAttendantJSON = await resMunicipalitiesAttendant.json();
+            setMunicipalitiesAttendant(resMunicipalitiesAttendantJSON)
+            // Father
+            const resMunicipalitiesFather = await fetch(`https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentFather}`)
+            const resMunicipalitiesFatherJSON = await resMunicipalitiesFather.json();
+            setMunicipalitiesFather(resMunicipalitiesFatherJSON)
+            // Mother
+            const resMunicipalitiesMother = await fetch(`https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentMother}`)
+            const resMunicipalitiesMotherJSON = await resMunicipalitiesMother.json();
+            setMunicipalitiesMother(resMunicipalitiesMotherJSON)
             /* Localities */
             const resLocalities = await fetch('https://datosabiertos.bogota.gov.co/dataset/856cb657-8ca3-4ee8-857f-37211173b1f8/resource/497b8756-0927-4aee-8da9-ca4e32ca3a8a/download/loca.json')
             const resLocalitiesJSON = await resLocalities.json();
@@ -37,7 +70,28 @@ function AddBeneficiaries() {
     }, [])
     useEffect(()=>{ //Updates the info when the variables inside the array have been modified
         fetchApis()
-    }, [curDepartment])
+    }, [curDepartment, curDepartmentAttendant, curDepartmentFather, curDepartmentMother])
+
+// ------------------------- Neighborhood match filter
+    const handleSearchInputChange = (e) => {
+        setSearchText(e.target.value.toUpperCase());
+    };
+    const handleSearchClick = () => {
+        const selectElement = document.getElementById('mySelect');
+        let foundOption = null;
+        for (let i = 0; i < selectElement.options.length; i++) {
+            const optionText = selectElement.options[i].text.toUpperCase();
+            if (optionText === searchText) {
+                foundOption = selectElement.options[i];
+                break;
+            }
+        }
+        if (foundOption !== null) {
+            setSelectedValue(foundOption.value);
+        } else {
+            alert('No se encontró ninguna opción que coincida con la búsqueda.');
+        }
+    };
 
     return (
         <>
@@ -333,16 +387,22 @@ function AddBeneficiaries() {
                     {/* LOCATIONS BY CITY */}
                     <div>
                         <label>NOMBRE LOCALIDAD/COMUNAS/NOMBRE DE ZONA RESTO</label>
-                        <select name='select' onChange={(e)=>{setCurLocality(e.target.value)}}>
+                        <select name='select'>
                             {!localities.features ? 'Cargando' : localities.features.map(feature=>{
                                 return <option key={feature.attributes.LocNombre} value={feature.attributes.LocNombre}>{feature.attributes.LocNombre}</option>
                             })}
                         </select>
                     </div>
-                    {/* NEIGHBORHOODS BY LOCATION */}
-                    <div>
+                    {/* NEIGHBORHOODS SEARCH*/}
+                    <div className='long-select'>
                         <label>BARRIO*</label>
-                        <input type='text'></input>
+                        <select id='mySelect' value={selectedValue} onChange={(e) => setSelectedValue(e.target.value)}>
+                        {!neighborhoods.features ? 'Cargando' : neighborhoods.features.map(neighborhood=>{
+                            return <option key={neighborhood.properties.SCACODIGO} value={neighborhood.properties.SCANOMBRE}>{neighborhood.properties.SCANOMBRE}</option>
+                        })}
+                        </select>
+                        <input type='text' value={searchText} onChange={handleSearchInputChange} placeholder='Buscar barrio' />
+                        <button onClick={handleSearchClick}>Buscar</button>
                     </div>
                     <div>
                         <label>NOMBRE DE LA ZONA RESTO</label>
@@ -535,15 +595,19 @@ function AddBeneficiaries() {
                     {/* DEPARTMENTS */}
                     <div>
                         <label>DEPARTAMENTO DE NACIMIENTO ACUDIENTE</label>
-                        <select name='select'>
-                            <option value='1'>EJEMPLO</option>
+                        <select name='select' onChange={(e)=>{setCurDepartmentAttendant(e.target.value)}}>
+                            {!departments.resultado ? 'Cargando' : departments.resultado.map(department=>{
+                                return <option key={department.NOMBRE_DEPARTAMENTO} value={department.CODIGO_DEPARTAMENTO}>{department.NOMBRE_DEPARTAMENTO}</option>
+                            })}
                         </select>
                     </div>
                     {/* MUNICIPALITIES */}
                     <div>
                         <label>MUNICIPIO DE NACIMIENTO ACUDIENTE</label>
                         <select name='select'>
-                            <option value='1'>EJEMPLO</option>
+                            {!municipalitiesAttendant.resultado ? 'Cargando' : municipalitiesAttendant.resultado.map(municipality=>{
+                                return <option key={municipality.NOMBRE_MUNICIPIO} value={municipality.CODIGO_MUNICIPIO}>{municipality.NOMBRE_MUNICIPIO}</option>
+                            })}
                         </select>
                     </div>
                     {/* PADRE */}
@@ -597,15 +661,19 @@ function AddBeneficiaries() {
                     {/* DEPARTMENTS */}
                     <div>
                         <label>DEPARTAMENTO DE NACIMIENTO PADRE</label>
-                        <select name='select'>
-                            <option value='1'>EJEMPLO</option>
+                        <select name='select' onChange={(e)=>{setCurDepartmentFather(e.target.value)}}>
+                            {!departments.resultado ? 'Cargando' : departments.resultado.map(department=>{
+                                return <option key={department.NOMBRE_DEPARTAMENTO} value={department.CODIGO_DEPARTAMENTO}>{department.NOMBRE_DEPARTAMENTO}</option>
+                            })}
                         </select>
                     </div>
                     {/* MUNICIPALITIES */}
                     <div>
                         <label>MUNICIPIO DE NACIMIENTO PADRE</label>
                         <select name='select'>
-                            <option value='1'>EJEMPLO</option>
+                            {!municipalitiesFather.resultado ? 'Cargando' : municipalitiesFather.resultado.map(municipality=>{
+                                return <option key={municipality.NOMBRE_MUNICIPIO} value={municipality.CODIGO_MUNICIPIO}>{municipality.NOMBRE_MUNICIPIO}</option>
+                            })}
                         </select>
                     </div>
                     <h4>MADRE</h4>
@@ -658,15 +726,19 @@ function AddBeneficiaries() {
                     {/* DEPARTMENTS */}
                     <div>
                         <label>DEPARTAMENTO DE NACIMIENTO MADRE</label>
-                        <select name='select'>
-                            <option value='1'>EJEMPLO</option>
+                        <select name='select' onChange={(e)=>{setCurDepartmentMother(e.target.value)}}>
+                            {!departments.resultado ? 'Cargando' : departments.resultado.map(department=>{
+                                return <option key={department.NOMBRE_DEPARTAMENTO} value={department.CODIGO_DEPARTAMENTO}>{department.NOMBRE_DEPARTAMENTO}</option>
+                            })}
                         </select>
                     </div>
                     {/* MUNICIPALITIES */}
                     <div>
                         <label>MUNICIPIO DE NACIMIENTO MADRE</label>
                         <select name='select'>
-                            <option value='1'>EJEMPLO</option>
+                            {!municipalitiesMother.resultado ? 'Cargando' : municipalitiesMother.resultado.map(municipality=>{
+                                return <option key={municipality.NOMBRE_MUNICIPIO} value={municipality.CODIGO_MUNICIPIO}>{municipality.NOMBRE_MUNICIPIO}</option>
+                            })}
                         </select>
                     </div>
                     <h4>HISTORIAL MÉDICO</h4>

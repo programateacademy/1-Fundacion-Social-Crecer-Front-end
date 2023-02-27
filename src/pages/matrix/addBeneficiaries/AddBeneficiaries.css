@@ -1,5 +1,5 @@
-/* ADD MODAL */
-.modal-title{
+/* ----------------------- ADD MODAL ----------------------- */
+.modal-title h3{
     margin: 0;
 }
 .flex-gap div{
@@ -19,6 +19,13 @@
     border-radius: 4px;
     margin-bottom: 25px;
 }
+.flex-gap div button{
+    width: 70px;
+    color: white;
+    background: #538dd5;
+    border: 2px solid #538dd5;
+    border-radius: 4px;
+}
 .flex-gap h4{
     width: 100%;
     margin: 4% 0;
@@ -28,9 +35,7 @@
 .flex-gap label{
     color: black;
 }
-
-
-/* Hover Select A, B, C, D... */
+/* ----------------------- Hover Select A, B, C, D... ----------------------- */
 .long-select{
     width: 100%;
 }
@@ -45,13 +50,11 @@
     border: solid 2px #538dd5;
     border-radius: 3px;
     padding: 2px 8px;
-    cursor: help;
+    cursor: context-menu;
 }
-
 [tooltip] {
     position: relative; /* opinion 1 */
 }
-
 /* Applies to all tooltips */
 [tooltip]::before, [tooltip]::after {
     text-transform: none; /* opinion 2 */
@@ -85,11 +88,9 @@
     border: solid 2px var(--color-blue-3);
     z-index: 1000; /* absurdity 2 */
 }
-
 [tooltip]:hover::before, [tooltip]:hover::after {
     display: block;
 }
-
 /* FLOW: DOWN */
 [tooltip][flow^="down"]::before {
     top: 100%;
@@ -104,7 +105,6 @@
     left: 50%;
     transform: translate(-50%, .5em);
 }
-
 /* KEYFRAMES */
 @keyframes tooltips-vert {
     to {
@@ -112,7 +112,6 @@
         transform: translate(-50%, 0);
     }
 }
-
 /* FX All The Things */ 
 [tooltip]:not([flow]):hover::before,
 [tooltip]:not([flow]):hover::after,

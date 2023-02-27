@@ -11,25 +11,6 @@ import { Filter } from './Filter';
 
 
 function Matrix({onLogout, token}) {
-    const [user, setUser] = useState({})
-    useEffect(() =>   {
-        fetchData();
-    },[])
-    async function fetchData(){
-        if (!token){
-            onLogout()
-        } else {
-            console.log('holaaaaaaaaaaaaaa')
-/*             const {data} = await users.get("/api/admin",
-            {
-                headers: {
-                    'Authorization': token
-                }
-            })
-        setUser(data.data.user) */
-        }
-    }
-    
     return (
         <>
             <Header/>
