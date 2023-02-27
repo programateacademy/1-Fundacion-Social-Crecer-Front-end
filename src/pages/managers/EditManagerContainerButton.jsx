@@ -4,10 +4,10 @@ import EditManagersModal from "./EditManagersModal";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 
-function EditManager({ id,name,email, setManagers, editManagers}) {
+function EditManager({ id,name,email, setManagers, editManagers,eliminateManager,onClose, setIsEditing }) {
     const values = [true];
     const [fullscreen, setFullscreen] = useState(true);
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
   
     // Show modal function
     function handleShow(breakpoint) {
@@ -16,18 +16,22 @@ function EditManager({ id,name,email, setManagers, editManagers}) {
     }
 return(
     <div>
-    {values.map((v, idx) => (
-      <button key={idx} className="userButton" onClick={() => handleShow(v)}>
-        {typeof v === "string" && `below ${v.split("-")[0]}`}
-        <span className='createUserButton'>EDITAR PERFIL</span>
-        </button>
-    ))}
     <Modal show={show} onHide={() => setShow(false)}>
-      <Modal.Header closeButton>
+      <Modal.Header closeButton onClick={()=>{onClose()}}>
         <Modal.Title>Editar Usuario</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <EditManagersModal id1={id} name1={name} email1={email} setShow={setShow} setManagers={setManagers} editManagers={editManagers}/>
+        <EditManagersModal 
+          id1={id} 
+          name1={name} 
+          email1={email} 
+          setShow={setShow} 
+          setManagers={setManagers} 
+          editManagers={editManagers} 
+          eliminateManager={eliminateManager} 
+          onClose={onClose} 
+          setIsEditing={setIsEditing}
+        />
       </Modal.Body>
       <Modal.Footer>
       </Modal.Footer>
@@ -36,4 +40,4 @@ return(
 );
 }
 
-export default EditManager
+export default EditManager;

@@ -62,14 +62,24 @@ function Managers({onLogout, token}) {
     }
 
   };
+  const eliminateManager = (id, setUser) => {
+    const index = managers.findIndex((usuario) => usuario.id === id);
+  
+    if (index !== -1) {
+      const nuevosManagers = [...managers];
+      nuevosManagers.splice(index, 1);
+      setUser(nuevosManagers);
+    }
+  };
+  
   return (
     <>
       <Header onLogout={onLogout} token={token}/>
       <div className='filaUno'>
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
-        <ModalContainerAddUser add={addManagers}/>
+        <ModalContainerAddUser add={addManagers} managers={managers}/>
       </div>
-      <CardUser managers={searchedManagers} setManagers={setManagers} editManagers={editarUsuario}/>
+      <CardUser managers={searchedManagers} setManagers={setManagers} editManagers={editarUsuario} eliminateManager={eliminateManager}/>
     </>
   );
 }
