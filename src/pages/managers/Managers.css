@@ -15,7 +15,9 @@
     border: 3px solid #6A9A15;
     border-radius:1em;
     background-color: #F0FFD7;
-    padding: 27px;
+    padding-left: 27px;
+    padding-right: 27px;
+    padding-top: 17px;
     margin: 27px;
     box-shadow: 5px 5px 5px -6px black;
 }
@@ -31,7 +33,7 @@
     height: 116px;
 }
 .profileUserButtons{
-    margin-top: 10px;
+    margin-top: 7px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

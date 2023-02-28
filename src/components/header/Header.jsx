@@ -1,22 +1,48 @@
-import React from 'react'
-import logo  from '../../assets/img/logo.svg';
+import logo from '../../assets/img/logo.svg';
 import { FaUserAlt } from "react-icons/fa";
 import './Header.css';
+import { Link } from 'react-router-dom';
+import { FiLogOut } from "react-icons/fi";
+import users from "../../apis/index";
+import { useEffect, useState } from 'react';
 
-function Header() {
+
+function Header({ onLogout, token }) {
+    const [userInfo, setUserInfo] = useState({})
+    useEffect(() =>   {
+        fetchData();
+    },[])
+    async function fetchData(){
+        if (!token){
+            onLogout()
+        } else {
+            const {data} = await users.get("/api/admin",
+            {
+                headers: {
+                    'Authorization': token
+                }
+            })
+            setUserInfo(data.data.user)
+        }
+    }
     return (
         <div className='header'>
-            <img className='elLogo' src={logo} alt='fundacionCrecer'/>
+            <img className='elLogo' src={logo} alt='fundacionCrecer' />
             <div className='buttonsHeader'>
-                <button type="button" className="buttonHeader ">Inicio</button>
-                <button type="button" className="buttonHeader">Funcionarios</button>
+                <button type="button" className="buttonHeader"><Link to='/matrix'>Inicio</Link></button>
+                {userInfo && userInfo.role === 'superAdmin' && (
+                    <button type="button" className="buttonHeader"><Link to='/managers'>Funcionarios</Link></button>
+                )}
             </div>
             <div className='profile'>
-                <span className='iconUser' ><FaUserAlt /></span>
-                <div className='adminInfo'>
-                    <span className='adminName'>Laura Montana</span>
-                    <span className='adminProfile'>Administradora</span>
-                </div> 
+                <span className='iconuserInfo' ><FaUserAlt /></span>
+                {userInfo && (
+                    <div className='adminInfo'>
+                        <p>{userInfo.name}</p>
+                        <p>{userInfo.role}</p>
+                    </div>
+                )}
+                <button onClick={() => { onLogout() }}><FiLogOut /></button>
             </div>
         </div>
     )

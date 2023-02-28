@@ -5,8 +5,14 @@ import SearchManagers from './SearchManagers.jsx';
 import ModalContainerAddUser from './ModalContainerAddUser.jsx';
 import UserList from "./UserList.jsx";
 import Header from '../../components/header/Header.jsx';
+<<<<<<< HEAD
 import Users from '../../apis'
 function Managers() {
+=======
+import User from '../../apis'
+
+function Managers({onLogout, token}) {
+>>>>>>> danitest
   const localStorageManagers=localStorage.getItem('MANAGERS_V1');
   let parsedManagers;
   if (!localStorageManagers){
@@ -74,7 +80,7 @@ function Managers() {
   
   return (
     <>
-      <Header/>
+      <Header onLogout={onLogout} token={token}/>
       <div className='filaUno'>
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
         <ModalContainerAddUser add={addManagers} managers={managers}/>

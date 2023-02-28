@@ -1,61 +1,105 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import LogIn from "../components/login/LogIn";
 import Managers from "../pages/managers/Managers";
 import Matrix from "../pages/matrix/Matrix";
+import RecoveryPassword from "../pages/recoverypassword/RecoveryPassword";
 import users from "../apis/index";
 import { RequireAuth } from "../components/login/RequireAuth";
-import { useState, useEffect } from "react";
-
+import { useState} from "react";
+import { RequireAuthSuper } from "../components/login/RequireAuthSuper";
 
 function App() {
+  console.log(users);
   //Login status
-  const [isLogged, setIsLogged] = useState(localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false );
+  const [isLogged, setIsLogged] = useState(
+    localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false
+  );
   const [token, setToken] = useState(localStorage.getItem("token"));
+  //Object with the user info
+  const [userInfo, setUserInfo] = useState([]);
+
   const handleLogin = () => {
     setIsLogged(true);
     localStorage.setItem("isLogged", true);
   };
+
   const handleLogout = () => {
     setIsLogged(false);
-    localStorage.setItem("isLogged", false)
-    // BORRAR TOOODOOO EL LOCALSTORAGE
+    localStorage.setItem("isLogged", false);
   };
-  // Fetch data from backend
-  const login = async (item) => {
-    try {
-      const {data, status}  = await users.post("/api/login", item);
-      setToken(data.data)
-      localStorage.setItem("token", data.data)
-      console.log(token)
-      //Check if the status is correct and the token seems valid
-      return status ==200 && !!data.data
-    }catch(_){
-      return false
-    }   
+
+  async function fetchData() {
+    if (!token) {
+        onLogout();
+    } else {
+        const { data } = await users.get("/api/admin", {
+            headers: {
+                Authorization: token,
+            },
+        });
+        console.log("Data" , data)
+        setUserInfo(data.data.user);
+        localStorage.setItem("userData", JSON.stringify(data.data.user));
+
+    }
+}
+
+  const login = (item) => {
+    console.log(userInfo);
+
+    return users
+      .post("/api/login", item)
+      .then((response) => {
+        setToken(response.data.data);
+        localStorage.setItem("token", response.data.data);
+        console.log(token);
+        console.log(response.data);
+        const validLogin = response.status == 200 && !!response.data.data;
+        if (validLogin){
+          fetchData()
+        }
+        
+        //Check if the status is correct and the token seems valid
+        // !! convert data.data into a boolean value 
+        return validLogin;
+      })
+      .catch((error) => {
+        //Update the userInfo state if is locked
+        console.log(error.response.data);
+        if (error.response.data.userData?.at(0)) {
+          setUserInfo(error.response.data.userData);
+        }
+        return false;
+      });
   };
- 
+
+
   return (
     <>
-    <HashRouter>
+    <BrowserRouter>
         <Routes>
           <Route
             path="/"
-            element={<LogIn loginFunction={login} onLogin={handleLogin} onLogout={handleLogout} />}
+            element={<LogIn loginFunction={login} onLogin={handleLogin} userInfo={userInfo}/>}
           />
           <Route
-            path="matrix/"
+            path="/matrix"
             element={
-              <RequireAuth isLogged={isLogged}  children= {<Matrix  onLogout={handleLogout} token={token} />}/>
+              <RequireAuth isLogged={isLogged}  children= {<Matrix  onLogout={handleLogout}  token={token} />}/>
             }
           />
           <Route
-            path="managers/"
+            path="/managers"
             element={
-              <RequireAuth isLogged={isLogged} token={token} children= {<Managers onLogout={handleLogout} />}/>
+              <RequireAuthSuper isLogged={isLogged} children= {<Managers onLogout={handleLogout}  token={token} />}/>
+            }
+          />
+          <Route path="/recover-password/" element={ 
+              <RequireAuthSuper isLogged={isLogged} children= {<RecoveryPassword onLogout={handleLogout}  token={token} />}/>
             }
           />
         </Routes>
-      </HashRouter>  
+      </BrowserRouter>  
 
     </>
   );
