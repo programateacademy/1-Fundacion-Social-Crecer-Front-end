@@ -5,14 +5,9 @@ import SearchManagers from './SearchManagers.jsx';
 import ModalContainerAddUser from './ModalContainerAddUser.jsx';
 import UserList from "./UserList.jsx";
 import Header from '../../components/header/Header.jsx';
-<<<<<<< HEAD
-import Users from '../../apis'
-function Managers() {
-=======
 import User from '../../apis'
 
 function Managers({onLogout, token}) {
->>>>>>> danitest
   const localStorageManagers=localStorage.getItem('MANAGERS_V1');
   let parsedManagers;
   if (!localStorageManagers){
