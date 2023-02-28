@@ -23,7 +23,7 @@ const AddManagersModal = ({ add, setShow, managers}) => {
   const handleCreate = async (e) => {
     e.preventDefault();
     const form = formRef.current;
-    alert(usuarioIndex);
+    //alert(usuarioIndex);
     if (form.checkValidity() === false) {
       e.stopPropagation();
     } else if(usuarioIndex!==-1){
@@ -51,6 +51,7 @@ const AddManagersModal = ({ add, setShow, managers}) => {
         body: JSON.stringify(addItem),
       }) .then(res=>res.json())
       console.log(json)
+      alert(json.error)
       setShow(false);
     }
     setValidated(true);

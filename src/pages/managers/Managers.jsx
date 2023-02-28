@@ -64,7 +64,7 @@ function Managers({onLogout, token}) {
 
   };
   const eliminateManager = (id, setUser) => {
-    const index = managers.findIndex((usuario) => usuario.id === id);
+    const index = managers.findIndex((usuario) => usuario.docnum === id);
   
     if (index !== -1) {
       const nuevosManagers = [...managers];
