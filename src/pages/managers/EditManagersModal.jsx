@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 
-const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManagers, eliminateManager,onClose,setIsEditing }) => {
+const EditManagersModal = ({ docnum1, name1, email1, setShow, editManagers, setManagers, eliminateManager,onClose,setIsEditing }) => {
 
-  const [id, setId] = useState(id1);
+  const [docnum, setId] = useState(docnum1);
   const [newName, setNewName] = useState(name1);
   const [newEmail, setNewEmail] = useState(email1);
   const [emailError, setEmailError] = useState("");
@@ -22,7 +22,7 @@ const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManag
       setEmailError("Por favor, ingrese un correo electrónico válido");
     } else {
       setEmailError("");
-      editManagers(id1, setManagers, newName, newEmail);
+      editManagers(docnum1, setManagers, newName, newEmail);
       setIsEditing(false);
       setShow(false);
     }
@@ -41,7 +41,7 @@ const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManag
         <Form.Group className="inputNewUser">
           <Form.Control
             type="text"
-            placeholder={id1}
+            placeholder={docnum1}
             onChange={(e) => { setId(e.target.value) }}
           />
         </Form.Group>
@@ -71,7 +71,7 @@ const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManag
         <button
           className="btnEliminateUser"
           onClick={() => {
-            eliminateManager(id1, setManagers);
+            eliminateManager(docnum1, setManagers);
             setShow(false);
             onClose();
           }}
