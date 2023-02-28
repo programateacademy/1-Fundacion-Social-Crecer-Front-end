@@ -726,8 +726,7 @@ function AddBeneficiaries() {
                                         <option value="2">SI</option>
                                     </select>
                                 </div>
-
-                                <button onClick={() => handleButtonClick(1)}>Siguiente</button>
+                                <button className="addUser" onClick={() => handleButtonClick(1)}>Siguiente</button>{' '}
                             </TabPanel>
 
                             {/* Beneficiarie Acudiente */}
@@ -836,8 +835,8 @@ function AddBeneficiaries() {
                                             )}
                                     </select>
                                 </div>
-                                <button onClick={() => handleButtonClick(0)}>Anterior</button>
-                                <button onClick={() => handleButtonClick(2)}>Siguiente</button>
+                                <button className="addUser" onClick={() => handleButtonClick(0)}>Anterior</button>{' '}
+                                <button className="addUser" onClick={() => handleButtonClick(2)}>Siguiente</button>{' '}
                             </TabPanel>
 
                             {/* Father Info*/}
@@ -929,8 +928,8 @@ function AddBeneficiaries() {
                                             })}
                                     </select>
                                 </div>
-                                <button onClick={() => handleButtonClick(1)}>Anterior</button>
-                                <button onClick={() => handleButtonClick(3)}>Siguiente</button>
+                                <button className="addUser" onClick={() => handleButtonClick(1)}>Anterior</button>{' '}
+                                <button className="addUser" onClick={() => handleButtonClick(3)}>Siguiente</button>{' '}
                             </TabPanel>
 
                             {/* Mother Info*/}
@@ -1022,8 +1021,8 @@ function AddBeneficiaries() {
                                             })}
                                     </select>
                                 </div>
-                                <button onClick={() => handleButtonClick(2)}>Anterior</button>
-                                <button onClick={() => handleButtonClick(5)}>Siguiente</button>
+                                <button className="addUser" onClick={() => handleButtonClick(2)}>Anterior</button>{' '}
+                                <button className="addUser" onClick={() => handleButtonClick(5)}>Siguiente</button>{' '}
                             </TabPanel>
 
                             {/* Medical Info*/}
@@ -1175,7 +1174,7 @@ function AddBeneficiaries() {
                                     <label>SEMANAS DE GESTACIÓN</label>
                                     <input type="number" />
                                 </div>
-                                <button onClick={() => handleButtonClick(4)}>Anterior</button>
+                                <button className="addUser" onClick={() => handleButtonClick(3)}>Anterior</button>{' '}
                             </TabPanel>
                         </form>
                     </Tabs>
