@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import app from '../../../apis/index'
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -6,6 +7,7 @@ import Alert from 'react-bootstrap/Alert'
 import IconPadLock from "../../icons/IconPadLock";
 
 const AdminLockedModal = ( props ) => {
+  const navigate = useNavigate()
   // State for get request message 
   const [codeSendMessage, setCodeSendMessage] = useState('')
   // State for post request message
@@ -35,8 +37,14 @@ const AdminLockedModal = ( props ) => {
         Code: import.meta.env.VITE_CODE_KEY 
       }
     });
-    console.log(response.data.message);
+    localStorage.setItem("recovery-token", response.data.data);
+    // Allow user to login 
+    props.onLogin();
+    // Move user to /recover-password/ route
+    navigate("/recover-password/");
+    console.log(response.data.data);
     }catch (error){
+      console.log(error.response)
       setCodeVerifyMessage(error.response.data.message)
       setTimeout(() => setCodeVerifyMessage(''), 4000)
     }
