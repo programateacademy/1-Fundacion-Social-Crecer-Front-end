@@ -2,16 +2,25 @@
 .modal-title h3{
     margin: 0;
 }
+.react-tabs {
+    width: 100%;
+    margin: 0px !important; 
+}
 .flex-gap div{
     display: inline-block;
     margin-right: 5rem;
     display: flex;
     flex-direction: column;
 }
+.flex-gap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .flex-gap div input, .flex-gap div select, .flex-gap div textarea{
     display: inline-block;
     width: 100%;
-    min-width: 208px;
+    min-width: 208px !important;
     height: 30px;
     min-height: 30px;
     background: #dde0ff;
@@ -52,6 +61,7 @@
     padding: 2px 8px;
     cursor: context-menu;
 }
+
 [tooltip] {
     position: relative; /* opinion 1 */
 }
