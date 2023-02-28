@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 
-const EditManagersModal = ({ docnum1, name1, email1, setShow, editManagers, setManagers, eliminateManager,onClose,setIsEditing }) => {
+const EditManagersModal = ({ docnum1, name1, email1,unity1, setShow, editManagers, setManagers, eliminateManager,onClose,setIsEditing }) => {
 
   const [docnum, setId] = useState(docnum1);
   const [newName, setNewName] = useState(name1);
   const [newEmail, setNewEmail] = useState(email1);
   const [emailError, setEmailError] = useState("");
+  const [unity,setUnity]=useState(unity1);
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -22,7 +23,7 @@ const EditManagersModal = ({ docnum1, name1, email1, setShow, editManagers, setM
       setEmailError("Por favor, ingrese un correo electrónico válido");
     } else {
       setEmailError("");
-      editManagers(docnum1, setManagers, newName, newEmail);
+      editManagers(docnum1, setManagers, newName, newEmail,unity);
       setIsEditing(false);
       setShow(false);
     }
@@ -59,6 +60,13 @@ const EditManagersModal = ({ docnum1, name1, email1, setShow, editManagers, setM
             onChange={handleEmailChange}
           />
           {emailError && <p style={{ color: "red" }}>{emailError}</p>}
+        </Form.Group>
+        <Form.Group className="inputNewUser">
+          <Form.Control
+            type="text"
+            placeholder={unity1}
+            onChange={(e) => { setUnity(e.target.value) }}
+          />
         </Form.Group>
       </Form>
       <div className="btnsUser">

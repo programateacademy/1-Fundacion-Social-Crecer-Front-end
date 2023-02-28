@@ -4,7 +4,7 @@ import EditManagersModal from "./EditManagersModal";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 
-function EditManager({ docnum,name,email,unity,setManagers, editManagers,eliminateManager,onClose, setIsEditing }) {
+function YouShure({ docnum1, setManagers, eliminateManager,onClose }) {
     const values = [true];
     const [fullscreen, setFullscreen] = useState(true);
     const [show, setShow] = useState(true);
@@ -18,27 +18,28 @@ return(
     <div>
     <Modal show={show} onHide={() => setShow(false)}>
       <Modal.Header closeButton onClick={()=>{onClose()}}>
-        <Modal.Title>Editar Usuario</Modal.Title>
+        <Modal.Title>¿Seguro que deseas eliminar este usuario?</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <EditManagersModal 
-          docnum1={docnum} 
-          name1={name} 
-          email1={email} 
-          unity1={unity}
-          setShow={setShow} 
-          setManagers={setManagers} 
-          editManagers={editManagers} 
-          eliminateManager={eliminateManager} 
-          onClose={onClose} 
-          setIsEditing={setIsEditing}
-        />
+        Si elimina el usuario no podrá volver a recuperarlo. 
+        Tendría que crear uno nuevamente.  
       </Modal.Body>
       <Modal.Footer>
+      <div className="btnsUser">
+        <button className="btnCreateUser" onClick={() => setShow(false)}>
+          NO
+        </button>
+        <button className="btnEliminateUser" onClick={()=>{
+                        eliminateManager(docnum1, setManagers);
+                        setShow(false);}
+        }>
+          SÍ
+        </button>
+      </div>
       </Modal.Footer>
     </Modal>
   </div>
 );
 }
 
-export default EditManager;
+export default YouShure;

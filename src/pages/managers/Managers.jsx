@@ -52,13 +52,14 @@ function Managers({onLogout, token}) {
     UserList.push(item);
   };
 
-  const editarUsuario=(id,setUser,nuevoNombre,nuevoEmail)  => {
-    const  usuarioIndex=managers.findIndex((usuario)=>usuario.id===id);
+  const editarUsuario=(id,setUser,nuevoNombre,nuevoEmail,nuevaUnidad)  => {
+    const  usuarioIndex=managers.findIndex((usuario)=>usuario.docnum===id);
 
     if (usuarioIndex!==-1){
       const usuariosActualizados=[...managers];
       usuariosActualizados[usuarioIndex].name=nuevoNombre;
       usuariosActualizados[usuarioIndex].email=nuevoEmail;
+      usuariosActualizados[usuarioIndex].unity=nuevaUnidad;
       setUser(usuariosActualizados);
     }
 
