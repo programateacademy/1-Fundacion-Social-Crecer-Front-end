@@ -9,7 +9,6 @@ import { useState} from "react";
 import { RequireAuthSuper } from "../components/login/RequireAuthSuper";
 
 function App() {
-  console.log(users);
   //Login status
   const [isLogged, setIsLogged] = useState(
     localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false

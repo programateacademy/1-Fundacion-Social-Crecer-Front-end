@@ -1,15 +1,10 @@
 import { useState, useRef } from "react";
+import users from '../../apis/index'
 import Form from "react-bootstrap/Form";
+import Alert from 'react-bootstrap/Alert'
 
 const AddManagersModal = ({ add, setShow, managers}) => {
   const [validated, setValidated] = useState(false);
-  const [docnum, setDocnum] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [unity,setUnity]=useState('');
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
-
   const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
   const [errorDocnumMessage, setErrorDocnumMessage] = useState("");
   const [errorEmailMessage, setErrorEmailMessage] = useState("");
@@ -19,8 +14,18 @@ const AddManagersModal = ({ add, setShow, managers}) => {
   const repeatedEmail=(email)=>{return (managers.findIndex((usuario) => usuario.email === email))};
   const formRef = useRef(null);
   const role="admin";
-
-  const handleCreate = async (e) => {
+  // State to send form data
+  const [form, setForm] = useState(formModel);
+  
+  const formModel = {
+    name: "",
+    email: "",
+    unity: "",
+    newPassword: "",
+    confirmNewPassword: "",
+    docnum: ""
+  }
+  /*   const handleCreate = async (e) => {
     e.preventDefault();
     const form = formRef.current;
     //alert(usuarioIndex);
@@ -46,18 +51,53 @@ const AddManagersModal = ({ add, setShow, managers}) => {
       setShow(false);
     }
     setValidated(true);
-  };
+  }; */
 
+   // Función para manejar los cambios en los campos del formulario
+/*    const handleChange = (e) => {
+    // Actualizar el estado del formulario
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    }); */
+
+    const handleInputText = e=>{
+      let {name, value} = e.target;
+      let newForm = {...form, [name]: value};
+      setForm(newForm);
+    };
+
+    const handleInputNumber = e=>{
+      let {name, value} = e.target;
+      let newForm = {...form, [name]: parseInt(value)};
+      setForm(newForm);
+    };
+
+
+  const addManagers = async () => {
+    try {
+      const response = await users.post('/api/superadmin/admin', form, {
+        headers: {
+          Authorization: localStorage.getItem( 'token' || 'recovery-token')
+        }
+      })
+      console.log(response)
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  }
   return (
     <div id="Form">
+      <button onClick={() => addManagers()}>ENVIAR</button>
       <Form noValidate validated={validated} ref={formRef}>
         <Form.Group className="inputNewUser">
           <Form.Control
             type="text"
             placeholder="Numero de identificación"
             required
-            value={docnum}
-            onChange={(e) => { setDocnum(e.target.value), setUsuarioIndex(repeatedId(e.target.value)),setErrorDocnumMessage('')}}
+            name="docnum"
+            value={formModel.docnum}
+            onChange={handleInputNumber}
             isInvalid={errorDocnumMessage !== ""}
           />
           <Form.Control.Feedback type="invalid">
@@ -69,8 +109,9 @@ const AddManagersModal = ({ add, setShow, managers}) => {
             type="text"
             placeholder="Nombre"
             required
-            value={name}
-            onChange={(e) => { setName(e.target.value) }}
+            name="name"
+            value={formModel.name}
+            onChange={handleChange}
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
@@ -78,8 +119,9 @@ const AddManagersModal = ({ add, setShow, managers}) => {
             type="email"
             placeholder="Correo electrónico"
             required
-            value={email}
-            onChange={(e) => { setEmail(e.target.value),setRepeatedE(repeatedEmail(e.target.value)),setErrorEmailMessage('') }}
+            name="email"
+            value={formModel.email}
+            onChange={handleInputText}/* ,setRepeatedE(repeatedEmail(e.target.value)),setErrorEmailMessage('')  */
             isInvalid={errorEmailMessage !== ""}
           />
           <Form.Control.Feedback type="invalid">
@@ -91,8 +133,9 @@ const AddManagersModal = ({ add, setShow, managers}) => {
             type="text"
             placeholder="Unidad"
             required
-            value={unity}
-            onChange={(e) => { setUnity(e.target.value)}}
+            name="unity"
+            value={formModel.unity}
+            onChange={handleInputText}
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
@@ -100,16 +143,18 @@ const AddManagersModal = ({ add, setShow, managers}) => {
             type="password"
             placeholder="Contraseña"
             required
-            value={password}
-            onChange={(e) => { setPassword(e.target.value) }}
+            name="newPassword"
+            value={formModel.newPassword}
+            onChange={handleInputText}
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
             type="password"
             placeholder="Repetir contraseña"
-            value={password2}
-            onChange={(e) => { setPassword2(e.target.value), setErrorPasswordMessage('')}}
+            name="confirmNewPassword"
+            value={formModel.confirmNewPassword}
+            onChange={handleInputText}
             required
             isInvalid={errorPasswordMessage !== ""}
           />
@@ -121,7 +166,7 @@ const AddManagersModal = ({ add, setShow, managers}) => {
       </Form>
       {/* Button functionality assignment */}
       <div className="btnsUser">
-          <button className="btnCreateUser" onClick={handleCreate} >Crear</button>
+          <button type="submit" className="btnCreateUser">Crear</button>
           <button className="btnCancelUser" onClick={() => setShow(false)}>Cancelar</button>
         </div>
     </div>
