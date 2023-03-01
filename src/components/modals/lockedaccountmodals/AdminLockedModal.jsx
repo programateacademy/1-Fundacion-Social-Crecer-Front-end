@@ -22,7 +22,7 @@ const AdminLockedModal = ( props ) => {
 
   const handleSendCode = async () => {
     try {
-      const response = await app.get('/api/code', { headers: { Code: import.meta.env.VITE_CODE_KEY }});
+      const response = await app.get('/api/code/superadmin@locked.com', { headers: { Code: import.meta.env.VITE_CODE_KEY }});
       setCodeSendMessage(response.data.message)
     } catch (error) {
       console.error(error);
@@ -32,17 +32,16 @@ const AdminLockedModal = ( props ) => {
   const handleCodeVerify = async (e) => {
     e.preventDefault();
     try {
-    const response = await app.post('/api/code/verify-code', { code: userCode }, {
+    const response = await app.post('/api/code/', {email: 'superadmin@locked.com', code: userCode }, {
       headers: {
         Code: import.meta.env.VITE_CODE_KEY 
       }
     });
-    localStorage.setItem("recovery-token", response.data.data);
+    localStorage.setItem("recovery-token", response.data.token);
     // Allow user to login 
     props.onLogin();
     // Move user to /recover-password/ route
     navigate("/recover-password/");
-    console.log(response.data.data);
     }catch (error){
       console.log(error.response)
       setCodeVerifyMessage(error.response.data.message)
