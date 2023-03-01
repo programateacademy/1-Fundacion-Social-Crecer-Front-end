@@ -4,26 +4,14 @@ import modelUser from '../../assets/img/userImage.png';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-export default function CardUser({managers, setManagers, editManagers, eliminateManager}) {
-    const [dataBase, setDataBase] = useState(null);
-    const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-      async function fetchData() {
-        const json = await fetch('http://localhost:3001/api/manager')
-          .then(res => res.json());
-        setDataBase(json);
-        setLoading(false);
-      }
-      fetchData();
-    }, []);
-  
+export default function CardUser({managers, setManagers, editManagers, eliminateManager,loading}) {
+
     return (
       <div className="userCards">
         {loading ? (
           "Cargando ..."
         ) : (
-          dataBase.map(values => {
+          managers.map(values => {
             const { docnum, name, email, unity } = values;
             return (
               <div className="cardUser" key={docnum}>

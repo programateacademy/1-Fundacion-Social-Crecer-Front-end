@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CardUser from './CardUser.jsx';
 import './Managers.css';
 import SearchManagers from './SearchManagers.jsx';
 import ModalContainerAddUser from './ModalContainerAddUser.jsx';
-import UserList from "./UserList.jsx";
 import Header from '../../components/header/Header.jsx';
 import User from '../../apis'
 
 function Managers({onLogout, token}) {
   //initial configuration for get, add, and show the managers 
+  const [managers,setManagers ] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
+  const getManagers = async () => {
+    const json = await fetch('http://localhost:3001/api/manager')
+      .then(res => res.json());
+    setManagers(json);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getManagers();
+  }, []);
 
   const localStorageManagers=localStorage.getItem('MANAGERS_V1');
   let parsedManagers;
@@ -19,7 +31,6 @@ function Managers({onLogout, token}) {
     parsedManagers=JSON.parse(localStorageManagers);
   }
 
-  const [managers,setManagers ]=React.useState(UserList);
   const [searchValue, setSearchValue]=React.useState('');
 
   const saveManagers=(newManagers)=>{
@@ -49,16 +60,22 @@ function Managers({onLogout, token}) {
       
     });
   }
-  const addManagers = async(item) => {
+ const addManagers = async(item) => {
     const json = await fetch ('http://localhost:3001/api/register', {
-        method:'POST',
-        headers: {
-          'Content-Type':'application/json'
-        },
-        body: JSON.stringify(item),
-      }) .then(res=>res.json())
-      console.log(json)
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(item),
+    }).then(res => res.json())
+
+    if (json.error) {
       alert(json.error)
+    } else {
+      const updatedManagers = [...managers, json];
+      setManagers(updatedManagers);
+      getManagers();
+    }
   };
 
   const editarUsuario=(id,setUser,nuevoNombre,nuevoEmail,nuevaUnidad)  => {
@@ -90,7 +107,7 @@ function Managers({onLogout, token}) {
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
         <ModalContainerAddUser add={addManagers} managers={managers}/>
       </div>
-      <CardUser managers={searchedManagers} setManagers={setManagers} editManagers={editarUsuario} eliminateManager={eliminateManager}/>
+      <CardUser managers={managers} setManagers={setManagers} editManagers={editarUsuario} eliminateManager={eliminateManager} loading={loading}/>
     </>
   );
 }
