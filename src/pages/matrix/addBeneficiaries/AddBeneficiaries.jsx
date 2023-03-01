@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import './AddBeneficiaries.css';
 import Modal from 'react-bootstrap/Modal';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import './AddBeneficiaries.css';
 // API 'Sector Catastral Bogotá D.C.'
 import neighborhoods from '../../../apis/SECTOR.json';
 
@@ -36,7 +36,7 @@ function AddBeneficiaries() {
 
     // Form tabs
     const [tabIndex, setTabIndex] = useState(0);
-    const tabListRef = useRef(null);
+    const tabListRef = useRef(0);
 
     // ---------------------- We request the APIs used for selects
     const fetchApis = async (_) => {
@@ -128,7 +128,7 @@ function AddBeneficiaries() {
         otherExitReason: null,
         unityName: null,
         duoName: null,
-        teachers: Array, 
+        teachers: null, 
         documentType: 'RC',  
         firstName: null,
         secondName: null,
@@ -164,12 +164,12 @@ function AddBeneficiaries() {
         householdStratum: 0,
         groupEthnicity: 'NO SE AUTORECONOCE EN NINGUNO DE LOS ANTERIORES',
         beneficiarySisbenized: 'NO',
-        sisbenScore: 'A1',
+        sisbenScore: null,
         belongsToFamiliesInAction: 'NO',
         directlyAffectedByArmedConflict: 'NO',
-        focusingCriteria: 'A',
+        focusingCriteria: null,
         justificationDocumentExists: 'NO', 
-        guardianPersonType: 'PADRE',
+        guardianPersonType: 'MADRE',
         guardianDocumentType: 'CC',
         guardianDocumentNumber: null,
         guardianFirstName: null,
@@ -202,7 +202,7 @@ function AddBeneficiaries() {
         motherBirthCity: null,
         regime: 'SUBSIDIADO',
         eps: null,
-        hasVaccinationCard: 'NO',
+        hasVaccinationCard: 'SI',
         vaccinationVerificationDate: null,
         vaccinationCardUpToDate: null,
         hasGrowthAndDevelopmentCard: null, 
@@ -221,32 +221,40 @@ function AddBeneficiaries() {
     }
     const [form, setForm] = useState(addBeneficiaries);
     
-    const resetForm = _ => {
+    const resetForm = _=>{
         setForm(addBeneficiaries);
     }
     
-    const handleInput = (e)=>{
+    const handleInput = e=>{
         let {name, value} = e.target;
         let newForm = {...form, [name]: value};
         setForm(newForm);
     };
-    const handleInputNum = (e)=>{
+    const handleInputNum = e=>{
         let {name, value} = e.target;
         let newForm = {...form, [name]: parseInt(value)};
         setForm(newForm);
     };
-    const handleInputDate = (e)=>{
+    const handleInputDate = e=>{
         let {name, value} = e.target;
         let newForm = {...form, [name]: new Date(value)};
         setForm(newForm);
     };
-
 
     // ------------------------- Form tabs button
     const handleButtonClick = (index) => {
         setTabIndex(index);
         tabListRef.current.focus();
     };
+
+    const handleSubmit = e=>{
+        e.preventDefault();
+        console.log(form)
+        if (!handleInput || !handleInputNum || !handleInputDate) {
+            alert("Por favor, completa todos los campos.");
+            return;};
+        
+        }
 
     return (
         <>
@@ -286,12 +294,12 @@ function AddBeneficiaries() {
                             <Tab>Historia Medica</Tab>
                         </TabList>
 
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             {/* Beneficirie Info*/}
                             <TabPanel className='d-flex flex-wrap flex-gap'>
                                 <div>
                                     <label>NUMERO DE DOCUMENTO*</label>
-                                    <input onChange={handleInputNum} name='numDoc' type='text' />
+                                    <input onChange={handleInputNum} name='numDoc' type='text' required/>
                                 </div>
                                 <div>
                                     <label>¿ACTIVO O INACTIVO?*</label>
@@ -302,14 +310,14 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>FECHA DE INGRESO*</label>
-                                    <input onChange={handleInputDate} name='joinDate' type='date' />
+                                    <input onChange={handleInputDate} name='joinDate' type='date' required/>
                                 </div>
                                 <div>
                                     <label>FECHA DE EGRESO</label>
-                                    <input onChange={handleInput} name='exitDate' type='text' />
+                                    <input onChange={handleInput} name='exitDate' type='date' />
                                 </div>
                                 <div>
-                                    <label>INGRESA POR*</label>
+                                    <label>INGRESA POR</label>
                                     <textarea onChange={handleInput} name='enterBy' id='' cols='30' rows='10'></textarea>
                                 </div>
                                 <div>
@@ -317,15 +325,16 @@ function AddBeneficiaries() {
                                     <textarea onChange={handleInput} name='reasonForExit' id='' cols='30' rows='10'></textarea>
                                 </div>
                                 <div>
-                                    <label>
-                                        SI EL MOTIVO DE EGRESO ES 'OTRO', INDIQUE EL PORQUÉ
-                                    </label>
-                                    <textarea  name='otherExitReason' id='' cols='30' rows='10'></textarea>
+                                    <label>SI EL MOTIVO DE EGRESO ES 'OTRO', INDIQUE EL PORQUÉ</label>
+                                    <select onChange={handleInput} name='otherExitReason'>
+                                        <option value='MOTIVO 1'>MOTIVO 1</option>
+                                        <option value='MOTIVO 2'>MOTIVO 2</option>
+                                    </select>
                                 </div>
                                 <div>
                                     <label>UNIDAD*</label>
-                                    <select name='unityName' onChange={handleInput}>
-                                        <option value='DEFAULT'></option>
+                                    <select onChange={handleInput} name='unityName'>
+                                        <option value=''></option>
                                         <option value='EDUCANDO ANDO'>EDUCANDO ANDO</option>
                                         <option value='SEMBRANDO ESPERANZA'>SEMBRANDO ESPERANZA</option>
                                         <option value='ESPACIOS CREATIVOS'>ESPACIOS CREATIVOS</option>
@@ -367,16 +376,24 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>DUPLA*</label>
-                                    <input type='text' name='duoName' onChange={handleInput}/>
-                                </div>
-                                <div>
-                                    <label>DOCENTE*</label>
-                                    <select name='select'>
-                                        <option disabled hidden></option>
+                                    <select name='duoName' onChange={handleInput}>
+                                        <option value=''></option>
+                                        <option value='HILANDO CAMINOS'>HILANDO CAMINOS</option>
+                                        <option value='TIHUAQUE'>TIHUAQUE</option>
+                                        <option value='U1-VINCULOS DE AMOR'>U1-VINCULOS DE AMOR</option>
+                                        <option value='U1-VINCULOS DE AMOR VEREDAS'>U1-VINCULOS DE AMOR VEREDAS</option>
+                                        <option value='U2-MIS ANGELITOS'>U2-MIS ANGELITOS</option>
+                                        <option value='U3-SEMILLAS DE PAZ'>U3-SEMILLAS DE PAZ</option>
+                                        <option value='U4-TEJIENDO SABERES'>U4-TEJIENDO SABERES</option>
+                                        <option value='U5-GRANDES TALENTOS'>U5-GRANDES TALENTOS</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label>TIPO DE DOCUMENTO *</label>
+                                    <label>DOCENTE*</label>
+                                    <input type='text' name='teachers' onChange={handleInput}/>
+                                </div>
+                                <div>
+                                    <label>TIPO DE DOCUMENTO*</label>
                                     <select name='documentType' onChange={handleInput}>
                                         <option value='RC'>RC</option>
                                         <option value='CC'>CC</option>
@@ -390,7 +407,7 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>PRIMER NOMBRE*</label>
-                                    <input type='text' name='firstName' onChange={handleInput}/>
+                                    <input type='text' name='firstName' onChange={handleInput} required/>
                                 </div>
                                 <div>
                                     <label>SEGUNDO NOMBRE</label>
@@ -398,15 +415,15 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>PRIMER APELLIDO*</label>
-                                    <input type='text' name='firstLastName' onChange={handleInput}/>
+                                    <input type='text' name='firstLastName' onChange={handleInput} required/>
                                 </div>
                                 <div>
-                                    <label>SEGUNDO APELLIDO*</label>
+                                    <label>SEGUNDO APELLIDO</label>
                                     <input type='text' name='secondLastName' onChange={handleInput}/>
                                 </div>
                                 <div>
                                     <label>FECHA DE NACIMIENTO*</label>
-                                    <input type='date' name='birthDate' onChange={handleInputDate}/>
+                                    <input type='date' name='birthDate' onChange={handleInputDate} required/>
                                 </div>
                                 <div>
                                     <label>GÉNERO*</label>
@@ -508,25 +525,22 @@ function AddBeneficiaries() {
                                     <input type='text' name='specifiedDisability' onChange={handleInput}/>
                                 </div>
                                 <div>
-                                    <label>
-                                        ¿ESTÁ INSCRITO EN EL REGISTRO PARA LA LOCALIZACIÓN Y
-                                        CARACTERIZACIÓN DE PERSONAS CON DISCAPACIDAD?
-                                    </label>
-                                    <select name='select'>
+                                    <label>¿ESTÁ INSCRITO EN EL REGISTRO PARA LA LOCALIZACIÓN Y CARACTERIZACIÓN DE PERSONAS CON DISCAPACIDAD?</label>
+                                    <select name='disabilityRegistryEnrollment' onChange={handleInput}>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>¿REQUIERE LA AYUDA DE OTRA PERSONA?</label>
-                                    <select name='select'>
+                                    <select name='requiresAssistance' onChange={handleInput}>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>¿REQUIERE AYUDA TÉCNICA / PRODUCTO DE APOYO?</label>
-                                    <select name='select'>
+                                    <select name='requiresTechSupport' onChange={handleInput}>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
@@ -535,54 +549,54 @@ function AddBeneficiaries() {
                                     <label>
                                         ¿CUENTA CON LA AYUDA TÉCNICA / PRODUCTO DE APOYO?
                                     </label>
-                                    <select name='select'>
+                                    <select name='hasTechSupport' onChange={handleInput}>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>¿REQUIERE TERAPIA Y/O REHABILITACIÓN?</label>
-                                    <select name='select'>
+                                    <select name='requiresTherapy' onChange={handleInput}>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>RECIBE ATENCIÓN EN TERAPIA Y/O REHABILITACIÓN?</label>
-                                    <select name='select'>
+                                    <select name='receivesTherapy' onChange={handleInput}>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>TIENE PROCESO DE INTERDICCIÓN?</label>
-                                    <select name='select'>
+                                    <select name='hasInterdictionProcess' onChange={handleInput}>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>PAÍS DE RESIDENCIA</label>
-                                    <select name='select'>
+                                    <select name='countryOfResidence' onChange={handleInput}>
                                         <option value='COLOMBIA'>COLOMBIA</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>DEPARTAMENTO DE RESIDENCIA</label>
-                                    <select name='select'>
+                                    <select name='residenceDepartment' onChange={handleInput}>
                                         <option value='BOGOTÁ, D.C.'>BOGOTÁ, D.C.</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>ZONA DE UBICACIÓN</label>
-                                    <select name='select'>
+                                    <select name='locationZone' onChange={handleInput}>
                                         <option value='CABECERA'>CABECERA</option>
                                         <option value='RESTO'>RESTO</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>TIPO DE CABECERA</label>
-                                    <select name='select'>
+                                    <select name='headerType' onChange={handleInput}>
                                         <option value='LOCALIDAD'>LOCALIDAD</option>
                                         <option value='COMUNA'>COMUNA</option>
                                         <option value='NO APLICA'>NO APLICA</option>
@@ -591,7 +605,7 @@ function AddBeneficiaries() {
                                 {/* LOCATIONS BY CITY */}
                                 <div>
                                     <label>NOMBRE LOCALIDAD/COMUNAS/NOMBRE DE ZONA RESTO</label>
-                                    <select name='select'>
+                                    <select name='localityName' onChange={handleInput}>
                                         {!localities.features
                                             ? 'Cargando'
                                             : localities.features.map((feature) => {
@@ -613,6 +627,7 @@ function AddBeneficiaries() {
                                         id='mySelect'
                                         value={selectedValue}
                                         onChange={(e) => setSelectedValue(e.target.value)}
+                                        name='neighborhood'
                                     >
                                         {!neighborhoods.features
                                             ? 'Cargando'
@@ -637,53 +652,49 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>NOMBRE DE LA ZONA RESTO</label>
-                                    <input type='text' />
+                                    <input type='text' name='foreignZoneName' onChange={handleInput}/>
                                 </div>
                                 <div>
                                     <label>DIRECCIÓN</label>
-                                    <textarea name=' ' id=' ' cols='30 ' rows='10'></textarea>
+                                    <textarea name='address' onChange={handleInput} id=' ' cols='30 ' rows='10' required></textarea>
                                 </div>
                                 <div>
                                     <label>TELEFONO PRINCIPAL*</label>
-                                    <input type='number' />
+                                    <input name='primaryPhone' onChange={handleInputNum} type='number' required/>
                                 </div>
                                 <div>
                                     <label>TELEFONO SECUNDARIO</label>
-                                    <input type='number' />
+                                    <input name='secundaryPhone' onChange={handleInputNum}  type='number' />
                                 </div>
                                 <div>
                                     <label>ESTRATO DE HOGAR*</label>
-                                    <select name='select'>
+                                    <select name='householdStratum' onChange={handleInputNum} >
                                         <option value='0'>0</option>
                                         <option value='1'>1</option>
                                         <option value='2'>2</option>
+                                        <option value='3'>3</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>GRUPO ÉTNICO</label>
-                                    <select name='select'>
+                                    <select name='groupEthnicity' onChange={handleInput}>
+                                        <option value='NO SE AUTORECONOCE EN NINGUNO DE LOS ANTERIORES'>NO SE AUTORECONOCE EN NINGUNO DE LOS ANTERIORES</option>
                                         <option value='AFROCOLOMBIANO'>AFROCOLOMBIANO</option>
                                         <option value='INDÍGENA'>INDÍGENA</option>
-                                        <option value='RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA
-                                            CATALINA'>
-                                            RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA
-                                            CATALINA
-                                        </option>
-                                        <option value='NO SE AUTORECONOCE EN NINGUNO DE LOS ANTERIORES'>
-                                            NO SE AUTORECONOCE EN NINGUNO DE LOS ANTERIORES
-                                        </option>
+                                        <option value='RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA'> RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES, PROVIDENCIA Y SANTA CATALINA</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>BENEFICIARIO SISBENIZADO</label>
-                                    <select name='select'>
+                                    <select name='beneficiarySisbenized' onChange={handleInput}>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>PUNTAJE SISBEN</label>
-                                    <select name='select'>
+                                    <select name='sisbenScore' onChange={handleInput}>
+                                        <option value=''></option>
                                         <option value='A1'>A1</option>
                                         <option value='A2'>A2</option>
                                         <option value='A3'>A3</option>
@@ -707,25 +718,26 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>PERTENECE A FAMILIAS EN ACCIÓN</label>
-                                    <select name='select'>
-                                        <option value='1'>NO</option>
-                                        <option value='2'>SI</option>
+                                    <select name='belongsToFamiliesInAction' onChange={handleInput}>
+                                        <option value='NO'>NO</option>
+                                        <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>
                                         EL BENEFICIARIO HA SIDO VICTIMA DIRECTA CONFLICTO ARMADO
                                     </label>
-                                    <select name='select'>
-                                        <option value='1'>NO</option>
-                                        <option value='2'>SI</option>
+                                    <select name='directlyAffectedByArmedConflict' onChange={handleInput}>
+                                        <option value='NO'>NO</option>
+                                        <option value='SI'>SI</option>
                                     </select>
                                 </div>
-                                <div className=' long-select'>
+                                <div className='long-select'>
                                     <label>CRITERIOS DE FOCALIZACIÓN</label>
                                     <br />
                                     <div>
-                                        <select name='select'>
+                                        <select name='focusingCriteria' onChange={handleInput}>
+                                            <option value=''></option>
                                             <option value='A'>A</option>
                                             <option value='B'>B</option>
                                             <option value='C'>C</option>
@@ -743,94 +755,64 @@ function AddBeneficiaries() {
                                             <option value='O'>O</option>
                                         </select>
                                         <div className='d-flex flex-row justify-content-between m-0 letter-select'>
-                                            <span
-                                                flow='down'
-                                                tooltip='Pertenecientes a hogares con puntaje SISBEN'
->
+                                            <span flow='down'
+                                            tooltip='Pertenecientes a hogares con puntaje SISBEN'>
                                                 A
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Pertenecientes a familias identificadas a través de la Estrategia para la Superación de la Pobreza Extrema – Red UNIDOS.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Pertenecientes a familias identificadas a través de la Estrategia para la Superación de la Pobreza Extrema – Red UNIDOS.'>
                                                 B
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Niñas, niños y mujeres gestantes pertenecientes al programa Familias en Acción de Prosperidad Social.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Niñas, niños y mujeres gestantes pertenecientes al programa Familias en Acción de Prosperidad Social.'>
                                                 C
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Niñas y niños egresados de la estrategia de atención y prevención de la desnutrición aguda (Centros de Recuperación Nutricional -CRN- y 1000 días para cambiar el mundo y unidades de búsqueda activa).'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Niñas y niños egresados de la estrategia de atención y prevención de la desnutrición aguda (Centros de Recuperación Nutricional -CRN- y 1000 días para cambiar el mundo y unidades de búsqueda activa).'>
                                                 D
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Remitidos por las entidades del Sistema Nacional de Bienestar Familiar -SNBF- que se encuentren en situación de vulnerabilidad, riesgo de vulneración de derechos o programas de protección del ICBF.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Remitidos por las entidades del Sistema Nacional de Bienestar Familiar -SNBF- que se encuentren en situación de vulnerabilidad, riesgo de vulneración de derechos o programas de protección del ICBF.'>
                                                 E
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Víctimas de hechos violentos asociados al conflicto armado, de acuerdo con las directrices establecidas en la Ley 1448 de 2011 y los Decretos ley 4633, 4634 y 4635 de 2011, así como la Sentencia T-025 de 2004 proferida por la Corte Constitucional y demás desarrollos jurisprudenciales en torno a la existencia de un estado de cosas inconstitucional; para lo cual se considerarán aquellos cuyo estado se encuentre incluido dentro del RUV.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Víctimas de hechos violentos asociados al conflicto armado, de acuerdo con las directrices establecidas en la Ley 1448 de 2011 y los Decretos ley 4633, 4634 y 4635 de 2011, así como la Sentencia T-025 de 2004 proferida por la Corte Constitucional y demás desarrollos jurisprudenciales en torno a la existencia de un estado de cosas inconstitucional; para lo cual se considerarán aquellos cuyo estado se encuentre incluido dentro del RUV.'>
                                                 F
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Pertenecientes a comunidades étnicas (indígenas, comunidades negras, afrocolombianas, Palenqueros, Raizales y Rrom), que demanden el servicio.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Pertenecientes a comunidades étnicas (indígenas, comunidades negras, afrocolombianas, Palenqueros, Raizales y Rrom), que demanden el servicio.'>
                                                 G
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Niños y niñas con discapacidad que requieren diversos tipos de apoyo para su participación efectiva y que demandan acompañamiento en las actividades de cuidado; así como los que sean remitidos por las entidades del SNBF con base en el registro para la localización y caracterización de personas con discapacidad del Ministerio de Salud y Protección Social, como de los comités territoriales y locales de discapacidad y las entidades territoriales en salud.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Niños y niñas con discapacidad que requieren diversos tipos de apoyo para su participación efectiva y que demandan acompañamiento en las actividades de cuidado; así como los que sean remitidos por las entidades del SNBF con base en el registro para la localización y caracterización de personas con discapacidad del Ministerio de Salud y Protección Social, como de los comités territoriales y locales de discapacidad y las entidades territoriales en salud.'>
                                                 H
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Usuarios del subsidio en especie para población vulnerable, del que trata el artículo 12 de la Ley 1537 de 2012 (Vivienda de Interés Social y Vivienda de Interés Prioritario), y el Decreto 1921 de 2012 o el que reglamente la materia.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Usuarios del subsidio en especie para población vulnerable, del que trata el artículo 12 de la Ley 1537 de 2012 (Vivienda de Interés Social y Vivienda de Interés Prioritario), y el Decreto 1921 de 2012 o el que reglamente la materia.'>
                                                 I
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Niñas y niños cuyos padres estén en establecimientos de reclusión.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Niñas y niños cuyos padres estén en establecimientos de reclusión.'>
                                                 J
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Población migrante, refugiada o apátrida que cumpla con alguna de las siguientes características: ausencia de vivienda o condiciones de hacinamiento, que no cuenten con acceso a servicios públicos domiciliarios o que no cuenten con ningún tipo de afiliación al Sistema General de Seguridad Social en Salud.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Población migrante, refugiada o apátrida que cumpla con alguna de las siguientes características: ausencia de vivienda o condiciones de hacinamiento, que no cuenten con acceso a servicios públicos domiciliarios o que no cuenten con ningún tipo de afiliación al Sistema General de Seguridad Social en Salud.'>
                                                 K
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Niñas y niños remitidos del servicio HCB FAMI y DIMF que al cumplir los dos (2) años deben transitar a otros servicios de educación inicial de atención permanente.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Niñas y niños remitidos del servicio HCB FAMI y DIMF que al cumplir los dos (2) años deben transitar a otros servicios de educación inicial de atención permanente.'>
                                                 L
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Niñas y niños cuyos padres estén activos en la ruta de reincorporación e identificados en las bases de datos remitidas de forma oficial al ICBF por la Agencia para la Reincorporación y la Normalización – ARN.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Niñas y niños cuyos padres estén activos en la ruta de reincorporación e identificados en las bases de datos remitidas de forma oficial al ICBF por la Agencia para la Reincorporación y la Normalización – ARN.'>
                                                 M
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Para el servicio de Hogar Infantil se atenderá prioritariamente niños y niñas hijos de trabajadores que evidencien vinculación laboral y demás requisitos establecidos en la resolución 1740 de 2010.'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Para el servicio de Hogar Infantil se atenderá prioritariamente niños y niñas hijos de trabajadores que evidencien vinculación laboral y demás requisitos establecidos en la resolución 1740 de 2010.'>
                                                 N
                                             </span>
-                                            <span
-                                                flow='down'
-                                                tooltip='Ingresos iguales o inferiores a 1.5 Smlv'
-                                            >
+                                            <span flow='down'
+                                            tooltip='Ingresos iguales o inferiores a 1.5 Smlv'>
                                                 O
                                             </span>
                                         </div>
@@ -842,21 +824,23 @@ function AddBeneficiaries() {
                                         SI NO CUMPLE CON NINGUN CRITERIO, CUENTA CON EL ACTA DONDE
                                         JUSTIFICA QUE EL BENEFICIARIO REQUIERE LA ATENCION
                                     </label>
-                                    <select name='select'>
+                                    <select name='justificationDocumentExists' onChange={handleInput}>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
-                                <button className='addUser' onClick={() => handleButtonClick(1)}>Siguiente</button>{' '}
+                                <section className='bottom-tab-button'>
+                                    <button className='addUser' onClick={() => handleButtonClick(1)}>Siguiente</button>{' '}
+                                </section>
                             </TabPanel>
 
                             {/* Beneficiarie Acudiente */}
                             <TabPanel className='d-flex flex-wrap flex-gap'>
                                 <div>
                                     <label>TIPO DE RESPONSABLE</label>
-                                    <select name='select'>
-                                        <option value='PADRE'>PADRE</option>
+                                    <select name='guardianPersonType' onChange={handleInput}>
                                         <option value='MADRE'>MADRE</option>
+                                        <option value='PADRE'>PADRE</option>
                                         <option value='TÍO(A)'>TÍO(A)</option>
                                         <option value='HERMANO(A)'>HERMANO(A)</option>
                                         <option value='ABUELO(A)'>ABUELO(A)</option>
@@ -869,7 +853,7 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>TIPO DE DOCUMENTO ACUDIENTE*</label>
-                                    <select name='select'>
+                                    <select name='guardianDocumentType' onChange={handleInput}>
                                         <option value='CC'>CC</option>
                                         <option value='TI'>TI</option>
                                         <option value='PEP'>PEP</option>
@@ -879,32 +863,32 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>NÚMERO DE DOCUMENTO DEL ACUDIENTE</label>
-                                    <input type='number' />
+                                    <input name='guardianDocumentNumber' onChange={handleInput} type='text'/>
                                 </div>
                                 <div>
                                     <label>PRIMER NOMBRE ACUDIENTE</label>
-                                    <input type='text' />
+                                    <input name='guardianFirstName' onChange={handleInput} type='text' required/>
                                 </div>
                                 <div>
                                     <label>SEGUNDO NOMBRE ACUDIENTE</label>
-                                    <input type='text' />
+                                    <input name='guardianSecondName' onChange={handleInput} type='text'/>
                                 </div>
                                 <div>
                                     <label>PRIMER APELLIDO ACUDIENTE</label>
-                                    <input type='text' />
+                                    <input name='guardianFirstLastname' onChange={handleInput} type='text' required/>
                                 </div>
                                 <div>
                                     <label>SEGUNDO APELLIDO ACUDIENTE</label>
-                                    <input type='text' />
+                                    <input name='guardianSecondLastname' onChange={handleInput} type='text'/>
                                 </div>
                                 <div>
                                     <label>FECHA DE NACIMIENTO ACUDIENTE</label>
-                                    <input type='date' />
+                                    <input name='guardianBirthdate' onChange={handleInput} type='text' required/>
                                 </div>
                                 {/* COUNTRY */}
                                 <div>
                                     <label>PAÍS DE NACIMIENTO ACUDIENTE</label>
-                                    <select name='select'>
+                                    <select name='guardianBirthCountry' onChange={handleInput}>
                                         <option value='COLOMBIA'>COLOMBIA</option>
                                         <option value='VENEZUELA'>VENEZUELA</option>
                                         <option value='ECUADOR'>ECUADOR</option>
@@ -917,7 +901,7 @@ function AddBeneficiaries() {
                                 <div>
                                     <label>DEPARTAMENTO DE NACIMIENTO ACUDIENTE</label>
                                     <select
-                                        name='select'
+                                        name='guardianBirthDepartment'
                                         onChange={(e) => {
                                             setCurDepartmentAttendant(e.target.value);
                                         }}
@@ -939,7 +923,7 @@ function AddBeneficiaries() {
                                 {/* MUNICIPALITIES */}
                                 <div>
                                     <label>MUNICIPIO DE NACIMIENTO ACUDIENTE</label>
-                                    <select name='select'>
+                                    <select name='guardianBirthCity' onChange={handleInput}>
                                         {!municipalitiesAttendant.resultado
                                             ? 'Cargando'
                                             : municipalitiesAttendant.resultado.map(
@@ -956,15 +940,18 @@ function AddBeneficiaries() {
                                             )}
                                     </select>
                                 </div>
-                                <button className='addUser' onClick={() => handleButtonClick(0)}>Anterior</button>{' '}
-                                <button className='addUser' onClick={() => handleButtonClick(2)}>Siguiente</button>{' '}
+                                <section className='bottom-tab-button'>
+                                    <button className='addUser' onClick={() => handleButtonClick(0)}>Anterior</button>{' '}
+                                    <button className='addUser' onClick={() => handleButtonClick(2)}>Siguiente</button>{' '}
+                                </section>
                             </TabPanel>
 
-                            {/* Father Info*/}
+                            {/* FATHER INFORMATION */}
                             <TabPanel className='d-flex flex-wrap flex-gap'>
                                 <div>
                                     <label>TIPO DE DOCUMENTO PADRE*</label>
-                                    <select name='select'>
+                                    <select name='fatherDocumentType' onChange={handleInput}>
+                                        <option value=''></option>
                                         <option value='CC'>CC</option>
                                         <option value='TI'>TI</option>
                                         <option value='PEP'>PEP</option>
@@ -974,32 +961,33 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>NÚMERO DE DOCUMENTO DEL PADRE</label>
-                                    <input type='number' />
+                                    <input name='fatherDocumentNumber' onChange={handleInputNum} type='number'/>
                                 </div>
                                 <div>
                                     <label>PRIMER NOMBRE PADRE</label>
-                                    <input type='text' />
+                                    <input name='fatherFirstName' onChange={handleInput} type='text' />
                                 </div>
                                 <div>
                                     <label>SEGUNDO NOMBRE PADRE</label>
-                                    <input type='text' />
+                                    <input name='fatherSecondName' onChange={handleInput} type='text' />
                                 </div>
                                 <div>
                                     <label>PRIMER APELLIDO PADRE</label>
-                                    <input type='text' />
+                                    <input name='fatherFirstLastname' onChange={handleInput} type='text' />
                                 </div>
                                 <div>
                                     <label>SEGUNDO APELLIDO PADRE</label>
-                                    <input type='text' />
+                                    <input name='fatherSecondLastname' onChange={handleInput} type='text' />
                                 </div>
                                 <div>
                                     <label>FECHA DE NACIMIENTO PADRE</label>
-                                    <input type='date' />
+                                    <input name='fatherBirthdate' onChange={handleInputDate} type='date' />
                                 </div>
                                 {/* COUNTRY */}
                                 <div>
                                     <label>PAÍS DE NACIMIENTO PADRE</label>
-                                    <select name='select'>
+                                    <select name='fatherBirthCountry' onChange={handleInput}>
+                                        <option value=''></option>
                                         <option value='COLOMBIA'>COLOMBIA</option>
                                         <option value='VENEZUELA'>VENEZUELA</option>
                                         <option value='ECUADOR'>ECUADOR</option>
@@ -1012,7 +1000,7 @@ function AddBeneficiaries() {
                                 <div>
                                     <label>DEPARTAMENTO DE NACIMIENTO PADRE</label>
                                     <select
-                                        name='select'
+                                        name='fatherBirthDepartment'
                                         onChange={(e) => {
                                             setCurDepartmentFather(e.target.value);
                                         }}
@@ -1034,7 +1022,7 @@ function AddBeneficiaries() {
                                 {/* MUNICIPALITIES */}
                                 <div>
                                     <label>MUNICIPIO DE NACIMIENTO PADRE</label>
-                                    <select name='select'>
+                                    <select name='fatherBirthCity' onChange={handleInput}>
                                         {!municipalitiesFather.resultado
                                             ? 'Cargando'
                                             : municipalitiesFather.resultado.map((municipality) => {
@@ -1049,15 +1037,18 @@ function AddBeneficiaries() {
                                             })}
                                     </select>
                                 </div>
-                                <button className='addUser' onClick={() => handleButtonClick(1)}>Anterior</button>{' '}
-                                <button className='addUser' onClick={() => handleButtonClick(3)}>Siguiente</button>{' '}
+                                <section className='bottom-tab-button'>
+                                    <button className='addUser' onClick={() => handleButtonClick(1)}>Anterior</button>{' '}
+                                    <button className='addUser' onClick={() => handleButtonClick(3)}>Siguiente</button>{' '}
+                                </section>
                             </TabPanel>
 
-                            {/* Mother Info*/}
+                            {/* MOTHER INFORMATION */}
                             <TabPanel className='d-flex flex-wrap flex-gap'>
                                 <div>
                                     <label>TIPO DE DOCUMENTO MADRE*</label>
-                                    <select name='select'>
+                                    <select name='motherDocumentType' onChange={handleInput}>
+                                        <option value=''></option>
                                         <option value='CC'>CC</option>
                                         <option value='TI'>TI</option>
                                         <option value='PEP'>PEP</option>
@@ -1067,32 +1058,33 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>NÚMERO DE DOCUMENTO DEL MADRE</label>
-                                    <input type='number' />
+                                    <input name='motherDocumentNumber' onChange={handleInputNum} type='number' />
                                 </div>
                                 <div>
                                     <label>PRIMER NOMBRE MADRE</label>
-                                    <input type='text' />
+                                    <input name='motherFirstName' onChange={handleInput} type='text' />
                                 </div>
                                 <div>
                                     <label>SEGUNDO NOMBRE MADRE</label>
-                                    <input type='text' />
+                                    <input name='motherSecondName' onChange={handleInput} type='text' />
                                 </div>
                                 <div>
                                     <label>PRIMER APELLIDO MADRE</label>
-                                    <input type='text' />
+                                    <input name='motherFirstLastname' onChange={handleInput} type='text' />
                                 </div>
                                 <div>
                                     <label>SEGUNDO APELLIDO MADRE</label>
-                                    <input type='text' />
+                                    <input name='motherSecondLastname' onChange={handleInput} type='text' />
                                 </div>
                                 <div>
                                     <label>FECHA DE NACIMIENTO MADRE</label>
-                                    <input type='date' />
+                                    <input name='motherBirthdate' onChange={handleInputDate} type='date' />
                                 </div>
                                 {/* COUNTRY */}
                                 <div>
                                     <label>PAÍS DE NACIMIENTO MADRE</label>
-                                    <select name='select'>
+                                    <select name='motherBirthCountry' onChange={handleInput}>
+                                        <option value=''></option>
                                         <option value='COLOMBIA'>COLOMBIA</option>
                                         <option value='VENEZUELA'>VENEZUELA</option>
                                         <option value='ECUADOR'>ECUADOR</option>
@@ -1105,7 +1097,7 @@ function AddBeneficiaries() {
                                 <div>
                                     <label>DEPARTAMENTO DE NACIMIENTO MADRE</label>
                                     <select
-                                        name='select'
+                                        name='motherBirthDepartment'
                                         onChange={(e) => {
                                             setCurDepartmentMother(e.target.value);
                                         }}
@@ -1127,7 +1119,7 @@ function AddBeneficiaries() {
                                 {/* MUNICIPALITIES */}
                                 <div>
                                     <label>MUNICIPIO DE NACIMIENTO MADRE</label>
-                                    <select name='select'>
+                                    <select name='motherBirthCity' onChange={handleInput}>
                                         {!municipalitiesMother.resultado
                                             ? 'Cargando'
                                             : municipalitiesMother.resultado.map((municipality) => {
@@ -1142,15 +1134,17 @@ function AddBeneficiaries() {
                                             })}
                                     </select>
                                 </div>
-                                <button className='addUser' onClick={() => handleButtonClick(2)}>Anterior</button>{' '}
-                                <button className='addUser' onClick={() => handleButtonClick(5)}>Siguiente</button>{' '}
+                                <section className='bottom-tab-button'>
+                                    <button className='addUser' onClick={() => handleButtonClick(2)}>Anterior</button>{' '}
+                                    <button className='addUser' onClick={() => handleButtonClick(4)}>Siguiente</button>{' '}
+                                </section>
                             </TabPanel>
 
-                            {/* Medical Info*/}
+                            {/* MEDICAL INFORMATION*/}
                             <TabPanel className='d-flex flex-wrap flex-gap'>
                                 <div>
                                     <label>RÉGIMEN</label>
-                                    <select name='select'>
+                                    <select name='regime' onChange={handleInput}>
                                         <option value='SUBSIDIADO'>SUBSIDIADO</option>
                                         <option value='CONTRIBUTIVO'>CONTRIBUTIVO</option>
                                         <option value='ESPECIAL'>ESPECIAL</option>
@@ -1159,7 +1153,8 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>EPS</label>
-                                    <select name='select'>
+                                    <select name='eps' onChange={handleInput}>
+                                        <option value=''></option>
                                         <option value='AIC-EPSI'>AIC-EPSI</option>
                                         <option value='ALIANSALUD EPS'>ALIANSALUD EPS</option>
                                         <option value='AMBUQ EPS'>AMBUQ EPS</option>
@@ -1196,62 +1191,48 @@ function AddBeneficiaries() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label>
-                                        ¿EL BENEFICIARIO CUENTA CON CARNET DE VACUNCIÓN?*
-                                    </label>
-                                    <select name='select'>
+                                    <label>¿EL BENEFICIARIO CUENTA CON CARNET DE VACUNCIÓN?*</label>
+                                    <select name='hasVaccinationCard' onChange={handleInput}>
+                                        <option value='SI'>SI</option>
+                                        <option value='NO'>NO</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>FECHA DE VERIFICACIÓN DEL ESQUEMA DE VACUNACIÓN</label>
+                                    <input name='vaccinationVerificationDate' onChange={handleInputDate} type='date' />
+                                </div>
+                                <div>
+                                    <label>¿EL CARNET DE VACUNACIÓN SE ENCUENTRA AL DÍA EN LAS VACUNAS Y DOSIS QUE CORRESPONDEN A LA EDAD DEL NIÑO O NIÑA?*</label>
+                                    <select name='vaccinationCardUpToDate' onChange={handleInput}>
+                                        <option value=''></option>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label>
-                                        {' '}
-                                        FECHA DE VERIFICACIÓN DEL ESQUEMA DE VACUNACIÓN
-                                    </label>
-                                    <input type='date' />
-                                </div>
-                                <div>
-                                    <label>
-                                        ¿EL CARNET DE VACUNACIÓN SE ENCUENTRA AL DÍA EN LAS VACUNAS
-                                        Y DOSIS QUE CORRESPONDEN A LA EDAD DEL NIÑO O NIÑA?*
-                                    </label>
-                                    <select name='select'>
+                                    <label>¿EL BENEFICIARIO PRESENTA CARNET DE CRECIMIENTO Y DESARROLLO?*</label>
+                                    <select name='hasGrowthAndDevelopmentCard' onChange={handleInput}>
+                                        <option value=''></option>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label>
-                                        ¿EL BENEFICIARIO PRESENTA CARNET DE CRECIMIENTO Y
-                                        DESARROLLO?*
-                                    </label>
-                                    <select name='select'>
-                                        <option value='NO'>NO</option>
-                                        <option value='SI'>SI</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label>
-                                        SI EL NIÑO CUENTA CON EL CARNET, VERIFIQUE ¿CUÁNTOS
-                                        CONTROLES DE CRECIMIENTO Y DESARROLLO HA RECIBIDO EL NIÑO,
-                                        EN LOS ÚLTIMOS 6 MESES?
-                                    </label>
-                                    <input type='number' />
+                                    <label>SI EL NIÑO CUENTA CON EL CARNET, VERIFIQUE ¿CUÁNTOS CONTROLES DE CRECIMIENTO Y DESARROLLO HA RECIBIDO EL NIÑO, EN LOS ÚLTIMOS 6 MESES?</label>
+                                    <input name='growthDevelopmentControlsReceived' onChange={handleInputNum} type='text' />
                                 </div>
                                 <div>
                                     <label>ANTECEDENTE DE PREMATUREZ*</label>
-                                    <select name='select'>
+                                    <select name='prematurenessBackground' onChange={handleInput}>
+                                        <option value=''></option>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label>
-                                        A LA FECHA DE VALORACIÓN EL BENEFICIARIO TIENE MENOS DE 40
-                                        SEMANAS
-                                    </label>
-                                    <select name='select'>
+                                    <label>A LA FECHA DE VALORACIÓN EL BENEFICIARIO TIENE MENOS DE 40 SEMANAS</label>
+                                    <select name='under40Weeks' onChange={handleInput}>
+                                        <option value=''></option>
                                         <option value='NA'>NA</option>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
@@ -1259,46 +1240,47 @@ function AddBeneficiaries() {
                                 </div>
                                 <div>
                                     <label>PERÍMETRO CEFÁLICO</label>
-                                    <input type='number' />
+                                    <input name='cefalicProfile' onChange={handleInputNum} type='number' />
                                 </div>
                                 <div>
                                     <label>EDAD GESTACIONAL AL NACER (SEMANAS)*</label>
-                                    <input type='number' step='any' />
+                                    <input name='gestationalAgeAtBirth' onChange={handleInputNum} type='number' step='any' />
                                 </div>
                                 <div>
                                     <label>PESO AL NACER (EN GRAMOS)*</label>
-                                    <input type='number' step='any' />
+                                    <input name='weightAtBirth' onChange={handleInputNum} type='number' step='any' />
                                 </div>
                                 <div>
                                     <label>TALLA AL NACER (EN CENTÍMETROS)*</label>
-                                    <input type='number' />
+                                    <input name='heightAtBirth' onChange={handleInputNum} type='number' />
                                 </div>
                                 <div>
-                                    <label>
-                                        SI EL NIÑO O NIÑA ES MENOR DE 6 MESES, ¿ESTÁ SIENDO
-                                        ALIMENTADO CON LECHE MATERNA DE FORMA EXCLUSIVA?
-                                    </label>
-                                    <select name='select'>
+                                    <label>SI EL NIÑO O NIÑA ES MENOR DE 6 MESES, ¿ESTÁ SIENDO ALIMENTADO CON LECHE MATERNA DE FORMA EXCLUSIVA?</label>
+                                    <select name='exclusivelyBreastfeeding' onChange={handleInput}>
                                         <option value='NO'>NO</option>
                                         <option value='SI'>SI</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>DURACIÓN LACTANCIA MATERNA EXCLUSIVA (MESES)</label>
-                                    <select name='disability' onChange={handleInput}></select>
-                                    <input type='number' />
+                                    <input name='exclusiveBreastfeedingDuration' onChange={handleInputNum} type='number' />
                                 </div>
                                 <div>
                                     <label>DURACIÓN LACTANCIA MATERNA TOTAL (MESES)</label>
-                                    <select name='disability' onChange={handleInput}></select>
-                                    <input type='number' />
+                                    <input name='totalBreastfeedingDuration' onChange={handleInputNum} type='number' />
                                 </div>
                                 <div>
                                     <label>SEMANAS DE GESTACIÓN</label>
-                                    <select name='disability' onChange={handleInput}></select>
-                                    <input type='number' />
+                                    <input name='gestationWeeks' onChange={handleInputNum} type='number' />
                                 </div>
-                                <button className='addUser' onClick={() => handleButtonClick(3)}>Anterior</button>{' '}
+                                <div>
+                                    <label>SI EL BENEFICIARIO TIENE TICKET, INDIQUE EL NÚMERO DE TICKET</label>
+                                    <input name='ticketNumber' onChange={handleInputNum} type='number' />
+                                </div>
+                                <section className='bottom-tab-button'>
+                                    <button className='addUser' onClick={() => handleButtonClick(3)}>Anterior</button>{' '}
+                                    <button className='addUser' type="submit">Guardar beneficiario</button>
+                                </section>
                             </TabPanel>
                         </form>
                     </Tabs>

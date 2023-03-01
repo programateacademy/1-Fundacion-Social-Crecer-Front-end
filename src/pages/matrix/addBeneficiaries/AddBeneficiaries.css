@@ -44,6 +44,15 @@
 .flex-gap label{
     color: black;
 }
+.bottom-tab-button{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10%;
+}
+.bottom-tab-button button{
+    padding: 0 8px;
+}
 /* ----------------------- Hover Select A, B, C, D... ----------------------- */
 .long-select{
     width: 100%;
