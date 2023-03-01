@@ -37,8 +37,12 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
     }
   };
 
+  const resetLocalStorage = () => {
+    localStorage.clear()
+   } 
+
   return (
-    <div className="bodyLogin">
+    <div className="bodyLogin" onLoad={() => resetLocalStorage()}>
       <div className="containerLogIn">
         <div className="logoContainer">
           <img src={Logo} alt="Logo" />
