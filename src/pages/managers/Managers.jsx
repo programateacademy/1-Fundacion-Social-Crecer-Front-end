@@ -8,6 +8,8 @@ import Header from '../../components/header/Header.jsx';
 import User from '../../apis'
 
 function Managers({onLogout, token}) {
+  //initial configuration for get, add, and show the managers 
+
   const localStorageManagers=localStorage.getItem('MANAGERS_V1');
   let parsedManagers;
   if (!localStorageManagers){
@@ -47,9 +49,16 @@ function Managers({onLogout, token}) {
       
     });
   }
-  const addManagers = (item) => {
-    setManagers([...managers, item])
-    UserList.push(item);
+  const addManagers = async(item) => {
+    const json = await fetch ('http://localhost:3001/api/register', {
+        method:'POST',
+        headers: {
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify(item),
+      }) .then(res=>res.json())
+      console.log(json)
+      alert(json.error)
   };
 
   const editarUsuario=(id,setUser,nuevoNombre,nuevoEmail,nuevaUnidad)  => {

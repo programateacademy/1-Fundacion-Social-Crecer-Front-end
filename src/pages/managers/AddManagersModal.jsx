@@ -43,15 +43,6 @@ const AddManagersModal = ({ add, setShow, managers}) => {
         role:role
       };
       add(addItem);
-      const json = await fetch ('http://localhost:3001/api/register', {
-        method:'POST',
-        headers: {
-          'Content-Type':'application/json'
-        },
-        body: JSON.stringify(addItem),
-      }) .then(res=>res.json())
-      console.log(json)
-      alert(json.error)
       setShow(false);
     }
     setValidated(true);
