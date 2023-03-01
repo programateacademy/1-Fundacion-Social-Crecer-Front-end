@@ -5,11 +5,14 @@ import Matrix from "../pages/matrix/Matrix";
 import RecoveryPassword from "../pages/recoverypassword/RecoveryPassword";
 import users from "../apis/index";
 import { RequireAuth } from "../components/login/RequireAuth";
-import { useState} from "react";
+import { useEffect, useState} from "react";
 import { RequireAuthSuper } from "../components/login/RequireAuthSuper";
+import { useArrayContext } from "../context/context";
+import { useSetArrayContext } from "../context/context";
 
 function App() {
-  console.log(users);
+  const array = useArrayContext();
+  const setArray = useSetArrayContext(); 
   //Login status
   const [isLogged, setIsLogged] = useState(
     localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false
@@ -43,9 +46,16 @@ function App() {
 
     }
 }
+useEffect(() => {
+  users.get ('/api/beneficiaries')
+  .then((res) => {
+    setArray(res.data);
+  })
+}, [])
+
+
 
   const login = (item) => {
-    console.log(userInfo);
 
     return users
       .post("/api/login", item)
@@ -76,7 +86,8 @@ function App() {
 
   return (
     <>
-    <BrowserRouter>
+
+      <BrowserRouter>
         <Routes>
           <Route
             path="/"
@@ -100,7 +111,6 @@ function App() {
           />
         </Routes>
       </BrowserRouter>  
-
     </>
   );
 }

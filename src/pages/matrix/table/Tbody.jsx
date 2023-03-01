@@ -1,28 +1,38 @@
 import React, { useState } from "react";
 import datas from "../../../apis/model";
+import collection from "../../../apis/index";
 import edit from "../../../assets/icons/edit.svg";
 import "./BeneficiariesTable.css";
-import { useArrayContext, useSetArrayContext } from "../../../context/context";
+import { useArrayContext, useSetArrayContext, useFilterContext } from "../../../context/context";
+
 
 //Sacamos los nombres de las llaves de un beneficiario dummy, se convierte en array sacando las llaves con Object.keys
-const dummie = ()=> {
-    delete datas[0].uuid
-    return datas[0]
-}
-const beneficiariesNameValues = Object.keys(dummie());
+
 function Tbody() {
-    const array = useArrayContext();
+    const filter = useFilterContext();
+    const array =  filter[0]?filter: useArrayContext();
     const setArray = useSetArrayContext();
     const [isEditing, setIsEditing] = useState(false);
     const [editedItem, setEditedItem] = useState(null);
+    console.log(array)
+
+    const dummie = ()=> {
+
+        delete datas[0]._id
+        return datas[0]
+    }
+    const beneficiariesNameValues = Object.keys(dummie());
+
+
+    
     //  edit
-    const onChangeInput = (e, uuid) => {
+    const onChangeInput = (e, _id) => {
         const { name, value } = e.target;
         // Verifica que el campo que se está actualizando existe en el objeto del beneficiario
         if (Object.keys(array[0]).includes(name)) {
             const editData = array.map((item) =>
                 // Verifica si el numDoc de un beneficiario es igual al valor proporcionado en numDoc y si firstName es una cadena no vacía.
-                item.uuid === uuid ? { ...item, [name]: value } : item
+                item._id === _id ? { ...item, [name]: value } : item
             );
             setArray(editData);
         }
@@ -38,9 +48,15 @@ function Tbody() {
         // SAve on db use uuid 
         localStorage.setItem("array", JSON.stringify(array));
     };
+
+        console.log(datas[0])
+        
+
     return (
-        <>
+        <> 
+
             <tbody>
+            
                 {array.map((beneficiary) => (
                     // numDoc identificador unico
                     // Key identificador de filas
