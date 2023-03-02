@@ -7,7 +7,6 @@ import Header from '../../components/header/Header.jsx';
 import users from '../../apis/index'
 
 function Managers({onLogout, token}) {
-  //initial configuration for get, add, and show the managers 
   const [managers,setManagers ] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState('')
@@ -42,14 +41,14 @@ function Managers({onLogout, token}) {
       const managerName = quitAccent(manager.name.toLowerCase());
       const managerEmail = quitAccent(manager.email.toLowerCase());
       const managerID = manager.docnum.toString();
-      const managerUnity = manager.unity.toString();
+      const managerUnity = quitAccent(manager.unity.toLowerCase());
       return (managerName.includes(searchText) || managerEmail.includes(searchText) || managerID.includes(searchText)||managerUnity.includes(searchText));
     });
   
     return searchResults;
   }, [managers, searchValue, setManagers]);
  
-  const addManagers = async(item) => {
+/*   const addManagers = async(item) => {
      const json = await fetch ('/api/superadmin/admin', {
       method: 'POST',
       headers: {
@@ -64,7 +63,7 @@ function Managers({onLogout, token}) {
       const updatedManagers = [...managers, json];
       setManagers(updatedManagers);
     }
-  };
+  }; */
 
   const editarUsuario = async (id, setUser, nuevoNombre, nuevoEmail, nuevaUnidad) => {
     try {
@@ -106,9 +105,14 @@ function Managers({onLogout, token}) {
       <Header onLogout={onLogout} token={token}/>
       <div className='filaUno'>
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
-{/*         <ModalContainerAddUser add={addManagers} managers={managers}/>
- */}      </div> {/* //recordar cambiar managers por searched managers */}
-      <CardUser managers={searchedManagers} setManagers={setManagers} editManagers={editarUsuario} eliminateManager={eliminateManager} loading={loading}/>
+        <ModalContainerAddUser managers={managers}/>
+      </div> 
+      <CardUser 
+        managers={searchedManagers} 
+        setManagers={setManagers} 
+        editManagers={editarUsuario} 
+        eliminateManager={eliminateManager} 
+        loading={loading}/>
     </>
   );
 }

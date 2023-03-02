@@ -5,7 +5,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 
 
 //  Modal component
-function ModalContainerAddUser({add, managers}) {
+function ModalContainerAddUser({managers}) {
   //  State assignment
   const values = [true];
   const [fullscreen, setFullscreen] = useState(true);
@@ -31,7 +31,7 @@ function ModalContainerAddUser({add, managers}) {
           <Modal.Title>Crear nuevo usuario</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AddManagersModal add={add} setShow={setShow} managers={managers}/>
+          <AddManagersModal setShow={setShow} managers={managers}/>
         </Modal.Body>
         <Modal.Footer>
         </Modal.Footer>
