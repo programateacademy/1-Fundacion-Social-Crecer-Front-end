@@ -2,7 +2,7 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import users from "../../apis/index";
 
-const EditManagersModal = ({ id, docnum1, name1, email1,unity1, setShow, setManagers,onClose,setIsEditing }) => {
+const EditManagersModal = ({ id, docnum1, name1, email1,unity1, setShow ,onClose,setIsEditing }) => {
   const [form, setForm] = useState(
     {
       name: name1, 
@@ -11,42 +11,19 @@ const EditManagersModal = ({ id, docnum1, name1, email1,unity1, setShow, setMana
       unity: unity1
     }
   )
-   const [emailError, setEmailError] = useState("");  
-  
   const handleInputText = (e) => {
     let { name, value } = e.target;
     let newForm = { ...form, [name]: value };
     setForm(newForm);
   };
-  
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleEmailChange = (e) => {
-    setNewEmail(e.target.value);
-  };
-
-/*   const handleEditClick = () => {
-    if (!validateEmail(form.name)) {
-      setEmailError("Por favor, ingrese un correo electrónico válido");
-    } else {
-      setEmailError("");
+const handleEditClick = () => {
       editManager(id);
       setIsEditing(false);
       setShow(false);
-    }
-  };  */ 
-  
-  const handleClose = () => {
-    if (!emailError) {
-      setShow(false);
       onClose();
-    }
-  };
-    
-  const eliminateManager = async (id) => { 
+  };  
+      
+  const deleteManager = async (id) => { 
     try {
     const response = await users.delete(`/api/superadmin/admin/${id}`, {headers: {
       Authorization: localStorage.getItem('token' || 'recovery-token')
@@ -94,14 +71,14 @@ const EditManagersModal = ({ id, docnum1, name1, email1,unity1, setShow, setMana
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={_=> {editManager(id);setShow(false)}}
+          onClick={_=> {handleEditClick();setShow(false)}}
         >
           Editar
         </button>
         <button
           className="btnEliminateUser"
           onClick={() => {
-            eliminateManager(id);
+            deleteManager(id);
             console.log(id);
             setShow(false);
             onClose();
