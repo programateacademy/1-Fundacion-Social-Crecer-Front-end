@@ -16,14 +16,12 @@ function Tbody() {
     const [editedItem, setEditedItem] = useState(null);
     console.log(array)
 
-    const dummie = ()=> {
+    const dummy = ()=> {
 
         delete datas[0]._id
         return datas[0]
     }
-    const beneficiariesNameValues = Object.keys(dummie());
-
-
+    const beneficiariesNameValues = Object.keys(dummy());
     
     //  edit
     const onChangeInput = (e, _id) => {
@@ -45,7 +43,7 @@ function Tbody() {
     const handleSave = (beneficiary) => {
         setIsEditing(false);
         setEditedItem(null);
-        // SAve on db use uuid 
+        // SAve on db use _id 
         localStorage.setItem("array", JSON.stringify(array));
     };
 
@@ -60,7 +58,7 @@ function Tbody() {
                 {array.map((beneficiary) => (
                     // numDoc identificador unico
                     // Key identificador de filas
-                    <tr key={beneficiary.uuid}>
+                    <tr key={beneficiary._id}>
                         <td className="edit-button">
                             {!isEditing ? (
                                 <button
@@ -77,7 +75,7 @@ function Tbody() {
                         {beneficiariesNameValues.map((item) => (
                             // Key identificador de columnas
                             <td key={item}>
-                                {isEditing && editedItem.uuid === beneficiary.uuid ? (
+                                {isEditing && editedItem._id === beneficiary._id ? (
                                     <input
                                         name={item}
                                         value={editedItem[item]}
@@ -88,7 +86,7 @@ function Tbody() {
                                             newItem[item] = e.target.value
                                             setEditedItem(  newItem);
                                             console.log(editedItem);
-                                            onChangeInput(e,editedItem.uuid)
+                                            onChangeInput(e,editedItem._id)
                                         }}
 
                                     

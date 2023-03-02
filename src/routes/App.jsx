@@ -47,14 +47,17 @@ function App() {
     }
 }
 useEffect(() => {
-  users.get ('/api/beneficiaries')
-  .then((res) => {
-    setArray(res.data);
-  })
+  async function fetchData(){
+    const { data } = await users.get ('/api/admin/beneficiary',{
+      headers: {
+        Authorization: token,
+    },
+    }) 
+    setArray(data);
+  }
+  fetchData();
 }, [])
-
-
-
+      
   const login = (item) => {
 
     return users
