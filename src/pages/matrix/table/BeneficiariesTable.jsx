@@ -9,6 +9,7 @@ function BeneficiariesTable() {
   let data = useArrayContext();
 
   return (
+    
       <Tbody/>
   )
 }
