@@ -2,7 +2,7 @@ import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import EditManagersModal from "./EditDeleteFunction";
 
-function EditModal({ id,docnum,name,email,unity,setManagers,onClose, setIsEditing }) {
+function EditModal({ id,docnum,name,email,unity,setManagers,getManagers, onClose, setIsEditing }) {
     const values = [true];
     const [fullscreen, setFullscreen] = useState(true);
     const [show, setShow] = useState(true);
@@ -28,6 +28,7 @@ return(
           unity1={unity}
           setShow={setShow} 
           setManagers={setManagers}
+          getManagers={getManagers}
           onClose={onClose} 
           setIsEditing={setIsEditing}
         />

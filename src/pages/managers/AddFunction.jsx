@@ -3,13 +3,9 @@ import users from "../../apis/index";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 
-const AddFunction = ({ setShow, managers }) => {
+const AddFunction = ({ setShow, managers, getManagers}) => {
   const [validated, setValidated] = useState(false);
   const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
-  const [errorDocnumMessage, setErrorDocnumMessage] = useState("");
-  const [errorEmailMessage, setErrorEmailMessage] = useState("");
-  const [usuarioIndex, setUsuarioIndex] = useState(-1);
-  const [repatedE, setRepeatedE] = useState(-1);
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
 
@@ -71,6 +67,7 @@ const handleCreate = async (e) => {
         },
       });
       console.log(response);
+      getManagers();
     } catch (error) {
       console.error(error.response.data);
     }
@@ -86,11 +83,11 @@ const handleCreate = async (e) => {
             name="docnum"
             value={formDani.docnum}
             onChange={handleInputNumber}
-            isInvalid={errorDocnumMessage !== ""}
+            /* isInvalid={errorDocnumMessage !== ""} */
           />
-          <Form.Control.Feedback type="invalid">
+{/*           <Form.Control.Feedback type="invalid">
             {errorDocnumMessage}
-          </Form.Control.Feedback>
+          </Form.Control.Feedback> */}
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
@@ -110,11 +107,11 @@ const handleCreate = async (e) => {
             name="email"
             value={formDani.email}
             onChange={handleInputText} /* ,setRepeatedE(repeatedEmail(e.target.value)),setErrorEmailMessage('')  */
-            isInvalid={errorEmailMessage !== ""}
+            /* isInvalid={errorEmailMessage !== ""} */
           />
-          <Form.Control.Feedback type="invalid">
+{/*           <Form.Control.Feedback type="invalid">
             {errorEmailMessage}
-          </Form.Control.Feedback>
+          </Form.Control.Feedback> */}
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control

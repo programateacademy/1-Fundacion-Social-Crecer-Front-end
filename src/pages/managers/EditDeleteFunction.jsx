@@ -2,7 +2,7 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import users from "../../apis/index";
 
-const EditDeleteFunction = ({ id, docnum1, name1, email1,unity1, setShow ,onClose,setIsEditing }) => {
+const EditDeleteFunction = ({ id, docnum1, name1, email1,unity1, setShow ,onClose,setIsEditing,getManagers }) => {
   const [form, setForm] = useState(
     {
       name: name1, 
@@ -79,7 +79,7 @@ const handleEditClick = () => {
           className="btnEliminateUser"
           onClick={() => {
             deleteManager(id);
-            console.log(id);
+            getManagers();
             setShow(false);
             onClose();
           }}
