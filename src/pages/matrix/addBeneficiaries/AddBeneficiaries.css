@@ -20,20 +20,17 @@
 .flex-gap div input, .flex-gap div select, .flex-gap div textarea{
     display: inline-block;
     width: 100%;
-    min-width: 208px !important;
+    min-width: 208px;
     height: 30px;
     min-height: 30px;
     background: #dde0ff;
     border: 2px solid #538dd5;
     border-radius: 4px;
     margin-bottom: 25px;
+    transition: all .2s;
 }
-.flex-gap div button{
-    width: 70px;
-    color: white;
-    background: #538dd5;
-    border: 2px solid #538dd5;
-    border-radius: 4px;
+.flex-gap div input:hover, .flex-gap div select:hover, .flex-gap div textarea:hover{
+	background: #e8ebff;
 }
 .flex-gap h4{
     width: 100%;
@@ -48,26 +45,59 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 10%;
 }
 .bottom-tab-button button{
     padding: 0 8px;
+    margin: auto;
+}
+.verifyInputs{
+    height: 35px;
+/*     margin: 0 !important; */
+    font-size: clamp(.9rem, 1.1vw, 1.1rem);
+    color:#fff;
+    background-color: red;
+    border: solid 2px rgb(174, 0, 0);
+    border-radius: .5em;
+    line-height: 1;
+    transition: all .2s;
+}
+.verifyInputs:hover{
+    background-color: rgb(255, 23, 23);
 }
 /* ----------------------- Hover Select A, B, C, D... ----------------------- */
 .long-select{
     width: 100%;
 }
+.long-select div{
+    margin: 0;
+}
+.long-select input{
+    width: 40% !important;
+    min-width: 208px;
+    padding-left: 5px;
+    margin: 10px 5px 0 0;
+}
 .long-select select{
     width: 100px !important;
-    margin: auto;
+    margin: 10px 20px 0 0;
+}
+.long-select button{
+    width: 70px;
+    height: 30px;
+    margin-top: 10px;
+    color: white;
+    background: #538dd5;
+    border: 2px solid #538dd5;
+    border-radius: 4px;
 }
 .letter-select span{
     font-size: 18px;
-    font-weight: bolder;
+    margin-top: 5px;
+    padding: 2px 8px;
     color: #538dd5;
+    font-weight: bolder;
     border: solid 2px #538dd5;
     border-radius: 3px;
-    padding: 2px 8px;
     cursor: help;
 }
 
@@ -110,19 +140,23 @@
 [tooltip]:hover::before, [tooltip]:hover::after {
     display: block;
 }
-/* FLOW: DOWN */
-[tooltip][flow^="down"]::before {
-    top: 100%;
-    border-top-width: 0;
-    border-bottom-color: #538dd5;
+/* FLOW: UP */
+[tooltip]:not([flow])::before,
+[tooltip][flow^="up"]::before {
+    bottom: 100%;
+    border-bottom-width: 0;
+    border-top-color: var(--color-blue-3);
 }
-[tooltip][flow^="down"]::after {
-    top: calc(100% + 5px);
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::after {
+    bottom: calc(100% + 5px);
 }
-[tooltip][flow^="down"]::before,
-[tooltip][flow^="down"]::after {
+[tooltip]:not([flow])::before,
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::before,
+[tooltip][flow^="up"]::after {
     left: 50%;
-    transform: translate(-50%, .5em);
+    transform: translate(-50%, -.5em);
 }
 /* KEYFRAMES */
 @keyframes tooltips-vert {
@@ -134,7 +168,7 @@
 /* FX All The Things */ 
 [tooltip]:not([flow]):hover::before,
 [tooltip]:not([flow]):hover::after,
-[tooltip][flow^="down"]:hover::before,
-[tooltip][flow^="down"]:hover::after {
+[tooltip][flow^="up"]:hover::before,
+[tooltip][flow^="up"]:hover::after {
 animation: tooltips-vert .3s ease-out forwards;
 }
