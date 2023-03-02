@@ -1,10 +1,8 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import EditManagersModal from "./EditManagersModal";
-import { IoIosAddCircleOutline } from "react-icons/io";
+import EditManagersModal from "./EditDeleteFunction";
 
-
-function EditManager({ id,docnum,name,email,unity,setManagers,onClose, setIsEditing }) {
+function EditModal({ id,docnum,name,email,unity,setManagers,onClose, setIsEditing }) {
     const values = [true];
     const [fullscreen, setFullscreen] = useState(true);
     const [show, setShow] = useState(true);
@@ -41,4 +39,4 @@ return(
 );
 }
 
-export default EditManager;
+export default EditModal;

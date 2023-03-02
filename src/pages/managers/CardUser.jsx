@@ -1,11 +1,8 @@
 export const numberF = Intl.NumberFormat("es-ES") 
 import PasswordValidation from './PasswordValidation.jsx'
 import modelUser from '../../assets/img/userImage.png';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 export default function CardUser({managers, setManagers, editManagers, eliminateManager,loading}) {
-
     return (
       <div className="userCards">
         {loading ? (

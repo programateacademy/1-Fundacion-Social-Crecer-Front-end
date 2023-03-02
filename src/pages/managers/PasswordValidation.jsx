@@ -1,6 +1,6 @@
 import { useState } from "react";
-import PasswordValidationModal from "./PasswordValidationModal";
-import EditManagerContainerButton from "./EditManagerContainerButton.jsx";
+import PasswordValidationModal from "./PasswordConfirm";
+import EditManagerContainerButton from "./EditModal.jsx";
 
 function PasswordValidation({ id,docnum, name, email,unity, setManagers }) {
   const [showPasswordModal, setShowPasswordModal] = useState(false);

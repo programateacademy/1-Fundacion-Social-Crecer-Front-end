@@ -2,7 +2,7 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import users from "../../apis/index";
 
-const EditManagersModal = ({ id, docnum1, name1, email1,unity1, setShow ,onClose,setIsEditing }) => {
+const EditDeleteFunction = ({ id, docnum1, name1, email1,unity1, setShow ,onClose,setIsEditing }) => {
   const [form, setForm] = useState(
     {
       name: name1, 
@@ -89,4 +89,4 @@ const handleEditClick = () => {
       </div>
     </div>
   );}
-export default EditManagersModal;
+export default EditDeleteFunction;

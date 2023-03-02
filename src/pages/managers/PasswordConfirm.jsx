@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal, Form } from "react-bootstrap";
 
-const PasswordValidationModal = ({ show, onClose, onConfirm }) => {
+const PasswordConfirm = ({ show, onClose, onConfirm }) => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -51,4 +51,4 @@ const PasswordValidationModal = ({ show, onClose, onConfirm }) => {
   );
 };
 
-export default PasswordValidationModal;
+export default PasswordConfirm;

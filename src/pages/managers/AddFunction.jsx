@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import  { useState, useRef } from "react";
 import users from "../../apis/index";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
@@ -10,17 +10,7 @@ const AddFunction = ({ setShow, managers }) => {
   const [errorEmailMessage, setErrorEmailMessage] = useState("");
   const [usuarioIndex, setUsuarioIndex] = useState(-1);
   const [repatedE, setRepeatedE] = useState(-1);
-  const repeatedId = (ID) => {
-    return managers.findIndex((usuario) => usuario.docnum === ID);
-  };
-  const repeatedEmail = (email) => {
-    return managers.findIndex((usuario) => usuario.email === email);
-  };
-  const formRef = useRef(null);
-  const role = "admin";
-  // State to send form data
-
-  const [password, setPassword] = useState("");
+  const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
 
   const formModel = {
@@ -31,42 +21,51 @@ const AddFunction = ({ setShow, managers }) => {
     docnum: "",
     role:"admin"
   };
-  const [form, setForm] = useState(formModel);
+  const [formDani, setForm] = useState(formModel);
 
-/*   const handleCreate = async (e) => {
+  const repeatedId = (ID) => {
+    return managers.findIndex((usuario) => usuario.docnum === ID);
+  };
+  const repeatedEmail = (email) => {
+    return managers.findIndex((usuario) => usuario.email === email);
+  };
+  const formRef = useRef(null);
+  // State to send form data
+
+const handleCreate = async (e) => {
     e.preventDefault();
-    const formDani = formRef.current;
-    //alert(usuarioIndex);
-    if (formDani.checkValidity() === false) {
+    const form = formRef.current;
+    if (form.checkValidity() === false) {
       e.stopPropagation();
-    }else if(usuarioIndex!==-1){
+/*     }else if(usuarioIndex!==-1){
       setErrorDocnumMessage("Este ID ya existe");
     }else if(repatedE!==-1){
-      setErrorEmailMessage("Este email ya existe");
-    }else if (password !== password2) {
+      setErrorEmailMessage("Este email ya existe"); */
+    }else if (password1 !== password2) {
       setErrorPasswordMessage("Las contraseñas no coinciden");
     }else {
-      addManagers;
+      addManagers();
       setShow(false);
+      setValidated(true);
     }
-    setValidated(true);
-  };  */
+    
+  }; 
 
   const handleInputText = (e) => {
     let { name, value } = e.target;
-    let newForm = { ...form, [name]: value };
+    let newForm = { ...formDani, [name]: value };
     setForm(newForm);
   };
 
   const handleInputNumber = (e) => {
     let { name, value } = e.target;
-    let newForm = { ...form, [name]: value };
+    let newForm = { ...formDani, [name]: value };
     setForm(newForm);
   };
 
   const addManagers = async () => {
     try {
-      const response = await users.post("/api/superadmin/admin", form, {
+      const response = await users.post("/api/superadmin/admin", formDani, {
         headers: {
           Authorization: localStorage.getItem("token" || "recovery-token"),
         },
@@ -85,7 +84,7 @@ const AddFunction = ({ setShow, managers }) => {
             placeholder="Numero de identificación"
             required
             name="docnum"
-            value={form.docnum}
+            value={formDani.docnum}
             onChange={handleInputNumber}
             isInvalid={errorDocnumMessage !== ""}
           />
@@ -99,7 +98,7 @@ const AddFunction = ({ setShow, managers }) => {
             placeholder="Nombre"
             required
             name="name"
-            value={form.name}
+            value={formDani.name}
             onChange={handleInputText}
           />
         </Form.Group>
@@ -109,7 +108,7 @@ const AddFunction = ({ setShow, managers }) => {
             placeholder="Correo electrónico"
             required
             name="email"
-            value={form.email}
+            value={formDani.email}
             onChange={handleInputText} /* ,setRepeatedE(repeatedEmail(e.target.value)),setErrorEmailMessage('')  */
             isInvalid={errorEmailMessage !== ""}
           />
@@ -123,7 +122,7 @@ const AddFunction = ({ setShow, managers }) => {
             placeholder="Unidad"
             required
             name="unity"
-            value={form.unity}
+            value={formDani.unity}
             onChange={handleInputText}
           />
         </Form.Group>
@@ -133,30 +132,29 @@ const AddFunction = ({ setShow, managers }) => {
             placeholder="Contraseña"
             required
             name="password"
-            value={form.password}
-            onChange={handleInputText}
+            value={formDani.password}
+            onChange={(e)=>{handleInputText(e);setPassword1(e.target.value)}}
           />
         </Form.Group>
-{/*         <Form.Group className="inputNewUser">
+        <Form.Group className="inputNewUser">
           <Form.Control
             type="password"
             placeholder="Repetir contraseña"
             name="password2"
-            value={form.password}
-            onChange={handleInputText}
+            onChange={(e)=>{setPassword2(e.target.value);setErrorPasswordMessage('')}}
             required
             isInvalid={errorPasswordMessage !== ""}
           />
           <Form.Control.Feedback type="invalid">
             {errorPasswordMessage}
           </Form.Control.Feedback>
-        </Form.Group> */}
+        </Form.Group>
       </Form>
       <div className="btnsUser">
         <button
           type="submit"
           className="btnCreateUser"
-          onClick={() => {addManagers(),setShow(false)}}>
+          onClick={(e)=> {handleCreate(e)}}>
           Crear
         </button>
         <button className="btnCancelUser" onClick={() => setShow(false)}>
