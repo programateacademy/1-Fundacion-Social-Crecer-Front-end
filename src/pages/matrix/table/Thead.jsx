@@ -1,12 +1,16 @@
-import data from '../../../apis/model'
 import './BeneficiariesTable.css'
 import { useState, useEffect } from 'react'
 import { useArrayContext } from '../../../context/context'
 import { useSetArrayContext } from '../../../context/context'
+import {useFilterContext, useSetFilterContext} from '../../../context/context'
 
 
 function Thead({trans=false}) {
+    
+    
 
+    let setFilter = useSetFilterContext();
+    let data = useArrayContext();
     let setArray = useSetArrayContext();
     //Variables for the filters
     const [curState, setCurState] = useState(0);
@@ -14,17 +18,21 @@ function Thead({trans=false}) {
     const [dupla, setDupla] = useState(0);
     const [benef, setBenef] = useState(0);
     const [foca, setFoca] = useState(0);
+    const [benefcomp, setBenefComp] = useState(0);
+    
     //Update context array because actions
     useEffect(() => {
-        setArray(arrayfilter);
-    },[curState, unity, dupla, benef, foca]);
+        
+        setFilter(arrayfilter);
+    },[curState, unity, dupla, benef, foca, benefcomp ]);
     
     // filter all solicitated data
-    let arrayfilter = data.filter(item=> item.curState == (curState==0? item.curState: curState ) && item.unitId == (unity==0? item.unitId: unity )&& item.duoId == (dupla==0? item.duoId: dupla ) && item.beneficiaryType == (benef==0? item.beneficiaryType: benef) && item.focusingCriteria == (foca==0? item.focusingCriteria: foca ))
-    
+    let arrayfilter = data.filter( item=> item.curState == (curState==0? item.curState: curState ) && item.unityName== (unity==0? item.unityName: unity )&& item.duoName == (dupla==0? item.duoName: dupla ) && item.beneficiaryType == (benef==0? item.beneficiaryType: benef) && item.focusingCriteria == (foca==0? item.focusingCriteria: foca ) &&  item.beneficiaryComplement ==  (benefcomp==0? item.beneficiaryComplement:  benefcomp ))
+
     return ( 
         
         <thead className={trans? 'transp':''}>
+            
             <tr>
                 <td>EDITAR</td>
                 <td>NUMERO DE DOCUMENTO</td>
@@ -129,7 +137,7 @@ function Thead({trans=false}) {
                 <td className='tb-beneficiario'>PRIMER NOMBRE</td>
                 <td className='tb-beneficiario'>SEGUNDO NOMBRE</td>
                 <td className='tb-beneficiario'>PRIMER APELLIDO</td>
-                <td className='tb-beneficiario'>SEGUNDIO NOMBRE</td>
+                <td className='tb-beneficiario'>SEGUNDIO APELLIDO</td>
                 <td className='tb-beneficiario'>NOMBRE COMPLETO</td>
                 <td className='tb-beneficiario'>FECHA DE NACIMIENTO</td>
                 <td className='tb-beneficiario'>AÑOS</td>
@@ -248,11 +256,12 @@ function Thead({trans=false}) {
                 <td className='tb-historial-medico'>DURACIÓN LACTANCIA MATERNA TOTAL (MESES)</td>
                 <td className='tb-historial-medico'>X</td>
                 <td className='tb-unidad'>TIPO COMPLEMENTO
-                <select name='select' onChange={(e)=>{setBenef(e.target.value)}}>
+                <select name='select' onChange={(e)=>{setBenefComp(e.target.value)}}>
                     <option value={0}>NO FILTRAR</option>
-                    <option value='MUJER GESTANTE' >MUJER GESTANTE</option>
-                    <option value='MENOR DE SEIS MESES'>MENOR DE SEIS MESES</option>
-                    <option value='NIÑO O NIÑA ENTRE 6 MESES Y 5 AÑOS Y 11 MESES'>NIÑO O NIÑA ENTRE 6 MESES Y 5 AÑOS Y 11 MESES</option>
+                    <option value='MADRES GESTANTES Y MADRES LACTANTES' >MADRES GESTANTES Y MADRES LACTANTES</option>
+                    <option value='NIÑOS Y NIÑAS DE 6 MESES A 11 MESES 29 DIAS'>NIÑOS Y NIÑAS DE 6 MESES A 11 MESES 29 DIAS</option>
+                    <option value='NIÑOS Y NIÑAS MAYORES DE 1 AÑO'>NIÑOS Y NIÑAS MAYORES DE 1 AÑO</option>
+                    <option value='MAYORES A 3 AÑOS'>MAYORES A 3 AÑOS</option>
                 </select>
                 </td>
                 <td className='tb-unidad'>SI EL BENEFICIARIO TIENE TICKET, INDIQUE EL NÚMERO DE TICKET</td>

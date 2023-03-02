@@ -19,6 +19,11 @@ a {
 .adminInfo{
     display: flex;
     flex-direction: column;
+    margin:auto;
+    padding:0px;
+}
+.adminInfo p{
+    margin: 0 10px;
 }
 .buttonsHeader, .profile{
     display: flex;
@@ -29,8 +34,6 @@ a {
     width: 328px;
     justify-content: space-between;
     font-size: 16px;
-    
-    
 }
 .buttonHeader{
     border: none;
@@ -55,13 +58,17 @@ a {
 .adminProfile{
     font-size: 15px;
 }
-.iconUser{
+.iconuserInfo{
     font-size: 16px;
     margin-right: 10px;
     color:gray;
 }
 .adminProfile{
     margin-top: -5px;
+}
+.adminInfo p {
+    margin-bottom: 0px;
+    margin-right: 7px;
 }
 
 
