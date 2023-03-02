@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import datas from "../../../apis/model";
-import collection from "../../../apis/index";
+import app from "../../../apis/index";
 import edit from "../../../assets/icons/edit.svg";
 import "./BeneficiariesTable.css";
 import { useArrayContext, useSetArrayContext, useFilterContext } from "../../../context/context";
@@ -8,20 +8,35 @@ import { useArrayContext, useSetArrayContext, useFilterContext } from "../../../
 
 //Sacamos los nombres de las llaves de un beneficiario dummy, se convierte en array sacando las llaves con Object.keys
 
-function Tbody() {
+function Tbody({token}) {
     const filter = useFilterContext();
-    const array =  filter[0]?filter: useArrayContext();
+    const array = filter[0] ? filter : useArrayContext();
     const setArray = useSetArrayContext();
     const [isEditing, setIsEditing] = useState(false);
     const [editedItem, setEditedItem] = useState(null);
     console.log(array)
 
-    const dummy = ()=> {
+    const dummy = () => {
 
         delete datas[0]._id
         return datas[0]
     }
     const beneficiariesNameValues = Object.keys(dummy());
+
+    const updateBeneficiary = async (id, beneficiary) => {
+        const url = `/api/admin/beneficiary/${id}`;
+        const config = {
+            headers: {
+                Authorization: token,
+            },
+        };
+        try {
+            const response = await app.put(url, beneficiary, config);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    };
     
     //  edit
     const onChangeInput = (e, _id) => {
@@ -39,22 +54,28 @@ function Tbody() {
         setIsEditing(true);
         setEditedItem(item);
     };
+// Actualiza los datos en la base de datos y en el estado "array" cuando se hace clic en el botón "Guardar cambios"
+const handleSave = (beneficiary) => {
+    setIsEditing(false);
+    setEditedItem(null);
+    // Actualiza los datos en la base de datos utilizando el método PUT
+    updateBeneficiary(beneficiary._id, beneficiary)
+        .then(() => {
+            console.log("Beneficiaries updated successfully!");
+        })
+        .catch((error) => {
+            console.log("Error updating beneficiaries:", error);
+        });
+};
 
-    const handleSave = (beneficiary) => {
-        setIsEditing(false);
-        setEditedItem(null);
-        // SAve on db use _id 
-        localStorage.setItem("array", JSON.stringify(array));
-    };
 
-        console.log(datas[0])
-        
 
+    console.log(datas[0])
     return (
-        <> 
+        <>
 
             <tbody>
-            
+
                 {array.map((beneficiary) => (
                     // numDoc identificador unico
                     // Key identificador de filas
@@ -84,12 +105,12 @@ function Tbody() {
                                         onChange={(e) => {
                                             const newItem = editedItem;
                                             newItem[item] = e.target.value
-                                            setEditedItem(  newItem);
+                                            setEditedItem(newItem);
                                             console.log(editedItem);
-                                            onChangeInput(e,editedItem._id)
+                                            onChangeInput(e, editedItem._id)
                                         }}
 
-                                    
+
                                     />
                                 ) : (
                                     beneficiary[item]

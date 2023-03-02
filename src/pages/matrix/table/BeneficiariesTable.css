@@ -158,16 +158,14 @@ select option:hover::before {
 /*Edit button styles*/
 .edit-button img {
     width: 30px;
-
 }
-
 .edit-button {
     transition: 0.5s;
+    border: none;
 }
 
 .edit-button:hover {
     background-color: #c4ffd1;
     transition: 0.5s;
     cursor: pointer;
-    border: 1px solid rgb(17, 104, 14);
 }

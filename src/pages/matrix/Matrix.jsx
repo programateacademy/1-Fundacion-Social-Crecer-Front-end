@@ -33,7 +33,7 @@ function Matrix({ onLogout, token }) {
                 <div className="table-head">
                     <table>
                         <Thead />
-                        <BeneficiariesTable />
+                        <BeneficiariesTable token={token} />
                     </table>
                 </div> </div>
 

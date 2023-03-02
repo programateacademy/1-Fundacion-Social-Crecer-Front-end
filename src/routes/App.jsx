@@ -33,7 +33,7 @@ function App() {
 
   async function fetchData() {
     if (!token) {
-        onLogout();
+        handleLogout();
     } else {
         const { data } = await users.get("/api/admin", {
             headers: {
@@ -84,7 +84,6 @@ useEffect(() => {
         return false;
       });
   };
-
 
   return (
     <>

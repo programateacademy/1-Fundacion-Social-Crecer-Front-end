@@ -4,13 +4,13 @@ import Tbody from './Tbody'
 import { useArrayContext } from '../../../context/context'
 
 
-function BeneficiariesTable() {
+function BeneficiariesTable({token}) {
 
   let data = useArrayContext();
 
   return (
     
-      <Tbody/>
+      <Tbody token={token}/>
   )
 }
 

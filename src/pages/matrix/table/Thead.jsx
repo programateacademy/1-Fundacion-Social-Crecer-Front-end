@@ -2,13 +2,11 @@ import './BeneficiariesTable.css'
 import { useState, useEffect } from 'react'
 import { useArrayContext } from '../../../context/context'
 import { useSetArrayContext } from '../../../context/context'
-import {useFilterContext, useSetFilterContext} from '../../../context/context'
+import { useSetFilterContext } from '../../../context/context'
 
 
 function Thead({trans=false}) {
     
-    
-
     let setFilter = useSetFilterContext();
     let data = useArrayContext();
     let setArray = useSetArrayContext();

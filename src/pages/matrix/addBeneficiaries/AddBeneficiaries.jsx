@@ -40,7 +40,7 @@ const [selectedValue, setSelectedValue] = useState('');
 
 
 const addBeneficiary = async (e) => {
-    /* e.preventDefault(); */
+    e.preventDefault();
     try {
         console.log(token)
         await app.post('/api/admin/beneficiary', form ,{
@@ -54,6 +54,7 @@ const addBeneficiary = async (e) => {
         console.log(alert(error))
     }
 } 
+
 
     // Form tabs
     const [tabIndex, setTabIndex] = useState(0);
