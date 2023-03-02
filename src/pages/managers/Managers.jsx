@@ -1,85 +1,116 @@
-import React from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import CardUser from './CardUser.jsx';
 import './Managers.css';
 import SearchManagers from './SearchManagers.jsx';
-import ModalContainerAddUser from './ModalContainerAddUser.jsx';
-import UserList from "./UserList.jsx";
+import AddButton from './AddButton.jsx';
 import Header from '../../components/header/Header.jsx';
+import users from '../../apis/index'
 
 function Managers({onLogout, token}) {
-  const localStorageManagers=localStorage.getItem('MANAGERS_V1');
-  let parsedManagers;
-  if (!localStorageManagers){
-    localStorage.setItem('MANAGERS_V1',JSON.stringify([]));
+  const [managers,setManagers ] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState('')
+
+  const getManagers = async () => {
+    try {
+      const response = await users.get('/api/superadmin/admin', {headers: {
+        Authorization: localStorage.getItem('token' || 'recovery-token')
+      }});
+      setManagers(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
-  else{
-    parsedManagers=JSON.parse(localStorageManagers);
-  }
 
-  const [managers,setManagers ]=React.useState(UserList);
-  const [searchValue, setSearchValue]=React.useState('');
+  useEffect(() => {
+    getManagers();
+  }, [getManagers]);
 
-  const saveManagers=(newManagers)=>{
-    const stringifiedManagers=JSON.stringify(newManagers);
-    localStorage.setItem('MANAGERS_V1',stringifiedManagers);
-    setManagers(newManagers);
-  };
-
-  
-  
   let quitAccent=function (cadena){
     const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
     return cadena.split('').map( letra => acentos[letra] || letra).join('').toString();	
   }
-  let searchedManagers=[];
-  if (!searchValue.length>=1)
-  {
-    searchedManagers=managers;
-  } 
-  else{
-    searchedManagers=managers.filter(manager=>{
-      const managerName=quitAccent(manager.name.toLowerCase());
-      const searchText=quitAccent(searchValue.toLowerCase());
-      const managerEmail=quitAccent(manager.email.toLowerCase());
-      const managerID=manager.id.toString();
-      return (managerName.includes(searchText)||managerEmail.includes(searchText)||managerID.includes(searchText));
-      
+  const searchedManagers = useMemo(() => {
+    if (!managers || !searchValue) {
+      return managers;
+    }
+  
+    const searchText = quitAccent(searchValue.toLowerCase());
+    const searchResults = managers.filter((manager) => {
+      const managerName = quitAccent(manager.name.toLowerCase());
+      const managerEmail = quitAccent(manager.email.toLowerCase());
+      const managerID = manager.docnum.toString();
+      const managerUnity = quitAccent(manager.unity.toLowerCase());
+      return (managerName.includes(searchText) || managerEmail.includes(searchText) || managerID.includes(searchText)||managerUnity.includes(searchText));
     });
-  }
-  const addManagers = (item) => {
-    setManagers([...managers, item])
-    UserList.push(item);
-  };
-
-  const editarUsuario=(id,setUser,nuevoNombre,nuevoEmail)  => {
-    const  usuarioIndex=managers.findIndex((usuario)=>usuario.id===id);
-
-    if (usuarioIndex!==-1){
-      const usuariosActualizados=[...managers];
-      usuariosActualizados[usuarioIndex].name=nuevoNombre;
-      usuariosActualizados[usuarioIndex].email=nuevoEmail;
-      setUser(usuariosActualizados);
-    }
-
-  };
-  const eliminateManager = (id, setUser) => {
-    const index = managers.findIndex((usuario) => usuario.id === id);
   
-    if (index !== -1) {
-      const nuevosManagers = [...managers];
-      nuevosManagers.splice(index, 1);
-      setUser(nuevosManagers);
+    return searchResults;
+  }, [managers, searchValue, setManagers]);
+ 
+/*   const addManagers = async(item) => {
+     const json = await fetch ('/api/superadmin/admin', {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(item),
+    }).then(res => res.json())
+
+    if (json.error) {
+      alert(json.error)
+    } else {
+      const updatedManagers = [...managers, json];
+      setManagers(updatedManagers);
+    }
+  }; */
+
+  const editarUsuario = async (id, setUser, nuevoNombre, nuevoEmail, nuevaUnidad) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/manager/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: nuevoNombre,
+          email: nuevoEmail,
+          unity: nuevaUnidad,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        const usuariosActualizados = [...user];
+        const usuarioIndex = usuariosActualizados.findIndex(
+          (usuario) => usuario.docnum === id
+        );
+        usuariosActualizados[usuarioIndex].name = data.name;
+        usuariosActualizados[usuarioIndex].email = data.email;
+        usuariosActualizados[usuarioIndex].unity = data.unity;
+        setUser(usuariosActualizados);
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error(error.message);
     }
   };
-  
+
   return (
     <>
       <Header onLogout={onLogout} token={token}/>
       <div className='filaUno'>
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
-        <ModalContainerAddUser add={addManagers} managers={managers}/>
-      </div>
-      <CardUser managers={searchedManagers} setManagers={setManagers} editManagers={editarUsuario} eliminateManager={eliminateManager}/>
+        <AddButton managers={managers}/>
+      </div> 
+      <CardUser 
+        managers={searchedManagers} 
+        setManagers={setManagers} 
+        editManagers={editarUsuario} 
+        /* eliminateManager={eliminateManager}  */
+        loading={loading}/>
     </>
   );
 }

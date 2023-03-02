@@ -1,13 +1,24 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
+import users from "../../apis/index";
 
-const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManagers, eliminateManager,onClose,setIsEditing }) => {
-
-  const [id, setId] = useState(id1);
-  const [newName, setNewName] = useState(name1);
-  const [newEmail, setNewEmail] = useState(email1);
-  const [emailError, setEmailError] = useState("");
-
+const EditManagersModal = ({ id, docnum1, name1, email1,unity1, setShow, setManagers,onClose,setIsEditing }) => {
+  const [form, setForm] = useState(
+    {
+      name: name1, 
+      docnum: docnum1, 
+      email: email1, 
+      unity: unity1
+    }
+  )
+   const [emailError, setEmailError] = useState("");  
+  
+  const handleInputText = (e) => {
+    let { name, value } = e.target;
+    let newForm = { ...form, [name]: value };
+    setForm(newForm);
+  };
+  
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -17,16 +28,16 @@ const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManag
     setNewEmail(e.target.value);
   };
 
-  const handleEditClick = () => {
-    if (!validateEmail(newEmail)) {
+/*   const handleEditClick = () => {
+    if (!validateEmail(form.name)) {
       setEmailError("Por favor, ingrese un correo electrónico válido");
     } else {
       setEmailError("");
-      editManagers(id1, setManagers, newName, newEmail);
+      editManager(id);
       setIsEditing(false);
       setShow(false);
     }
-  };  
+  };  */ 
   
   const handleClose = () => {
     if (!emailError) {
@@ -34,44 +45,64 @@ const EditManagersModal = ({ id1, name1, email1, setShow, editManagers, setManag
       onClose();
     }
   };
-  
+    
+  const eliminateManager = async (id) => { 
+    try {
+    const response = await users.delete(`/api/superadmin/admin/${id}`, {headers: {
+      Authorization: localStorage.getItem('token' || 'recovery-token')
+    }})
+    console.log(response);
+  } catch (error) {
+      console.error(error);
+    }
+  };
+ 
+
+  const editManager = async (id) => { 
+    try {
+    const response = await users.put(`/api/superadmin/admin/${id}`,form, {headers: {
+      Authorization: localStorage.getItem('token' || 'recovery-token')
+    }})
+    console.log(response);
+  } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div id="Form">
       <Form>
         <Form.Group className="inputNewUser">
           <Form.Control
             type="text"
-            placeholder={id1}
-            onChange={(e) => { setId(e.target.value) }}
+            name="name"
+            value={form.name}
+            placeholder={name1}
+            onChange={handleInputText}
           />
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
             type="text"
-            placeholder={name1}
-            onChange={(e) => { setNewName(e.target.value) }}
+            name="unity"
+            value={form.unity}
+            placeholder={unity1}
+            onChange={handleInputText}
           />
-        </Form.Group>
-        <Form.Group className="inputNewUser">
-          <Form.Control
-            type="email"
-            placeholder={email1}
-            onChange={handleEmailChange}
-          />
-          {emailError && <p style={{ color: "red" }}>{emailError}</p>}
         </Form.Group>
       </Form>
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={handleEditClick}
+          onClick={_=> {editManager(id);setShow(false)}}
         >
           Editar
         </button>
         <button
           className="btnEliminateUser"
           onClick={() => {
-            eliminateManager(id1, setManagers);
+            eliminateManager(id);
+            console.log(id);
             setShow(false);
             onClose();
           }}
