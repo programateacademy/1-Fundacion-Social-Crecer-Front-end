@@ -23,6 +23,8 @@ function Tbody({token}) {
     }
     const beneficiariesNameValues = Object.keys(dummy());
 
+    const dateKeys = ["joinDate", "exitDate", "birthDate","guardianBirthdate", "fatherBirthdate", "motherBirthdate", "vaccinationVerificationDate","vaccinationCardUpToDate",];
+
     const updateBeneficiary = async (id, beneficiary) => {
         const url = `/api/admin/beneficiary/${id}`;
         const config = {
@@ -68,8 +70,6 @@ const handleSave = (beneficiary) => {
         });
 };
 
-
-
     console.log(datas[0])
     return (
         <>
@@ -100,7 +100,7 @@ const handleSave = (beneficiary) => {
                                     <input
                                         name={item}
                                         value={editedItem[item]}
-                                        type="text"
+                                        type={dateKeys.includes(item) ? "date" : "text"}
                                         placeholder={item}
                                         onChange={(e) => {
                                             const newItem = editedItem;

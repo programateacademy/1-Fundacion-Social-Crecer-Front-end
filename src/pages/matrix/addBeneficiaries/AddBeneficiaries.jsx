@@ -340,7 +340,7 @@ return (
                         </div>
                         <div>
                             <label>FECHA DE EGRESO</label>
-                            <input onChange={handleInput} name='exitDate' type='date' value={form.exitDate}/>
+                            <input onChange={handleInput} placeholder='DD-MM-AAAA' name='exitDate' type='date' value={form.exitDate}/>
                         </div>
                         <div>
                             <label>INGRESA POR</label>
