@@ -43,7 +43,6 @@ function App() {
         console.log("Data" , data)
         setUserInfo(data.data.user);
         localStorage.setItem("userData", JSON.stringify(data.data.user));
-
     }
 }
 useEffect(() => {

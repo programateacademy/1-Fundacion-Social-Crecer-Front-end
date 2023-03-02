@@ -13,7 +13,7 @@ function Matrix({ onLogout, token }) {
         <>
             <div> <Header onLogout={onLogout} token={token}/>
                 <section className="top-table">
-                    <AddBeneficiaries />
+                    <AddBeneficiaries token={token}/>
                     <section className="filter-space">
                         <Filter />
                     </section>

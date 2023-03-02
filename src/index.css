@@ -45,6 +45,7 @@
     display: flex;
     align-items: center;
     transition: all .15s;
+    line-height: 1;
 }
 
 .addUser:hover {
@@ -62,7 +63,6 @@
 
 .createUser {
     margin: 0 5px;
-    line-height: 1;
 }
 select:focus ,input:focus, textarea:focus{
     outline: 1px solid var(--color-blue-3);

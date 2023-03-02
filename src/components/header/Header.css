@@ -20,6 +20,9 @@ a {
     display: flex;
     flex-direction: column;
 }
+.adminInfo p{
+    margin: 0 10px;
+}
 .buttonsHeader, .profile{
     display: flex;
     flex-direction: row;
@@ -29,8 +32,6 @@ a {
     width: 328px;
     justify-content: space-between;
     font-size: 16px;
-    
-    
 }
 .buttonHeader{
     border: none;
