@@ -49,7 +49,7 @@ const addBeneficiary = async (e) => {
                 Authorization: token
             }
             })
-            .then(_=>{alert('Beneficiario añadido'); resetForm(); setShow(false)})
+            .then(_=>{alert('Beneficiario añadido'); resetForm(); setShow(false); setTabIndex(0);})
             .catch((error)=>alert(JSON.stringify(error.response.data.message)))
     }catch (error){
         console.log(alert(error))
@@ -304,7 +304,7 @@ return (
         keyboard={false}
         className='modal-xl modal-dialog-centered'
     >
-        <Modal.Header closeButton onClick={_=>{resetForm();setSelectedValue('');}}>
+        <Modal.Header closeButton onClick={_=>{resetForm();setSelectedValue('');setTabIndex(0);}}>
             <Modal.Title id='example-custom-modal-styling-title'>
                 <h3>AÑADIR BENEFICIARIO</h3>
             </Modal.Title>
