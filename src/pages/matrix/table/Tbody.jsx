@@ -8,7 +8,7 @@ import { useArrayContext, useSetArrayContext, useFilterContext } from "../../../
 
 //Sacamos los nombres de las llaves de un beneficiario dummy, se convierte en array sacando las llaves con Object.keys
 
-function Tbody({token}) {
+function Tbody({ token }) {
     const filter = useFilterContext();
     const array = filter[0] ? filter : useArrayContext();
     const setArray = useSetArrayContext();
@@ -23,8 +23,8 @@ function Tbody({token}) {
     }
     const beneficiariesNameValues = Object.keys(dummy());
 
-    const dateKeys = ["joinDate", "exitDate", "birthDate","guardianBirthdate", "fatherBirthdate", "motherBirthdate", "vaccinationVerificationDate","vaccinationCardUpToDate",];
-
+    const dateKeys = ["joinDate", "exitDate", "birthDate", "guardianBirthdate", "fatherBirthdate", "motherBirthdate", "vaccinationVerificationDate", "vaccinationCardUpToDate",];
+    const numberKeys = ["primaryPhone", "secundaryPhone", "householdStratum", "guardianDocumentNumber", "fatherDocumentNumber", "motherDocumentNumber", "gestationalAgeAtBirth", "weightAtBirth", "heightAtBirth", "exclusiveBreastfeedingDuration", "totalBreastfeedingDuration", "gestationWeeks", "ticketNumber"]
     const updateBeneficiary = async (id, beneficiary) => {
         const url = `/api/admin/beneficiary/${id}`;
         const config = {
@@ -39,7 +39,7 @@ function Tbody({token}) {
             throw error;
         }
     };
-    
+
     //  edit
     const onChangeInput = (e, _id) => {
         const { name, value } = e.target;
@@ -56,19 +56,19 @@ function Tbody({token}) {
         setIsEditing(true);
         setEditedItem(item);
     };
-// Actualiza los datos en la base de datos y en el estado "array" cuando se hace clic en el botón "Guardar cambios"
-const handleSave = (beneficiary) => {
-    setIsEditing(false);
-    setEditedItem(null);
-    // Actualiza los datos en la base de datos utilizando el método PUT
-    updateBeneficiary(beneficiary._id, beneficiary)
-        .then(() => {
-            console.log("Beneficiaries updated successfully!");
-        })
-        .catch((error) => {
-            console.log("Error updating beneficiaries:", error);
-        });
-};
+    // Actualiza los datos en la base de datos y en el estado "array" cuando se hace clic en el botón "Guardar cambios"
+    const handleSave = (beneficiary) => {
+        setIsEditing(false);
+        setEditedItem(null);
+        // Actualiza los datos en la base de datos utilizando el método PUT
+        updateBeneficiary(beneficiary._id, beneficiary)
+            .then(() => {
+                console.log("Beneficiaries updated successfully!");
+            })
+            .catch((error) => {
+                console.log("Error updating beneficiaries:", error);
+            });
+    };
 
     console.log(datas[0])
     return (
@@ -100,7 +100,7 @@ const handleSave = (beneficiary) => {
                                     <input
                                         name={item}
                                         value={editedItem[item]}
-                                        type={dateKeys.includes(item) ? "date" : "text"}
+                                        type={dateKeys.includes(item) ? "date" : "text" || numberKeys.includes(item)? "number" : "text"}
                                         placeholder={item}
                                         onChange={(e) => {
                                             const newItem = editedItem;
