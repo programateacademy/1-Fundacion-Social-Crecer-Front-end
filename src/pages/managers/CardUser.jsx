@@ -12,7 +12,7 @@ export default function CardUser({managers, setManagers, editManagers, eliminate
           "Cargando ..."
         ) : (
           managers.map(values => {
-            const { docnum, name, email, unity } = values;
+            const { docnum, name, email, unity,_id} = values;
             return (
               <div className="cardUser" key={docnum}>
                 <div className="dataUser">
@@ -26,7 +26,7 @@ export default function CardUser({managers, setManagers, editManagers, eliminate
                 </div>
                 <div className="profileUserButtons">
                   <button className="userButton">CAMBIAR CONTRASEÑA</button>
-                  <PasswordValidation docnum={docnum} name={name} email={email} unity={unity} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager}/>
+                  <PasswordValidation id={_id} docnum={docnum} name={name} email={email} unity={unity} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager}/>
                 </div>
               </div>
             );

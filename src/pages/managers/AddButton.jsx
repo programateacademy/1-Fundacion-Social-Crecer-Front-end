@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import AddManagersModal from "./AddManagersModal";
+import AddManagersModal from "./AddFunction";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 
 //  Modal component
-function ModalContainerAddUser({managers}) {
+function AddButton({managers}) {
   //  State assignment
   const values = [true];
   const [fullscreen, setFullscreen] = useState(true);
@@ -40,4 +40,4 @@ function ModalContainerAddUser({managers}) {
   );
 }
 
-export default ModalContainerAddUser;
+export default AddButton;

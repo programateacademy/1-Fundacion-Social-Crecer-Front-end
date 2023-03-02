@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import CardUser from './CardUser.jsx';
 import './Managers.css';
 import SearchManagers from './SearchManagers.jsx';
-import ModalContainerAddUser from './ModalContainerAddUser.jsx';
+import AddButton from './AddButton.jsx';
 import Header from '../../components/header/Header.jsx';
 import users from '../../apis/index'
 
@@ -97,21 +97,19 @@ function Managers({onLogout, token}) {
       console.error(error.message);
     }
   };
-  
-  const eliminateManager = async (id, setUser) => {
-  };
+
   return (
     <>
       <Header onLogout={onLogout} token={token}/>
       <div className='filaUno'>
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
-        <ModalContainerAddUser managers={managers}/>
+        <AddButton managers={managers}/>
       </div> 
       <CardUser 
         managers={searchedManagers} 
         setManagers={setManagers} 
         editManagers={editarUsuario} 
-        eliminateManager={eliminateManager} 
+        /* eliminateManager={eliminateManager}  */
         loading={loading}/>
     </>
   );

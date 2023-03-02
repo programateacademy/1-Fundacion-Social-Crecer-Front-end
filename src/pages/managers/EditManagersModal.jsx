@@ -1,14 +1,24 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
+import users from "../../apis/index";
 
-const EditManagersModal = ({ docnum1, name1, email1,unity1, setShow, editManagers, setManagers, eliminateManager,onClose,setIsEditing }) => {
-
-  const [docnum, setId] = useState(docnum1);
-  const [newName, setNewName] = useState(name1);
-  const [newEmail, setNewEmail] = useState(email1);
-  const [emailError, setEmailError] = useState("");
-  const [unity,setUnity]=useState(unity1);
-
+const EditManagersModal = ({ id, docnum1, name1, email1,unity1, setShow, setManagers,onClose,setIsEditing }) => {
+  const [form, setForm] = useState(
+    {
+      name: name1, 
+      docnum: docnum1, 
+      email: email1, 
+      unity: unity1
+    }
+  )
+   const [emailError, setEmailError] = useState("");  
+  
+  const handleInputText = (e) => {
+    let { name, value } = e.target;
+    let newForm = { ...form, [name]: value };
+    setForm(newForm);
+  };
+  
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -18,16 +28,16 @@ const EditManagersModal = ({ docnum1, name1, email1,unity1, setShow, editManager
     setNewEmail(e.target.value);
   };
 
-  const handleEditClick = () => {
-    if (!validateEmail(newEmail)) {
+/*   const handleEditClick = () => {
+    if (!validateEmail(form.name)) {
       setEmailError("Por favor, ingrese un correo electrónico válido");
     } else {
       setEmailError("");
-      editManagers(docnum1, setManagers, newName, newEmail,unity);
+      editManager(id);
       setIsEditing(false);
       setShow(false);
     }
-  };  
+  };  */ 
   
   const handleClose = () => {
     if (!emailError) {
@@ -35,51 +45,64 @@ const EditManagersModal = ({ docnum1, name1, email1,unity1, setShow, editManager
       onClose();
     }
   };
-  
+    
+  const eliminateManager = async (id) => { 
+    try {
+    const response = await users.delete(`/api/superadmin/admin/${id}`, {headers: {
+      Authorization: localStorage.getItem('token' || 'recovery-token')
+    }})
+    console.log(response);
+  } catch (error) {
+      console.error(error);
+    }
+  };
+ 
+
+  const editManager = async (id) => { 
+    try {
+    const response = await users.put(`/api/superadmin/admin/${id}`,form, {headers: {
+      Authorization: localStorage.getItem('token' || 'recovery-token')
+    }})
+    console.log(response);
+  } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div id="Form">
       <Form>
         <Form.Group className="inputNewUser">
           <Form.Control
             type="text"
-            placeholder={docnum1}
-            onChange={(e) => { setId(e.target.value) }}
-          />
-        </Form.Group>
-        <Form.Group className="inputNewUser">
-          <Form.Control
-            type="text"
+            name="name"
+            value={form.name}
             placeholder={name1}
-            onChange={(e) => { setNewName(e.target.value) }}
+            onChange={handleInputText}
           />
-        </Form.Group>
-        <Form.Group className="inputNewUser">
-          <Form.Control
-            type="email"
-            placeholder={email1}
-            onChange={handleEmailChange}
-          />
-          {emailError && <p style={{ color: "red" }}>{emailError}</p>}
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
             type="text"
+            name="unity"
+            value={form.unity}
             placeholder={unity1}
-            onChange={(e) => { setUnity(e.target.value) }}
+            onChange={handleInputText}
           />
         </Form.Group>
       </Form>
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={handleEditClick}
+          onClick={_=> {editManager(id);setShow(false)}}
         >
           Editar
         </button>
         <button
           className="btnEliminateUser"
           onClick={() => {
-            eliminateManager(docnum1, setManagers);
+            eliminateManager(id);
+            console.log(id);
             setShow(false);
             onClose();
           }}

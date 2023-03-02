@@ -2,7 +2,7 @@ import { useState } from "react";
 import PasswordValidationModal from "./PasswordValidationModal";
 import EditManagerContainerButton from "./EditManagerContainerButton.jsx";
 
-function PasswordValidation({ docnum, name, email,unity, setManagers, editManagers, eliminateManager }) {
+function PasswordValidation({ id,docnum, name, email,unity, setManagers }) {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -33,13 +33,12 @@ function PasswordValidation({ docnum, name, email,unity, setManagers, editManage
       <div>
         {isEditing ? (
           <EditManagerContainerButton 
+          id={id}
           docnum={docnum} 
           name={name} 
           email={email} 
           unity={unity}
           setManagers={setManagers} 
-          editManagers={editManagers} 
-          eliminateManager={eliminateManager} 
           setShow={() => setShowPasswordModal(true)} onClose={handleEditClose} setIsEditing={setIsEditing}/>
         ) : null}
         <div>
