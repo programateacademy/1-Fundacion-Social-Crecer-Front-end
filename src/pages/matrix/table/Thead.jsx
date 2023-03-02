@@ -254,7 +254,7 @@ function Thead({trans=false}) {
                 <td className='tb-historial-medico'>SI EL NIÑO O NIÑA ES MENOR DE 6 MESES, ¿ESTÁ SIENDO ALIMENTADO CON LECHE MATERNA DE FORMA EXCLUSIVA?</td>
                 <td className='tb-historial-medico'>DURACIÓN LACTANCIA MATERNA EXCLUSIVA (MESES)</td>
                 <td className='tb-historial-medico'>DURACIÓN LACTANCIA MATERNA TOTAL (MESES)</td>
-                <td className='tb-historial-medico'>X</td>
+                <td className='tb-historial-medico'>SEMANAS DE GESTACIÓN</td>
                 <td className='tb-unidad'>TIPO COMPLEMENTO
                 <select name='select' onChange={(e)=>{setBenefComp(e.target.value)}}>
                     <option value={0}>NO FILTRAR</option>
