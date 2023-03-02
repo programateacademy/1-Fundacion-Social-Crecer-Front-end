@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import app from '../../../apis/index'
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -6,6 +7,7 @@ import Alert from 'react-bootstrap/Alert'
 import IconPadLock from "../../icons/IconPadLock";
 
 const AdminLockedModal = ( props ) => {
+  const navigate = useNavigate()
   // State for get request message 
   const [codeSendMessage, setCodeSendMessage] = useState('')
   // State for post request message
@@ -20,7 +22,7 @@ const AdminLockedModal = ( props ) => {
 
   const handleSendCode = async () => {
     try {
-      const response = await app.get('/api/code', { headers: { Code: import.meta.env.VITE_CODE_KEY }});
+      const response = await app.get('/api/code/superadmin@locked.com', { headers: { Code: import.meta.env.VITE_CODE_KEY }});
       setCodeSendMessage(response.data.message)
     } catch (error) {
       console.error(error);
@@ -30,13 +32,18 @@ const AdminLockedModal = ( props ) => {
   const handleCodeVerify = async (e) => {
     e.preventDefault();
     try {
-    const response = await app.post('/api/code/verify-code', { code: userCode }, {
+    const response = await app.post('/api/code/', {email: 'superadmin@locked.com', code: userCode }, {
       headers: {
         Code: import.meta.env.VITE_CODE_KEY 
       }
     });
-    console.log(response.data.message);
+    localStorage.setItem("recovery-token", response.data.token);
+    // Allow user to login 
+    props.onLogin();
+    // Move user to /recover-password/ route
+    navigate("/recover-password/");
     }catch (error){
+      console.log(error.response)
       setCodeVerifyMessage(error.response.data.message)
       setTimeout(() => setCodeVerifyMessage(''), 4000)
     }

@@ -27,7 +27,7 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
     if (sucess) {
       onLogin();
       navigate("/matrix/");
-    } else if (userInfo[0]) {
+    } else if (userInfo[0]) { // If user is locked, show locked modal (true or false)
       setShowLockedModal(true);
     } else {
       console.log("NO Llamo a handleLogin");
@@ -37,8 +37,12 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
     }
   };
 
+  const resetLocalStorage = () => {
+    localStorage.clear()
+   } 
+
   return (
-    <div className="bodyLogin">
+    <div className="bodyLogin" onLoad={() => resetLocalStorage()}>
       <div className="containerLogIn">
         <div className="logoContainer">
           <img src={Logo} alt="Logo" />
@@ -80,6 +84,7 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
         </div>
       </div>
       <AdminLockedModal
+        onLogin={onLogin}
         show={showLockedModal}
         onHide={() => setShowLockedModal(false)}
         role={userInfo[1]}
