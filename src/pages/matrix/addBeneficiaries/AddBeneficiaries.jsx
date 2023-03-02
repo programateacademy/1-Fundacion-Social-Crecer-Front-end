@@ -36,7 +36,6 @@ const [curDepartmentMother, setCurDepartmentMother] = useState(11);
 // Neighborhood
 const [searchText, setSearchText] = useState('');
 const [selectedValue, setSelectedValue] = useState('');
-console.log(selectedValue)
 // ---------------------- addBeneficiaries post function
 
 
@@ -281,8 +280,6 @@ const addBeneficiary = async (e) => {
         }
         console.log(form)
         }
-console.log(form.neighborhood)
-
 
 return (
 <>
