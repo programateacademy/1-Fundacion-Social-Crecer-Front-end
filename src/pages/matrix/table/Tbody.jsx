@@ -1,339 +1,106 @@
-import React from 'react'
-import './BeneficiariesTable.css'
-import edit from '../../../assets/icons/edit.svg'
+import React, { useState } from "react";
+import datas from "../../../apis/model";
+import collection from "../../../apis/index";
+import edit from "../../../assets/icons/edit.svg";
+import "./BeneficiariesTable.css";
+import { useArrayContext, useSetArrayContext, useFilterContext } from "../../../context/context";
 
-function Tbody({data}) {
+
+//Sacamos los nombres de las llaves de un beneficiario dummy, se convierte en array sacando las llaves con Object.keys
+
+function Tbody() {
+    const filter = useFilterContext();
+    const array =  filter[0]?filter: useArrayContext();
+    const setArray = useSetArrayContext();
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedItem, setEditedItem] = useState(null);
+    console.log(array)
+
+    const dummy = ()=> {
+
+        delete datas[0]._id
+        return datas[0]
+    }
+    const beneficiariesNameValues = Object.keys(dummy());
+    
+    //  edit
+    const onChangeInput = (e, _id) => {
+        const { name, value } = e.target;
+        // Verifica que el campo que se está actualizando existe en el objeto del beneficiario
+        if (Object.keys(array[0]).includes(name)) {
+            const editData = array.map((item) =>
+                // Verifica si el numDoc de un beneficiario es igual al valor proporcionado en numDoc y si firstName es una cadena no vacía.
+                item._id === _id ? { ...item, [name]: value } : item
+            );
+            setArray(editData);
+        }
+    };
+    const handleEdit = (item) => {
+        setIsEditing(true);
+        setEditedItem(item);
+    };
+
+    const handleSave = (beneficiary) => {
+        setIsEditing(false);
+        setEditedItem(null);
+        // SAve on db use _id 
+        localStorage.setItem("array", JSON.stringify(array));
+    };
+
+        console.log(datas[0])
+        
+
     return (
-        <>
-            <td className='edit-button'>{/*edit*/}
-                <img src={edit} alt="" />
-            </td>
-            <td>
-                {data.numDoc}
-            </td>
-            <td>
-                {data.curState}
-            </td>
-            <td>
-                {data.joinDate}
-            </td>
-            <td>
-                {data.exitDate}
-            </td>
-            <td>
-                {data.enterBy}
-            </td>
-            <td>
-                {data.reasonForExit}
-            </td>
-            <td>
-                {data.otherExitReason}
-            </td>
-            <td>
-                {data.unitId}
-            </td>
-            <td>
-                {data.duoId}
-            </td>
-            <td>
-                {`${data.TeacherId[0]}, ${data.TeacherId[1]}`}
-            </td>
-            <td>
-                {data.documentType}
-            </td>
-            <td>
-                {data.firstName}
-            </td>
-            <td>
-                {data.secondName}
-            </td>
-            <td>
-                {data.firstLastName}
-            </td>
-            <td>
-                {data.secondtLastName}
-            </td>
-            <td>
-                {data.fullName}
-            </td>
-            <td>
-                {data.birthDate}
-            </td>
-            <td>
-                {data.years}
-            </td>
-            <td>
-                {data.months}
-            </td>
-            <td>
-                {data.days}
-            </td>
-            <td>
-                {data.age}
-            </td>
-            <td>
-                {data.beneficiaryType}
-            </td>
-            <td>
-                {data.gender}
-            </td>
-            <td>
-                {data.birthCountry}
-            </td>
-            <td>
-                {data.birthDepartment}
-            </td>
-            <td>
-                {data.birthMunicipality}
-            </td>
-            <td>
-                {data.disability}
-            </td>
-            <td>
-                {data.certifiedDisability}
-            </td>
-            <td>
-                {data.entityCertifiesDisability}
-            </td>
-            <td>
-                {data.disabilityCategory}
-            </td>
-            <td>
-                {data.specifiedDisability}
-            </td>
-            <td>
-                {data.disabilityRegistryEnrollment}
-            </td>
-            <td>
-                {data.requiresAssistance}
-            </td>
-            <td>
-                {data.requiresTechSupport}
-            </td>
-            <td>
-                {data.hasTechSupport}
-            </td>
-            <td>
-                {data.requiresTherapy}
-            </td>
-            <td>
-                {data.receivesTherapy}
-            </td>
-            <td>
-                {data.hasInterdictionProces}
-            </td>
-            <td>
-                {data.countryOfResidence}
-            </td>
-            <td>
-                {data.residenceDepartment}
-            </td>
-            <td>
-                {data.locationZone}
-            </td>
-            <td>
-                {data.locationType}
-            </td>
-            <td>
-                {data.localityName}
-            </td>
-            <td>
-                {data.neighborhood}
-            </td>
-            <td>
-                {data.otherZone}
-            </td>
-            <td>
-                {data.address}
-            </td>
-            <td>
-                {data.primaryPhone}
-            </td>
-            <td>
-                {data.secundaryPhone}
-            </td>
-            <td>
-                {data.householdStratum}
-            </td>
-            <td>
-                {data.groupEthnicity}
-            </td>
-            <td>
-                {data.beneficiarySisbenized}
-            </td>
-            <td>
-                {data.sisbenScore}
-            </td>
-            <td>
-                {data.belongsToFamiliesInAction}
-            </td>
-            <td>
-                {data.directlyAffectedByArmedConflict}
-            </td>
-            <td>
-                {data.focusingCriteria}
-            </td>
-            <td>
-                {data.justificationDocumentExists}
-            </td>
-            <td>
-                {data.responsiblePersonType}
-            </td>
-            <td>
-                {data.guardianDocumentType}
-            </td>
-            <td>
-                {data.guardianDocumentNumber}
-            </td>
-            <td>
-                {data.guardianFirstName}
-            </td>
-            <td>
-                {data.guardianSecondName}
-            </td>
-            <td>
-                {data.guardianFirstSurname}
-            </td>
-            <td>
-                {data.guardianSecondSurname}
-            </td>
-            <td>
-                {data.guardianBirthdate}
-            </td>
-            <td>
-                {data.guardianBirthCountry}
-            </td>
-            <td>
-                {data.guardianBirthDepartment}
-            </td>
-            <td>
-                {data.guardianBirthCity}
-            </td>
-            <td>
-                {data.fatherDocumentType}
-            </td>
-            <td>
-                {data.fatherDocumentNumber}
-            </td>
-            <td>
-                {data.fatherFirstName}
-            </td>
-            <td>
-                {data.fatherSecondName}
-            </td>
-            <td>
-                {data.fatherFirstSurname}
-            </td>
-            <td>
-                {data.fatherSecondSurname}
-            </td>
-            <td>
-                {data.fatherBirthdate}
-            </td>
-            <td>
-                {data.fatherAge}
-            </td>
-            <td>
-                {data.fatherBirthCountry}
-            </td>
-            <td>
-                {data.fatherBirthDepartment}
-            </td>
-            <td>
-                {data.fatherBirthCity}
-            </td>
-            <td>
-                {data.motherDocumentType}
-            </td>
-            <td>
-                {data.motherDocumentNumber}
-            </td>
-            <td>
-                {data.motherFirstName}
-            </td>
-            <td>
-                {data.motherSecondName}
-            </td>
-            <td>
-                {data.motherFirstSurname}
-            </td>
-            <td>
-                {data.motherSecondSurname}
-            </td>
-            <td>
-                {data.motherBirthdate}
-            </td>
-            <td>
-                {data.motherAge}
-            </td>
-            <td>
-                {data.motherBirthCountry}
-            </td>
-            <td>
-                {data.motherBirthDepartment}
-            </td>
-            <td>
-                {data.motherBirthCity}
-            </td>
-            <td>
-                {data.regime}
-            </td>
-            <td>
-                {data.eps}
-            </td>
-            <td>
-                {data.hasVaccinationCard}
-            </td>
-            <td>
-                {data.vaccinationVerificationDate}
-            </td>
-            <td>
-                {data.vaccinationCardUpToDate}
-            </td>
-            <td>
-                {data.hasGrowthAndDevelopmentCard}
-            </td>
-            <td>
-                {data.growthDevelopmentControlsReceived}
-            </td>
-            <td>
-                {data.prematurenessBackground}
-            </td>
-            <td>
-                {data.under40Weeks}
-            </td>
-            <td>
-                {data.celiacProfile}
-            </td>
-            <td>
-                {data.gestationalAgeAtBirth}
-            </td>
-            <td>
-                {data.weightAtBirth}
-            </td>
-            <td>
-                {data.heightAtBirth}
-            </td>
-            <td>
-                {data.exclusivelyBreastfed}
-            </td>
-            <td>
-                {data.exclusiveBreastfeedingDuration}
-            </td>
-            <td>
-                {data.totalBreastfeedingDuration}
-            </td>
-            <td>
-                {data.x}
-            </td>
-            <td>
-                {data.beneficiaryType}
-            </td>
-            <td>
-                {data.ticketNumber}
-            </td>
+        <> 
+
+            <tbody>
+            
+                {array.map((beneficiary) => (
+                    // numDoc identificador unico
+                    // Key identificador de filas
+                    <tr key={beneficiary._id}>
+                        <td className="edit-button">
+                            {!isEditing ? (
+                                <button
+                                    className="edit-button"
+                                    onClick={() => handleEdit(beneficiary)}
+                                >
+                                    <img src={edit} alt="" />
+                                </button>
+                            ) : (
+                                <button onClick={() => handleSave(beneficiary)}>Guardar</button>
+                            )}
+                        </td>
+                        {/* Array de las propiedades de los beneficiarios */}
+                        {beneficiariesNameValues.map((item) => (
+                            // Key identificador de columnas
+                            <td key={item}>
+                                {isEditing && editedItem._id === beneficiary._id ? (
+                                    <input
+                                        name={item}
+                                        value={editedItem[item]}
+                                        type="text"
+                                        placeholder={item}
+                                        onChange={(e) => {
+                                            const newItem = editedItem;
+                                            newItem[item] = e.target.value
+                                            setEditedItem(  newItem);
+                                            console.log(editedItem);
+                                            onChangeInput(e,editedItem._id)
+                                        }}
+
+                                    
+                                    />
+                                ) : (
+                                    beneficiary[item]
+                                )}
+                            </td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
         </>
-    )
+    );
 }
 
-export default Tbody
+export default Tbody;

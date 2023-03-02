@@ -1,6 +1,7 @@
 export const numberF = Intl.NumberFormat("es-ES") 
+import PasswordValidation from './PasswordValidation.jsx'
 import EditManagerContainerButton from './EditManagerContainerButton.jsx'
-export default function CardUser({managers,setManagers, editManagers}){
+export default function CardUser({managers,setManagers, editManagers,eliminateManager}){
     return(
         <div className="userCards">
                 {managers.map((values)=>{
@@ -18,7 +19,8 @@ export default function CardUser({managers,setManagers, editManagers}){
                             </div>
                             <div className="profileUserButtons">
                                 <button className="userButton">CAMBIAR CONTRASEÑA</button>
-                                <EditManagerContainerButton id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers}/>
+                                {/*<EditManagerContainerButton id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager}/>*/}
+                                <PasswordValidation id={id} name={name} email={email} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager}/>
                             </div>
                         </div>
                     </>

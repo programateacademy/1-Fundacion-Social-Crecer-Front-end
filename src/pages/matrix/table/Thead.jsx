@@ -1,12 +1,16 @@
-import data from '../../../apis/model'
 import './BeneficiariesTable.css'
 import { useState, useEffect } from 'react'
 import { useArrayContext } from '../../../context/context'
 import { useSetArrayContext } from '../../../context/context'
+import {useFilterContext, useSetFilterContext} from '../../../context/context'
 
 
 function Thead({trans=false}) {
+    
+    
 
+    let setFilter = useSetFilterContext();
+    let data = useArrayContext();
     let setArray = useSetArrayContext();
     //Variables for the filters
     const [curState, setCurState] = useState(0);
@@ -14,17 +18,21 @@ function Thead({trans=false}) {
     const [dupla, setDupla] = useState(0);
     const [benef, setBenef] = useState(0);
     const [foca, setFoca] = useState(0);
+    const [benefcomp, setBenefComp] = useState(0);
+    
     //Update context array because actions
     useEffect(() => {
-        setArray(arrayfilter);
-    },[curState, unity, dupla, benef, foca]);
+        
+        setFilter(arrayfilter);
+    },[curState, unity, dupla, benef, foca, benefcomp ]);
     
     // filter all solicitated data
-    let arrayfilter = data.filter(item=> item.curState == (curState==0? item.curState: curState ) && item.unitId == (unity==0? item.unitId: unity )&& item.duoId == (dupla==0? item.duoId: dupla ) && item.beneficiaryType == (benef==0? item.beneficiaryType: benef) && item.focusingCriteria == (foca==0? item.focusingCriteria: foca ))
-    
+    let arrayfilter = data.filter( item=> item.curState == (curState==0? item.curState: curState ) && item.unityName== (unity==0? item.unityName: unity )&& item.duoName == (dupla==0? item.duoName: dupla ) && item.beneficiaryType == (benef==0? item.beneficiaryType: benef) && item.focusingCriteria == (foca==0? item.focusingCriteria: foca ) &&  item.beneficiaryComplement ==  (benefcomp==0? item.beneficiaryComplement:  benefcomp ))
+
     return ( 
         
         <thead className={trans? 'transp':''}>
+            
             <tr>
                 <td>EDITAR</td>
                 <td>NUMERO DE DOCUMENTO</td>
@@ -137,13 +145,13 @@ function Thead({trans=false}) {
                 <td className='tb-beneficiario'>DÍAS</td>
                 <td className='tb-beneficiario'>EDAD</td>
                 <td className='tb-beneficiario'>TIPO DE BENEFICIARIO<br/>
-                <select name='select' onChange={(e)=>{setBenef(e.target.value)}}>
+                    <select name='select' onChange={(e)=>{setBenef(e.target.value)}}>
                         <option value={0}>NO FILTRAR</option>
                         <option value='MUJER GESTANTE' >MUJER GESTANTE</option>
                         <option value='MENOR DE SEIS MESES'>MENOR DE SEIS MESES</option>
                         <option value='NIÑO O NIÑA ENTRE 6 MESES Y 5 AÑOS Y 11 MESES'>NIÑO O NIÑA ENTRE 6 MESES Y 5 AÑOS Y 11 MESES</option>
                     </select>
-                    </td>
+                </td>
                 <td className='tb-beneficiario'>GÉNERO</td>
                 <td className='tb-beneficiario'>PAÍS DE NACIMIENTO</td>
                 <td className='tb-beneficiario'>DEPARTAMENTO DE NACIMIENTO</td>
@@ -177,7 +185,7 @@ function Thead({trans=false}) {
                 <td className='tb-beneficiario'>PERTENECE A FAMILIAS EN ACCIÓN</td>
                 <td className='tb-beneficiario'>EL BENEFICIARIO HA SIDO VICTIMA DIRECTA CONFLICTO ARMADO</td>
                 <td className='tb-beneficiario'>CRITERIOS DE FOCALIZACION<br/>
-                <select name='select' onChange={(e)=>{setFoca(e.target.value)}}>
+                    <select name='select' onChange={(e)=>{setFoca(e.target.value)}}>
                         <option value={0}>NO FILTRAR</option>
                         <option value='A. PERTENECIENTES A HOGARES CON PUNTAJE SISBEN.' >A. PERTENECIENTES A HOGARES CON PUNTAJE SISBEN.</option>
                         <option value='B. PERTENECIENTES A FAMILIAS IDENTIFICADAS A TRAVÉS DE LA ESTRATEGIA PARA LA SUPERACIÓN DE LA POBREZA EXTREMA – RED UNIDOS.'>B. PERTENECIENTES A FAMILIAS IDENTIFICADAS A TRAVÉS DE LA ESTRATEGIA PARA LA SUPERACIÓN DE LA POBREZA EXTREMA – RED UNIDOS.</option>
@@ -194,9 +202,9 @@ function Thead({trans=false}) {
                         <option value='M. NIÑAS Y NIÑOS CUYOS PADRES ESTÉN ACTIVOS EN LA RUTA DE REINCORPORACIÓN E IDENTIFICADOS EN LAS BASES DE DATOS REMITIDAS DE FORMA OFICIAL AL ICBF POR LA AGENCIA PARA LA REINCORPORACIÓN Y LA NORMALIZACIÓN – ARN.'>M. NIÑAS Y NIÑOS CUYOS PADRES ESTÉN ACTIVOS EN LA RUTA DE REINCORPORACIÓN E IDENTIFICADOS EN LAS BASES DE DATOS REMITIDAS DE FORMA OFICIAL AL ICBF POR LA AGENCIA PARA LA REINCORPORACIÓN Y LA NORMALIZACIÓN – ARN.</option>
                         <option value='N. PARA EL SERVICIO DE HOGAR INFANTIL SE ATENDERÁ PRIORITARIAMENTE NIÑOS Y NIÑAS HIJOS DE TRABAJADORES QUE EVIDENCIEN VINCULACIÓN LABORAL Y DEMÁS REQUISITOS ESTABLECIDOS EN LA RESOLUCIÓN 1740 DE 2010.'>N. PARA EL SERVICIO DE HOGAR INFANTIL SE ATENDERÁ PRIORITARIAMENTE NIÑOS Y NIÑAS HIJOS DE TRABAJADORES QUE EVIDENCIEN VINCULACIÓN LABORAL Y DEMÁS REQUISITOS ESTABLECIDOS EN LA RESOLUCIÓN 1740 DE 2010.</option>
                         <option value='O. INGRESOS IGUALES O INFERIORES A 1.5 SMLV.'>O. INGRESOS IGUALES O INFERIORES A 1.5 SMLV.</option>
-                        
-                    </select></td>
-                <td className='tb-beneficiario td-smaller-txt'>SI NO CUMPLE CON NINGÚN CRITERIO, CUENTA CON EL ACTA DONDE JUSTIFICA QUE EL BENEFICIARIO REQUIERE LA ATENCIÓN</td>
+                    </select>
+                </td>
+                <td className='tb-beneficiario'>SI NO CUMPLE CON NINGÚN CRITERIO, CUENTA CON EL ACTA DONDE JUSTIFICA QUE EL BENEFICIARIO REQUIERE LA ATENCIÓN</td>
                 <td className='tb-acudiente'>TIPO DE RESPONSABLE</td>
                 <td className='tb-acudiente'>TIPO DE DOCUMENTO ACUDIENTE</td>
                 <td className='tb-acudiente'>NUMERO DE DOCUMENTO DEL ACUDIENTE</td>
@@ -234,26 +242,27 @@ function Thead({trans=false}) {
                 <td className='tb-historial-medico'>EPS</td>
                 <td className='tb-historial-medico'>¿EL BENEFICIARIO CUENTA CON EL CARNET DE VACUNACIÓN? *</td>
                 <td className='tb-historial-medico'> FECHA DE VERIFICACIÓN DEL ESQUEMA DE VACUNACIÓN</td>
-                <td className='tb-historial-medico td-smaller-txt'>¿EL CARNET DE VACUNACIÓN SE ENCUENTRA AL DÍA EN LAS VACUNAS Y DOSIS QUE CORRESPONDEN A LA EDAD DEL NIÑO O NIÑA? *</td>
+                <td className='tb-historial-medico'>¿EL CARNET DE VACUNACIÓN SE ENCUENTRA AL DÍA EN LAS VACUNAS Y DOSIS QUE CORRESPONDEN A LA EDAD DEL NIÑO O NIÑA? *</td>
                 <td className='tb-historial-medico'>¿EL BENEFICIARIO PRESENTA CARNET DE CRECIMIENTO Y DESARROLLO? * </td>
-                <td className='tb-historial-medico td-smaller-txt'>SI EL NIÑO CUENTA CON EL CARNET, VERIFIQUE ¿CUÁNTOS CONTROLES DE CRECIMIENTO Y DESARROLLO HA RECIBIDO EL NIÑO, EN LOS ÚLTIMOS 6 MESES? </td>
+                <td className='tb-historial-medico'>SI EL NIÑO CUENTA CON EL CARNET, VERIFIQUE ¿CUÁNTOS CONTROLES DE CRECIMIENTO Y DESARROLLO HA RECIBIDO EL NIÑO, EN LOS ÚLTIMOS 6 MESES? </td>
                 <td className='tb-historial-medico'>ANTECEDENTE DE PREMATUREZ *</td>
                 <td className='tb-historial-medico'>A LA FECHA DE VALORACIÓN EL BENEFICIARIO TIENE MENOS DE 40 SEMANAS</td>
                 <td className='tb-historial-medico'>PERIMETRO CEFÁLICO</td>
                 <td className='tb-historial-medico'>EDAD GESTACIONAL AL NACER * </td>
                 <td className='tb-historial-medico'>PESO AL NACER (EN KILOGRAMOS) *</td>
                 <td className='tb-historial-medico'>TALLA AL NACER (EN CENTÍMETROS) *</td>
-                <td className='tb-historial-medico td-smaller-txt'>SI EL NIÑO O NIÑA ES MENOR DE 6 MESES, ¿ESTÁ SIENDO ALIMENTADO CON LECHE MATERNA DE FORMA EXCLUSIVA?</td>
+                <td className='tb-historial-medico'>SI EL NIÑO O NIÑA ES MENOR DE 6 MESES, ¿ESTÁ SIENDO ALIMENTADO CON LECHE MATERNA DE FORMA EXCLUSIVA?</td>
                 <td className='tb-historial-medico'>DURACIÓN LACTANCIA MATERNA EXCLUSIVA (MESES)</td>
                 <td className='tb-historial-medico'>DURACIÓN LACTANCIA MATERNA TOTAL (MESES)</td>
                 <td className='tb-historial-medico'>X</td>
                 <td className='tb-unidad'>TIPO COMPLEMENTO
-                <select name='select' onChange={(e)=>{setBenef(e.target.value)}}>
-                        <option value={0}>NO FILTRAR</option>
-                        <option value='MUJER GESTANTE' >MUJER GESTANTE</option>
-                        <option value='MENOR DE SEIS MESES'>MENOR DE SEIS MESES</option>
-                        <option value='NIÑO O NIÑA ENTRE 6 MESES Y 5 AÑOS Y 11 MESES'>NIÑO O NIÑA ENTRE 6 MESES Y 5 AÑOS Y 11 MESES</option>
-                    </select>
+                <select name='select' onChange={(e)=>{setBenefComp(e.target.value)}}>
+                    <option value={0}>NO FILTRAR</option>
+                    <option value='MADRES GESTANTES Y MADRES LACTANTES' >MADRES GESTANTES Y MADRES LACTANTES</option>
+                    <option value='NIÑOS Y NIÑAS DE 6 MESES A 11 MESES 29 DIAS'>NIÑOS Y NIÑAS DE 6 MESES A 11 MESES 29 DIAS</option>
+                    <option value='NIÑOS Y NIÑAS MAYORES DE 1 AÑO'>NIÑOS Y NIÑAS MAYORES DE 1 AÑO</option>
+                    <option value='MAYORES A 3 AÑOS'>MAYORES A 3 AÑOS</option>
+                </select>
                 </td>
                 <td className='tb-unidad'>SI EL BENEFICIARIO TIENE TICKET, INDIQUE EL NÚMERO DE TICKET</td>
             </tr>
