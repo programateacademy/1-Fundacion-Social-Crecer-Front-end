@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import datas from "../../../apis/model";
-import collection from "../../../apis/index";
+import app from "../../../apis/index";
 import edit from "../../../assets/icons/edit.svg";
 import "./BeneficiariesTable.css";
 import { useArrayContext, useSetArrayContext, useFilterContext } from "../../../context/context";
@@ -14,7 +14,6 @@ function Tbody() {
     const setArray = useSetArrayContext();
     const [isEditing, setIsEditing] = useState(false);
     const [editedItem, setEditedItem] = useState(null);
-    console.log(array)
 
     const dummy = ()=> {
 
@@ -46,9 +45,6 @@ function Tbody() {
         // SAve on db use _id 
         localStorage.setItem("array", JSON.stringify(array));
     };
-
-        console.log(datas[0])
-        
 
     return (
         <> 

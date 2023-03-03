@@ -18,24 +18,17 @@ const [departments, setDepartments] = useState([]);
 const [localities, setLocalities] = useState([]);
 
 // ---------------------- Contains the modifing fetch API
-// Beneficiary
-const [municipalities, setMunicipalities] = useState([]);
-// Attendant
+const [municipalities, setMunicipalities] = useState();
 const [municipalitiesAttendant, setMunicipalitiesAttendant] = useState([]);
-// Father
 const [municipalitiesFather, setMunicipalitiesFather] = useState([]);
-// Mother
 const [municipalitiesMother, setMunicipalitiesMother] = useState([]);
 
 // ---------------------- Current State - has to have a default value for the relation between the department
-const [curDepartment, setCurDepartment] = useState(11); //Bogotá D.C. by default '11'
-const [curDepartmentAttendant, setCurDepartmentAttendant] = useState(11);
-const [curDepartmentFather, setCurDepartmentFather] = useState(11);
-const [curDepartmentMother, setCurDepartmentMother] = useState(11);
+const [curDepartment, setCurDepartment] = useState(''); 
+const [curDepartmentAttendant, setCurDepartmentAttendant] = useState('');
+const [curDepartmentFather, setCurDepartmentFather] = useState('');
+const [curDepartmentMother, setCurDepartmentMother] = useState('');
 
-// Neighborhood
-const [searchText, setSearchText] = useState('');
-const [selectedValue, setSelectedValue] = useState('');
 // ---------------------- addBeneficiaries post function
 
 
@@ -63,43 +56,25 @@ const addBeneficiary = async (e) => {
     const fetchApis = async _=> {
         try {
             /* Departments */
-/*             const resDepartments = await fetch(
-                'https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/departamentos.php'
-            );
-            const resDepartmentsJSON = await resDepartments.json();
-            setDepartments(resDepartmentsJSON); */
-            /* Municipalities - Depending on the department code, make the query to the municipality belonging to that department */
+            const resDepartments = await app.get('/api/formapi/departamento')
+            setDepartments(resDepartments.data);
+            // Municipalities - Depending on the department code, make the query to the municipality belonging to that department
             // Beneficiary
-/*             const resMunicipalities = await fetch(
-                `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartment}`
-            );
-            const resMunicipalitiesJSON = await resMunicipalities.json();
-            setMunicipalities(resMunicipalitiesJSON);
+            const resMunicipalities = await app.get(`/api/formapi/municipio?codigo_departamento=${curDepartment}`);
+            setMunicipalities(resMunicipalities.data);
             // Attendant
-            const resMunicipalitiesAttendant = await fetch(
-                `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentAttendant}`
-            );
-            const resMunicipalitiesAttendantJSON =
-                await resMunicipalitiesAttendant.json();
-            setMunicipalitiesAttendant(resMunicipalitiesAttendantJSON);
+            const resMunicipalitiesAttendant = await app.get(`/api/formapi/municipio?codigo_departamento=${curDepartmentAttendant}`);
+            setMunicipalitiesAttendant(resMunicipalitiesAttendant.data);
             // Father
-            const resMunicipalitiesFather = await fetch(
-                `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentFather}`
-            );
-            const resMunicipalitiesFatherJSON = await resMunicipalitiesFather.json();
-            setMunicipalitiesFather(resMunicipalitiesFatherJSON);
+            const resMunicipalitiesFather = await app.get(`/api/formapi/municipio?codigo_departamento=${curDepartmentFather}`);
+            setMunicipalitiesFather(resMunicipalitiesFather.data);
             // Mother
-            const resMunicipalitiesMother = await fetch(
-                `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentMother}`
-            );
-            const resMunicipalitiesMotherJSON = await resMunicipalitiesMother.json();
-            setMunicipalitiesMother(resMunicipalitiesMotherJSON);
+            const resMunicipalitiesMother = await app.get(`/api/formapi/municipio?codigo_departamento=${curDepartmentMother}`);
+            setMunicipalitiesMother(resMunicipalitiesMother.data);
             // Localities
-            const resLocalities = await fetch(
-                'https://datosabiertos.bogota.gov.co/dataset/856cb657-8ca3-4ee8-857f-37211173b1f8/resource/497b8756-0927-4aee-8da9-ca4e32ca3a8a/download/loca.json'
-            );
+            const resLocalities = await fetch('https://datosabiertos.bogota.gov.co/dataset/856cb657-8ca3-4ee8-857f-37211173b1f8/resource/497b8756-0927-4aee-8da9-ca4e32ca3a8a/download/loca.json');
             const resLocalitiesJSON = await resLocalities.json();
-            setLocalities(resLocalitiesJSON); */
+            setLocalities(resLocalitiesJSON);
         } catch (error) {
             console.log(error);
         }
@@ -128,26 +103,7 @@ const addBeneficiary = async (e) => {
         }
             return 0;
     });
-    // ------------------------- Neighborhood match filter
-    const handleSearchInputChange = e=>{
-        setSearchText(e.target.value.toUpperCase());
-    };
-    const handleSearchClick = () => {
-        const selectElement = document.getElementById('mySelect');
-        let foundOption = null;
-        for (let i = 0; i < selectElement.options.length; i++) {
-            const optionText = selectElement.options[i].text.toUpperCase();
-            if (optionText === searchText) {
-                foundOption = selectElement.options[i];
-                break;
-            }
-        }
-        if (foundOption !== null) {
-            setSelectedValue(foundOption.value);
-        } else {
-            alert('No se encontró ninguna opción que coincida con la búsqueda.');
-        }
-    };
+
     // ------------------------- addBeneficiariesSchema
     const addBeneficiariesSchema ={
         numDoc: null, 
@@ -258,7 +214,7 @@ const addBeneficiary = async (e) => {
     
     const handleInput = e=>{
         let {name, value} = e.target;
-        let newForm = {...form, [name]: value};
+        let newForm = {...form, [name]: value.toUpperCase()};
         setForm(newForm);
     };
     const handleInputNum = e=>{
@@ -266,7 +222,6 @@ const addBeneficiary = async (e) => {
         let newForm = {...form, [name]: parseInt(value)};
         setForm(newForm);
     };
-
     // ------------------------- Form tabs button
     const handleButtonClick = (index) => {
         setTabIndex(index);
@@ -274,10 +229,7 @@ const addBeneficiary = async (e) => {
     };
 
     const handleSubmit = e=>{
-        e.preventDefault();
-        if(e.target.checkValidity()){ // use can also use e.target.reportValidity
-            // submitForm
-        }
+        e.preventDefault()
         console.log(form)
         }
 
@@ -301,7 +253,7 @@ return (
         keyboard={false}
         className='modal-xl modal-dialog-centered'
     >
-        <Modal.Header closeButton onClick={_=>{resetForm();setSelectedValue('');setTabIndex(0);}}>
+        <Modal.Header closeButton onClick={_=>{resetForm();setTabIndex(0);}}>
             <Modal.Title id='example-custom-modal-styling-title'>
                 <h3>AÑADIR BENEFICIARIO</h3>
             </Modal.Title>
@@ -479,16 +431,18 @@ return (
                                 name='birthDepartment'
                                 onChange={(e) => {
                                     setCurDepartment(e.target.value);
-                                    /* handleInput() */
+                                    handleInput(e);
                                 }}
                             >
-                                {!departments.resultado
+                                <option value={form.birthDepartment} hidden>{form.birthDepartment}</option>
+                                {!departments
                                     ? 'Cargando'
-                                    : departments.resultado.map((department) => {
+                                    : departments.map((department) => {
                                         return (
                                             <option
                                                 key={department.NOMBRE_DEPARTAMENTO}
                                                 value={department.CODIGO_DEPARTAMENTO}
+                                                data-key={department.NOMBRE_DEPARTAMENTO}
                                             >
                                                 {department.NOMBRE_DEPARTAMENTO}
                                             </option>
@@ -499,10 +453,11 @@ return (
                         {/* MUNICIPALITIES */}
                         <div>
                             <label>MUNICIPIO DE NACIMIENTO</label>
-                            <select name='select'>
-                                {!municipalities.resultado
+                            <select name='birthMunicipality' onChange={handleInput}>
+                                <option value={form.birthMunicipality} hidden>{form.birthMunicipality}</option>
+                                {!municipalities
                                     ? 'Cargando'
-                                    : municipalities.resultado.map((municipality) => {
+                                    : municipalities.map((municipality) => {
                                         return (
                                             <option
                                                 key={municipality.NOMBRE_MUNICIPIO}
@@ -664,18 +619,10 @@ return (
                             </select>
                         </div>
                         {/* NEIGHBORHOODS SEARCH*/}
-                        <div className='long-select'>
+                        <div>
                             <label>BARRIO*</label>
-                            <div className='d-flex flex-row flex-wrap'>
-                                <select
-                                    id='mySelect'
-                                    value={selectedValue}
-                                    onChange={e=>{
-                                        setSelectedValue(e.target.value);
-                                        handleInput(e);
-                                    }}
-                                    name='neighborhood'
-                                >
+                            <div>
+                                <select name='neighborhood' onChange={handleInput}>
                                 <option value={form.neighborhood} hidden>{form.neighborhood}</option>
                                     {!neighborhoods.features
                                         ? 'Cargando'
@@ -690,13 +637,6 @@ return (
                                             );
                                         })}
                                 </select>
-                                <input
-                                    type='text'
-                                    value={searchText}
-                                    onChange={handleSearchInputChange}
-                                    placeholder='Buscar barrio'
-                                />
-                                <button onClick={handleSearchClick}>Buscar</button>
                             </div>
                         </div>
                         <div>
@@ -853,21 +793,21 @@ return (
                                 </div>
                                 <select name='focusingCriteria' onChange={handleInput}>
                                     <option value={form.focusingCriteria} hidden>{form.focusingCriteria}</option>
-                                    <option value='A'>A</option>
-                                    <option value='B'>B</option>
-                                    <option value='C'>C</option>
-                                    <option value='D'>D</option>
-                                    <option value='E'>E</option>
-                                    <option value='F'>F</option>
-                                    <option value='G'>G</option>
-                                    <option value='H'>H</option>
-                                    <option value='I'>I</option>
-                                    <option value='J'>J</option>
-                                    <option value='K'>K</option>
-                                    <option value='L'>L</option>
-                                    <option value='M'>M</option>
-                                    <option value='N'>N</option>
-                                    <option value='O'>O</option>
+                                    <option value='A' >A. PERTENECIENTES A HOGARES CON PUNTAJE SISBEN.</option>
+                                    <option value='B'>B. PERTENECIENTES A FAMILIAS IDENTIFICADAS A TRAVÉS DE LA ESTRATEGIA PARA LA SUPERACIÓN DE LA POBREZA EXTREMA – RED UNIDOS.</option>
+                                    <option value='C'>C. NIÑAS, NIÑOS Y MUJERES GESTANTES PERTENECIENTES AL PROGRAMA FAMILIAS EN ACCIÓN DE PROSPERIDAD SOCIAL.</option>
+                                    <option value='D'>D. NIÑAS Y NIÑOS EGRESADOS DE LA ESTRATEGIA DE ATENCIÓN Y PREVENCIÓN DE LA DESNUTRICIÓN AGUDA (CENTROS DE RECUPERACIÓN NUTRICIONAL -CRN- Y 1000 DÍAS PARA CAMBIAR EL MUNDO Y UNIDADES DE BÚSQUEDA ACTIVA).</option>
+                                    <option value='C'>E. REMITIDOS POR LAS ENTIDADES DEL SISTEMA NACIONAL DE BIENESTAR FAMILIAR -SNBF- QUE SE ENCUENTREN EN SITUACIÓN DE VULNERABILIDAD, RIESGO DE VULNERACIÓN DE DERECHOS O PROGRAMAS DE PROTECCIÓN DEL ICBF.</option>
+                                    <option value='F'>F. VÍCTIMAS DE HECHOS VIOLENTOS ASOCIADOS AL CONFLICTO ARMADO, DE ACUERDO CON LAS DIRECTRICES ESTABLECIDAS EN LA LEY 1448 DE 2011 Y LOS DECRETOS LEY 4633, 4634 Y 4635 DE 2011, ASÍ COMO LA SENTENCIA T-025 DE 2004 PROFERIDA POR LA CORTE CONSTITUCIONAL Y DEMÁS DESARROLLOS JURISPRUDENCIALES EN TORNO A LA EXISTENCIA DE UN ESTADO DE COSAS INCONSTITUCIONAL; PARA LO CUAL SE CONSIDERARÁN AQUELLOS CUYO ESTADO SE ENCUENTRE INCLUIDO DENTRO DEL RUV.</option>
+                                    <option value='G'>G. PERTENECIENTES A COMUNIDADES ÉTNICAS (INDÍGENAS, COMUNIDADES NEGRAS, AFROCOLOMBIANAS, PALENQUEROS, RAIZALES Y RROM), QUE DEMANDEN EL SERVICIO.</option>
+                                    <option value='H'>H. NIÑOS Y NIÑAS CON DISCAPACIDAD QUE REQUIEREN DIVERSOS TIPOS DE APOYO PARA SU PARTICIPACIÓN EFECTIVA Y QUE DEMANDAN ACOMPAÑAMIENTO EN LAS ACTIVIDADES DE CUIDADO; ASÍ COMO LOS QUE SEAN REMITIDOS POR LAS ENTIDADES DEL SNBF CON BASE EN EL REGISTRO PARA LA LOCALIZACIÓN Y CARACTERIZACIÓN DE PERSONAS CON DISCAPACIDAD DEL MINISTERIO DE SALUD Y PROTECCIÓN SOCIAL, COMO DE LOS COMITÉS TERRITORIALES Y LOCALES DE DISCAPACIDAD Y LAS ENTIDADES TERRITORIALES EN SALUD.</option>
+                                    <option value='I'>I. USUARIOS DEL SUBSIDIO EN ESPECIE PARA POBLACIÓN VULNERABLE, DEL QUE TRATA EL ARTÍCULO 12 DE LA LEY 1537 DE 2012 (VIVIENDA DE INTERÉS SOCIAL Y VIVIENDA DE INTERÉS PRIORITARIO), Y EL DECRETO 1921 DE 2012 O EL QUE REGLAMENTE LA MATERIA.</option>
+                                    <option value='J'>J. NIÑAS Y NIÑOS CUYOS PADRES ESTÉN EN ESTABLECIMIENTOS DE RECLUSIÓN.</option>
+                                    <option value='K'>K. POBLACIÓN MIGRANTE, REFUGIADA O APÁTRIDA QUE CUMPLA CON ALGUNA DE LAS SIGUIENTES CARACTERÍSTICAS: AUSENCIA DE VIVIENDA O CONDICIONES DE HACINAMIENTO, QUE NO CUENTEN CON ACCESO A SERVICIOS PÚBLICOS DOMICILIARIOS O QUE NO CUENTEN CON NINGÚN TIPO DE AFILIACIÓN AL SISTEMA GENERAL DE SEGURIDAD SOCIAL EN SALUD.</option>
+                                    <option value='L'>L. NIÑAS Y NIÑOS REMITIDOS DEL SERVICIO HCB FAMI Y DIMF QUE AL CUMPLIR LOS DOS (2) AÑOS DEBEN TRANSITAR A OTROS SERVICIOS DE EDUCACIÓN INICIAL DE ATENCIÓN PERMANENTE.</option>
+                                    <option value='M'>M. NIÑAS Y NIÑOS CUYOS PADRES ESTÉN ACTIVOS EN LA RUTA DE REINCORPORACIÓN E IDENTIFICADOS EN LAS BASES DE DATOS REMITIDAS DE FORMA OFICIAL AL ICBF POR LA AGENCIA PARA LA REINCORPORACIÓN Y LA NORMALIZACIÓN – ARN.</option>
+                                    <option value='N'>N. PARA EL SERVICIO DE HOGAR INFANTIL SE ATENDERÁ PRIORITARIAMENTE NIÑOS Y NIÑAS HIJOS DE TRABAJADORES QUE EVIDENCIEN VINCULACIÓN LABORAL Y DEMÁS REQUISITOS ESTABLECIDOS EN LA RESOLUCIÓN 1740 DE 2010.</option>
+                                    <option value='O'>O. INGRESOS IGUALES O INFERIORES A 1.5 SMLV.</option>
                                 </select>
                             </div>
                         </div>
