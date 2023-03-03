@@ -1,83 +1,74 @@
-import { useState, useRef } from "react";
+import  { useState, useRef } from "react";
 import users from "../../apis/index";
 import Form from "react-bootstrap/Form";
-import Alert from "react-bootstrap/Alert";
+import Alert from 'react-bootstrap/Alert'
 
-const AddFunction = ({ setShow, managers }) => {
+const AddFunction = ({ setShow, getManagers}) => {
   const [validated, setValidated] = useState(false);
+  const [errorMessages,setErrorMessages]=useState("");
   const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
-  const [errorDocnumMessage, setErrorDocnumMessage] = useState("");
-  const [errorEmailMessage, setErrorEmailMessage] = useState("");
-  const [usuarioIndex, setUsuarioIndex] = useState(-1);
-  const [repatedE, setRepeatedE] = useState(-1);
-  const repeatedId = (ID) => {
-    return managers.findIndex((usuario) => usuario.docnum === ID);
-  };
-  const repeatedEmail = (email) => {
-    return managers.findIndex((usuario) => usuario.email === email);
-  };
-  const formRef = useRef(null);
-  const role = "admin";
-  // State to send form data
-
-  const [password, setPassword] = useState("");
+  const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [unityText, setunityText] = useState("")
 
   const formModel = {
     name: "",
     email: "",
-    unity: "",
+    unity: unityText,
     password: "",
-    docnum: "",
-    role:"admin"
+    docnum: ""
   };
-  const [form, setForm] = useState(formModel);
+  const [formDani, setForm] = useState(formModel);
 
-/*   const handleCreate = async (e) => {
+  const formRef = useRef(null);
+  // State to send form data
+
+  const handleCreate = async (e) => {
     e.preventDefault();
-    const formDani = formRef.current;
-    //alert(usuarioIndex);
-    if (formDani.checkValidity() === false) {
+    const form = formRef.current;
+    if (form.checkValidity() === false) {
       e.stopPropagation();
-    }else if(usuarioIndex!==-1){
-      setErrorDocnumMessage("Este ID ya existe");
-    }else if(repatedE!==-1){
-      setErrorEmailMessage("Este email ya existe");
-    }else if (password !== password2) {
+    } else if (password1 !== password2) {
       setErrorPasswordMessage("Las contraseñas no coinciden");
-    }else {
-      addManagers;
-      setShow(false);
+    } else {
+      addManagers();
     }
-    setValidated(true);
-  };  */
+  }; 
 
   const handleInputText = (e) => {
     let { name, value } = e.target;
-    let newForm = { ...form, [name]: value };
+    let newForm = { ...formDani, [name]: value }; 
     setForm(newForm);
   };
 
   const handleInputNumber = (e) => {
     let { name, value } = e.target;
-    let newForm = { ...form, [name]: value };
+    let newForm = { ...formDani, [name]: value };
     setForm(newForm);
   };
 
   const addManagers = async () => {
     try {
-      const response = await users.post("/api/superadmin/admin", form, {
+      const response = await users.post("/api/superadmin/admin", formDani, {
         headers: {
           Authorization: localStorage.getItem("token" || "recovery-token"),
         },
       });
       console.log(response);
+      setSuccessMessage("Administrador creado con éxito");
+      setErrorMessages("");
+      setValidated(true);
+      getManagers();
+      setShow(false);
     } catch (error) {
+      setErrorMessages(error.response.data.error);
       console.error(error.response.data);
     }
   };
   return (
     <div id="Form">
+      {errorMessages ? <Alert variant="danger">{errorMessages}</Alert> : ''}
       <Form noValidate validated={validated} ref={formRef}>
         <Form.Group className="inputNewUser">
           <Form.Control
@@ -85,13 +76,9 @@ const AddFunction = ({ setShow, managers }) => {
             placeholder="Numero de identificación"
             required
             name="docnum"
-            value={form.docnum}
+            value={formDani.docnum}
             onChange={handleInputNumber}
-            isInvalid={errorDocnumMessage !== ""}
           />
-          <Form.Control.Feedback type="invalid">
-            {errorDocnumMessage}
-          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
@@ -99,9 +86,13 @@ const AddFunction = ({ setShow, managers }) => {
             placeholder="Nombre"
             required
             name="name"
-            value={form.name}
+            value={formDani.name}
             onChange={handleInputText}
+            isInvalid={errorMessages === "\"name\" length must be at least 6 characters long"}
           />
+          <Form.Control.Feedback type="invalid">
+            {errorMessages}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
@@ -109,23 +100,34 @@ const AddFunction = ({ setShow, managers }) => {
             placeholder="Correo electrónico"
             required
             name="email"
-            value={form.email}
-            onChange={handleInputText} /* ,setRepeatedE(repeatedEmail(e.target.value)),setErrorEmailMessage('')  */
-            isInvalid={errorEmailMessage !== ""}
+            value={formDani.email}
+            onChange={(e)=>{handleInputText(e),setErrorMessages("")}}
+            isInvalid={errorMessages === "Email ya registrado"}
           />
           <Form.Control.Feedback type="invalid">
-            {errorEmailMessage}
+            {errorMessages}
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="inputNewUser">
-          <Form.Control
+          <Form.Select name="unity" onChange={(e)=>{setunityText(e.target.value)}}>
+            <option value={0}>Unidad</option>
+            <option value='FISCALA' >FISCALA- U1</option>
+            <option value='USME'>USME- U2</option>
+            <option value='SERRANIAS'>SERRANIAS- U3</option>
+            <option value='VIRREY'>VIRREY- U4</option>
+            <option value='SAN JUAN A'>SAN JUAN A- U5</option>
+            <option value='EL UVAL'>EL UVAL - U6</option>
+            <option value='TRIANGULO'>TRIANGULO - U7</option>
+            <option value='LORENZO'>LORENZO- U8</option>
+          </Form.Select>
+{/*           <Form.Control
             type="text"
             placeholder="Unidad"
             required
             name="unity"
-            value={form.unity}
+            value={formDani.unity}
             onChange={handleInputText}
-          />
+          /> */}
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
@@ -133,30 +135,34 @@ const AddFunction = ({ setShow, managers }) => {
             placeholder="Contraseña"
             required
             name="password"
-            value={form.password}
-            onChange={handleInputText}
+            value={formDani.password}
+            onChange={(e)=>{handleInputText(e);setPassword1(e.target.value)}}
           />
         </Form.Group>
-{/*         <Form.Group className="inputNewUser">
+        <Form.Group className="inputNewUser">
           <Form.Control
             type="password"
             placeholder="Repetir contraseña"
             name="password2"
-            value={form.password}
-            onChange={handleInputText}
+            onChange={(e)=>{setPassword2(e.target.value);setErrorPasswordMessage('')}}
             required
             isInvalid={errorPasswordMessage !== ""}
           />
           <Form.Control.Feedback type="invalid">
             {errorPasswordMessage}
           </Form.Control.Feedback>
-        </Form.Group> */}
+        </Form.Group>
+        <Form.Group className="inputNewUser">
+        <Form.Control.Feedback type="invalid">
+            {errorMessages}
+          </Form.Control.Feedback>
+          </Form.Group>
       </Form>
       <div className="btnsUser">
         <button
           type="submit"
           className="btnCreateUser"
-          onClick={() => {addManagers(),setShow(false)}}>
+          onClick={(e)=> {handleCreate(e)}}>
           Crear
         </button>
         <button className="btnCancelUser" onClick={() => setShow(false)}>

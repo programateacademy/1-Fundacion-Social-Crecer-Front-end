@@ -1,22 +1,30 @@
+import app from '../../apis/index'
 import { useState } from "react";
 import { Modal, Form } from "react-bootstrap";
 
-const PasswordValidationModal = ({ show, onClose, onConfirm }) => {
+const PasswordConfirm = ({ show, onClose, onConfirm }) => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  
+  const handleVerifyPassword = async () => {
+    try{
+      const response = await app.post('/api/superadmin/verify-password', {email: "noborrar@gmail.com", password}, {
+        headers: {
+          Authorization: localStorage.getItem('token')
+        }
+      })
+      if (response.status === 200) { // Cambiar "1234" por la contraseña que se desea validar hacer petición post desde
+        //este frontend, mirar el login de cami
+        onConfirm();
+      }
+    }catch(error){
+      setErrorMessage(error.response.data.error)
+    }
+  }
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     setErrorMessage("");
-  };
-
-  const handleConfirm = () => {
-    if (password === "1234") { // Cambiar "1234" por la contraseña que se desea validar hacer petición post desde
-      //este frontend, mirar el login de cami
-      onConfirm();
-    } else {
-      setErrorMessage("Contraseña incorrecta");
-    }
   };
 
   return (
@@ -40,7 +48,7 @@ const PasswordValidationModal = ({ show, onClose, onConfirm }) => {
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>
-        <button className="btnCreateUser" onClick={handleConfirm}>
+        <button className="btnCreateUser" onClick={handleVerifyPassword}>
           Confirmar
         </button>
         <button className="btnCancelUser" onClick={onClose}>
@@ -51,4 +59,4 @@ const PasswordValidationModal = ({ show, onClose, onConfirm }) => {
   );
 };
 
-export default PasswordValidationModal;
+export default PasswordConfirm;

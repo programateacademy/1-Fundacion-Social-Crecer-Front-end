@@ -45,17 +45,6 @@ function App() {
         localStorage.setItem("userData", JSON.stringify(data.data.user));
     }
 }
-useEffect(() => {
-  async function fetchData(){
-    const { data } = await users.get ('/api/admin/beneficiary',{
-      headers: {
-        Authorization: token,
-    },
-    }) 
-    setArray(data);
-  }
-  fetchData();
-}, [])
       
   const login = (item) => {
 

@@ -1,11 +1,10 @@
 export const numberF = Intl.NumberFormat("es-ES") 
 import PasswordValidation from './PasswordValidation.jsx'
 import modelUser from '../../assets/img/userImage.png';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import ChangePasswordValidation from './ChangePasswordValidation.jsx';
 
-export default function CardUser({managers, setManagers, editManagers, eliminateManager,loading}) {
 
+export default function CardUser({managers, setManagers, eliminateManager,loading,getManagers}) {
     return (
       <div className="userCards">
         {loading ? (
@@ -25,8 +24,8 @@ export default function CardUser({managers, setManagers, editManagers, eliminate
                   <img className="imgUser" src={modelUser} alt="" />
                 </div>
                 <div className="profileUserButtons">
-                  <button className="userButton">CAMBIAR CONTRASEÑA</button>
-                  <PasswordValidation id={_id} docnum={docnum} name={name} email={email} unity={unity} setManagers={setManagers} editManagers={editManagers} eliminateManager={eliminateManager}/>
+                  <ChangePasswordValidation  email={email} setManagers={setManagers} getManagers={getManagers}/>
+                  <PasswordValidation id={_id} docnum={docnum} name={name} email={email} unity={unity} setManagers={setManagers} getManagers={getManagers}/>
                 </div>
               </div>
             );
