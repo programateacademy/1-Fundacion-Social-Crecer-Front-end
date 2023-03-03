@@ -1,47 +1,53 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 import users from "../../apis/index";
 
-const EditDeleteFunction = ({ id, docnum1, name1, email1,unity1, setShow ,onClose,setIsEditing,getManagers }) => {
-  const [form, setForm] = useState(
-    {
-      name: name1, 
-      docnum: docnum1, 
-      email: email1, 
-      unity: unity1
-    }
-  )
+const EditDeleteFunction = ({ id, docnum1, name1, email1, unity1, setShow, onClose, setIsEditing, getManagers }) => {
+  const [form, setForm] = useState({
+    name: name1,
+    docnum: docnum1,
+    email: email1,
+    unity: unity1
+  });
+  const [showModal, setShowModal] = useState(false); // Nuevo estado para controlar el modal
+
   const handleInputText = (e) => {
     let { name, value } = e.target;
     let newForm = { ...form, [name]: value };
     setForm(newForm);
   };
-const handleEditClick = () => {
-      editManager(id);
-      setIsEditing(false);
-      setShow(false);
-      onClose();
-  };  
-      
-  const deleteManager = async (id) => { 
+
+  const handleEditClick = () => {
+    editManager(id);
+    setIsEditing(false);
+    setShow(false);
+    onClose();
+  };
+
+  const deleteManager = async (id) => {
     try {
-    const response = await users.delete(`/api/superadmin/admin/${id}`, {headers: {
-      Authorization: localStorage.getItem('token' || 'recovery-token')
-    }})
-    console.log(response);
-  } catch (error) {
+      const response = await users.delete(`/api/superadmin/admin/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem("token" || "recovery-token")
+        }
+      });
+      console.log(response);
+    } catch (error) {
       console.error(error);
     }
   };
- 
 
-  const editManager = async (id) => { 
+  const editManager = async (id) => {
     try {
-    const response = await users.put(`/api/superadmin/admin/${id}`,form, {headers: {
-      Authorization: localStorage.getItem('token' || 'recovery-token')
-    }})
-    console.log(response);
-  } catch (error) {
+      const response = await users.put(`/api/superadmin/admin/${id}`, form, {
+        headers: {
+          Authorization: localStorage.getItem("token" || "recovery-token")
+        }
+      });
+      console.log(response);
+    } catch (error) {
       console.error(error);
     }
   };
@@ -71,22 +77,48 @@ const handleEditClick = () => {
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={_=> {handleEditClick();setShow(false)}}
+          onClick={(_) => {
+            handleEditClick();
+            setShow(false);
+          }}
         >
           Editar
         </button>
         <button
           className="btnEliminateUser"
-          onClick={() => {
+          onClick={() => setShowModal(true)} // Abre el modal al hacer click en el botón
+        >
+          Eliminar
+        </button>
+      </div>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmar eliminación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>¿Estás seguro de que deseas eliminar a {name1}?
+        <div className="btnsUser">
+        <button
+          className="btnCreateUser"
+          onClick={(_) => {
             deleteManager(id);
             getManagers();
             setShow(false);
             onClose();
           }}
         >
-          Eliminar
+          SÍ
+        </button>
+        <button
+          className="btnEliminateUser"
+          onClick={() => setShowModal(false)} // Abre el modal al hacer click en el botón
+>
+          NO
         </button>
       </div>
+        </Modal.Body>
+      </Modal>
+
     </div>
   );}
 export default EditDeleteFunction;

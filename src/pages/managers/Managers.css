@@ -97,9 +97,12 @@
 
 }
 .modal-title.h4{
-
     color:#5FB324 !important;
-
+}
+.space{
+    background-color: white;
+    color: white;
+    height: 50px;
 }
 .btnsUser{
     display: flex;
