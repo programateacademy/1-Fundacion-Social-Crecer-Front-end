@@ -29,10 +29,10 @@ const [municipalitiesFather, setMunicipalitiesFather] = useState([]);
 const [municipalitiesMother, setMunicipalitiesMother] = useState([]);
 
 // ---------------------- Current State - has to have a default value for the relation between the department
-const [curDepartment, setCurDepartment] = useState(''); 
-const [curDepartmentAttendant, setCurDepartmentAttendant] = useState('');
-const [curDepartmentFather, setCurDepartmentFather] = useState('');
-const [curDepartmentMother, setCurDepartmentMother] = useState('');
+const [curDepartment, setCurDepartment] = useState(); 
+const [curDepartmentAttendant, setCurDepartmentAttendant] = useState();
+const [curDepartmentFather, setCurDepartmentFather] = useState();
+const [curDepartmentMother, setCurDepartmentMother] = useState();
 
 // ---------------------- State that controls and stores form data (add Beneficiaries form)
 const [form, setForm] = useState(addBeneficiariesSchema);
@@ -85,10 +85,7 @@ const addBeneficiary = async (e) => {
             console.log(error);
         }
     };
-    useEffect(_=> {
-        //Perform the first fetch of all APIs on page load
-        fetchApis();
-    }, []);
+
     useEffect(_=> {
         //Updates the info when the variables inside the array have been modified
         fetchApis();
@@ -340,20 +337,22 @@ return (
                             <label>DEPARTAMENTO DE NACIMIENTO</label>
                             <select
                                 name='birthDepartment'
+                                onClick={(e) => {
+                                    setCurDepartment(e.target.value);}}
+
                                 onChange={(e) => {
-                                    setCurDepartment(e.target.value);
+
                                     handleInput(e);
+                                    
                                 }}
                             >
-                                <option value={form.birthDepartment} hidden>{form.birthDepartment}</option>
                                 {!departments
                                     ? 'Cargando'
                                     : departments.map((department) => {
                                         return (
                                             <option
-                                                key={department.NOMBRE_DEPARTAMENTO}
+                                                key = {department.CODIGO_DEPARTAMENTO}
                                                 value={department.CODIGO_DEPARTAMENTO}
-                                                data-key={department.NOMBRE_DEPARTAMENTO}
                                             >
                                                 {department.NOMBRE_DEPARTAMENTO}
                                             </option>
@@ -364,12 +363,14 @@ return (
                         {/* MUNICIPALITIES */}
                         <div>
                             <label>MUNICIPIO DE NACIMIENTO</label>
-                            <select name='birthMunicipality' onChange={handleInput}>
-                                <option value={form.birthMunicipality} hidden>{form.birthMunicipality}</option>
+                            <select name='birthMunicipality' 
+                            onChange={handleInput}>
+
                                 {!municipalities
                                     ? 'Cargando'
                                     : municipalities.map((municipality) => {
                                         return (
+                                            
                                             <option
                                                 key={municipality.NOMBRE_MUNICIPIO}
                                                 value={municipality.CODIGO_MUNICIPIO}
@@ -377,6 +378,7 @@ return (
                                                 {municipality.NOMBRE_MUNICIPIO}
                                             </option>
                                         );
+                                        
                                     })}
                             </select>
                         </div>
@@ -805,17 +807,22 @@ return (
                         <div>
                             <label>DEPARTAMENTO DE NACIMIENTO ACUDIENTE</label>
                             <select
-                                name='guardianBirthDepartment'
+                                name='birthDepartment'
+                                onClick={(e) => {
+                                    setCurDepartmentAttendant(e.target.value);}}
+
                                 onChange={(e) => {
-                                    setCurDepartmentAttendant(e.target.value);
+
+                                    handleInput(e);
+                                    
                                 }}
                             >
-                                {!departments.resultado
+                                {!departments
                                     ? 'Cargando'
-                                    : departments.resultado.map((department) => {
+                                    : departments.map((department) => {
                                         return (
                                             <option
-                                                key={department.NOMBRE_DEPARTAMENTO}
+                                                key = {department.CODIGO_DEPARTAMENTO}
                                                 value={department.CODIGO_DEPARTAMENTO}
                                             >
                                                 {department.NOMBRE_DEPARTAMENTO}
@@ -828,9 +835,9 @@ return (
                         <div>
                             <label>MUNICIPIO DE NACIMIENTO ACUDIENTE</label>
                             <select name='guardianBirthCity' onChange={handleInput}>
-                                {!municipalitiesAttendant.resultado
+                                {!municipalitiesAttendant
                                     ? 'Cargando'
-                                    : municipalitiesAttendant.resultado.map(
+                                    : municipalitiesAttendant.map(
                                         (municipality) => {
                                             return (
                                                 <option
@@ -905,17 +912,22 @@ return (
                         <div>
                             <label>DEPARTAMENTO DE NACIMIENTO PADRE</label>
                             <select
-                                name='fatherBirthDepartment'
+                                name='birthDepartment'
+                                onClick={(e) => {
+                                    setCurDepartmentFather(e.target.value);}}
+
                                 onChange={(e) => {
-                                    setCurDepartmentFather(e.target.value);
+
+                                    handleInput(e);
+                                    
                                 }}
                             >
-                                {!departments.resultado
+                                {!departments
                                     ? 'Cargando'
-                                    : departments.resultado.map((department) => {
+                                    : departments.map((department) => {
                                         return (
                                             <option
-                                                key={department.NOMBRE_DEPARTAMENTO}
+                                                key = {department.CODIGO_DEPARTAMENTO}
                                                 value={department.CODIGO_DEPARTAMENTO}
                                             >
                                                 {department.NOMBRE_DEPARTAMENTO}
@@ -926,20 +938,22 @@ return (
                         </div>
                         {/* MUNICIPALITIES */}
                         <div>
-                            <label>MUNICIPIO DE NACIMIENTO PADRE</label>
-                            <select name='fatherBirthCity' onChange={handleInput}>
-                                {!municipalitiesFather.resultado
+                            <label>MUNICIPIO DE NACIMIENTO ACUDIENTE</label>
+                            <select name='guardianBirthCity' onChange={handleInput}>
+                                {!municipalitiesFather
                                     ? 'Cargando'
-                                    : municipalitiesFather.resultado.map((municipality) => {
-                                        return (
-                                            <option
-                                                key={municipality.NOMBRE_MUNICIPIO}
-                                                value={municipality.CODIGO_MUNICIPIO}
-                                            >
-                                                {municipality.NOMBRE_MUNICIPIO}
-                                            </option>
-                                        );
-                                    })}
+                                    : municipalitiesFather.map(
+                                        (municipality) => {
+                                            return (
+                                                <option
+                                                    key={municipality.NOMBRE_MUNICIPIO}
+                                                    value={municipality.CODIGO_MUNICIPIO}
+                                                >
+                                                    {municipality.NOMBRE_MUNICIPIO}
+                                                </option>
+                                            );
+                                        }
+                                    )}
                             </select>
                         </div>
                         <section className='bottom-tab-button'>
@@ -998,21 +1012,26 @@ return (
                                 <option value='BRAZIL'>BRAZIL</option>
                             </select>
                         </div>
-                        {/* DEPARTMENTS */}
-                        <div>
-                            <label>DEPARTAMENTO DE NACIMIENTO MADRE</label>
+                       {/* DEPARTMENTS */}
+                       <div>
+                            <label>DEPARTAMENTO DE NACIMIENTO PADRE</label>
                             <select
-                                name='motherBirthDepartment'
+                                name='birthDepartment'
+                                onClick={(e) => {
+                                    setCurDepartmentMother(e.target.value);}}
+
                                 onChange={(e) => {
-                                    setCurDepartmentMother(e.target.value);
+
+                                    handleInput(e);
+                                    
                                 }}
                             >
-                                {!departments.resultado
+                                {!departments
                                     ? 'Cargando'
-                                    : departments.resultado.map((department) => {
+                                    : departments.map((department) => {
                                         return (
                                             <option
-                                                key={department.NOMBRE_DEPARTAMENTO}
+                                                key = {department.CODIGO_DEPARTAMENTO}
                                                 value={department.CODIGO_DEPARTAMENTO}
                                             >
                                                 {department.NOMBRE_DEPARTAMENTO}
@@ -1025,9 +1044,9 @@ return (
                         <div>
                             <label>MUNICIPIO DE NACIMIENTO MADRE</label>
                             <select name='motherBirthCity' onChange={handleInput}>
-                                {!municipalitiesMother.resultado
+                                {!municipalitiesMother
                                     ? 'Cargando'
-                                    : municipalitiesMother.resultado.map((municipality) => {
+                                    : municipalitiesMother.map((municipality) => {
                                         return (
                                             <option
                                                 key={municipality.NOMBRE_MUNICIPIO}

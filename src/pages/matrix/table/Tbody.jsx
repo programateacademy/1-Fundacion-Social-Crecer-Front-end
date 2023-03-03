@@ -123,7 +123,8 @@ function Tbody({ token }) {
     return (
         <>
 
-            <tbody>
+            <tbody className="prin-table">
+            
                 {array.map((beneficiary) => (
                    // Key row identifier
                     <tr key={beneficiary._id}>
