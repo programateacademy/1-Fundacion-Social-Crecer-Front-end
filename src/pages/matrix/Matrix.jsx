@@ -47,8 +47,11 @@ function Matrix({ onLogout, token }) {
                     </div>
                 </section>
                 <div className="table-head">
-                    <table>
+                    
+                        <div className="table-head-f">
                         <Thead />
+                        </div>
+                    <table>
                         <BeneficiariesTable />
                     </table>
                 </div> </div>

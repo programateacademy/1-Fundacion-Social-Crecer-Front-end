@@ -53,7 +53,7 @@ function Tbody() {
     return (
         <> 
 
-            <tbody>
+            <tbody className="prin-table">
             
                 {array.map((beneficiary) => (
                     // numDoc identificador unico
