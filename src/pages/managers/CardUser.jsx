@@ -24,7 +24,6 @@ export default function CardUser({managers, setManagers, eliminateManager,loadin
                   <img className="imgUser" src={modelUser} alt="" />
                 </div>
                 <div className="profileUserButtons">
-                  <button className="userButton">CAMBIAR CONTRASEÑA</button>
                   <ChangePasswordValidation  email={email} setManagers={setManagers} getManagers={getManagers}/>
                   <PasswordValidation id={_id} docnum={docnum} name={name} email={email} unity={unity} setManagers={setManagers} getManagers={getManagers}/>
                 </div>
