@@ -24,7 +24,7 @@ function Tbody({ token }) {
     const beneficiariesNameValues = Object.keys(dummy());
 
     const dateKeys = ["joinDate", "exitDate", "birthDate", "guardianBirthdate", "fatherBirthdate", "motherBirthdate", "vaccinationVerificationDate", "vaccinationCardUpToDate",];
-    const numberKeys = ["primaryPhone", "secundaryPhone", "householdStratum", "guardianDocumentNumber", "fatherDocumentNumber", "motherDocumentNumber", "gestationalAgeAtBirth", "weightAtBirth", "heightAtBirth", "exclusiveBreastfeedingDuration", "totalBreastfeedingDuration", "gestationWeeks", "ticketNumber"]
+    const numberKeys = ["primaryPhone", "secundaryPhone", "householdStratum","gestationalAgeAtBirth", "weightAtBirth", "heightAtBirth", "exclusiveBreastfeedingDuration", "totalBreastfeedingDuration", "gestationWeeks", "ticketNumber"]
     const updateBeneficiary = async (id, beneficiary) => {
         const url = `/api/admin/beneficiary/${id}`;
         const config = {
@@ -74,8 +74,7 @@ function Tbody({ token }) {
     return (
         <>
 
-            <tbody>
-
+            <tbody striped bordered hover>
                 {array.map((beneficiary) => (
                     // numDoc identificador unico
                     // Key identificador de filas
@@ -100,7 +99,7 @@ function Tbody({ token }) {
                                     <input
                                         name={item}
                                         value={editedItem[item]}
-                                        type={dateKeys.includes(item) ? "date" : "text" || numberKeys.includes(item)? "number" : "text"}
+                                        type={dateKeys.includes(item) ? "date" : "text" && numberKeys.includes(item)? "number" : "text"}
                                         placeholder={item}
                                         onChange={(e) => {
                                             const newItem = editedItem;
