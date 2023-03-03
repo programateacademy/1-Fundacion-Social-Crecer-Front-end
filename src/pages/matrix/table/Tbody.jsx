@@ -14,7 +14,6 @@ function Tbody({ token }) {
     const setArray = useSetArrayContext();
     const [isEditing, setIsEditing] = useState(false);
     const [editedItem, setEditedItem] = useState(null);
-    console.log(array)
 
     const dummy = () => {
 
@@ -116,7 +115,6 @@ function Tbody({ token }) {
             });
     };
 
-    console.log(datas[0])
     return (
         <>
 
