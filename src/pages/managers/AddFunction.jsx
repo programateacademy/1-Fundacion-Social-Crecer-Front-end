@@ -10,12 +10,11 @@ const AddFunction = ({ setShow, getManagers}) => {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [unityText, setunityText] = useState("")
 
   const formModel = {
     name: "",
     email: "",
-    unity: unityText,
+    unity: "",
     password: "",
     docnum: ""
   };
@@ -109,8 +108,9 @@ const AddFunction = ({ setShow, getManagers}) => {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="inputNewUser">
-          <Form.Select name="unity" onChange={(e)=>{setunityText(e.target.value)}}>
-            <option value={0}>Unidad</option>
+          <label>Unidad</label>
+          <Form.Select name="unity" onChange={handleInputText}>
+            <option value={formDani.unity} hidden></option>
             <option value='FISCALA' >FISCALA- U1</option>
             <option value='USME'>USME- U2</option>
             <option value='SERRANIAS'>SERRANIAS- U3</option>
