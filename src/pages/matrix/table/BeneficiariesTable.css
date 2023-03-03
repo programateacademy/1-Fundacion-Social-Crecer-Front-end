@@ -167,7 +167,7 @@ select option:hover::before {
 
 /*paint odd child table (gray)*/
 .prin-table tr:nth-child(odd) {
-    background-color: #e4e0e0;
+    background-color: #eeecec;
 }
 .prin-table tr td{
     width: 30px;
