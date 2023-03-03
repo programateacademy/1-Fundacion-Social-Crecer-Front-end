@@ -4,7 +4,8 @@ import users from "../src/apis/index";
 import Header from '../src/components/header/Header';
 
 
-jest.mock('../apis/index'); // Mockeamos el módulo de la API
+
+jest.mock('../src/apis/index'); // Mockeamos el módulo de la API
 
 describe('Header', () => {
   const onLogoutMock = jest.fn();
