@@ -52,7 +52,7 @@ function Managers({onLogout, token}) {
       <Header onLogout={onLogout} token={token}/>
       <div className='filaUno'>
         <SearchManagers searchValue={searchValue} setSearchValue={setSearchValue}/>
-        <AddButton managers={managers} getManagers={getManagers}/>
+        <AddButton getManagers={getManagers}/>
       </div> 
       <CardUser 
         managers={searchedManagers} 

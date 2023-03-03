@@ -1,13 +1,14 @@
 import  { useState, useRef } from "react";
 import users from "../../apis/index";
 import Form from "react-bootstrap/Form";
-import Alert from "react-bootstrap/Alert";
 
-const AddFunction = ({ setShow, managers, getManagers}) => {
+const AddFunction = ({ setShow, getManagers}) => {
   const [validated, setValidated] = useState(false);
+  const [errorMessages,setErrorMessages]=useState("");
   const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const formModel = {
     name: "",
@@ -19,37 +20,24 @@ const AddFunction = ({ setShow, managers, getManagers}) => {
   };
   const [formDani, setForm] = useState(formModel);
 
-  const repeatedId = (ID) => {
-    return managers.findIndex((usuario) => usuario.docnum === ID);
-  };
-  const repeatedEmail = (email) => {
-    return managers.findIndex((usuario) => usuario.email === email);
-  };
   const formRef = useRef(null);
   // State to send form data
 
-const handleCreate = async (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
     const form = formRef.current;
     if (form.checkValidity() === false) {
       e.stopPropagation();
-/*     }else if(usuarioIndex!==-1){
-      setErrorDocnumMessage("Este ID ya existe");
-    }else if(repatedE!==-1){
-      setErrorEmailMessage("Este email ya existe"); */
-    }else if (password1 !== password2) {
+    } else if (password1 !== password2) {
       setErrorPasswordMessage("Las contraseñas no coinciden");
-    }else {
+    } else {
       addManagers();
-      setShow(false);
-      setValidated(true);
     }
-    
   }; 
 
   const handleInputText = (e) => {
     let { name, value } = e.target;
-    let newForm = { ...formDani, [name]: value };
+    let newForm = { ...formDani, [name]: value }; 
     setForm(newForm);
   };
 
@@ -67,9 +55,14 @@ const handleCreate = async (e) => {
         },
       });
       console.log(response);
+      setSuccessMessage("Administrador creado con éxito");
+      setErrorMessages("");
+      setValidated(true);
       getManagers();
     } catch (error) {
+      setErrorMessages(error.response.data.error);
       console.error(error.response.data);
+      setSuccessMessage("");
     }
   };
   return (
@@ -83,11 +76,7 @@ const handleCreate = async (e) => {
             name="docnum"
             value={formDani.docnum}
             onChange={handleInputNumber}
-            /* isInvalid={errorDocnumMessage !== ""} */
           />
-{/*           <Form.Control.Feedback type="invalid">
-            {errorDocnumMessage}
-          </Form.Control.Feedback> */}
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
@@ -97,7 +86,11 @@ const handleCreate = async (e) => {
             name="name"
             value={formDani.name}
             onChange={handleInputText}
+            isInvalid={errorMessages === "\"name\" length must be at least 6 characters long"}
           />
+          <Form.Control.Feedback type="invalid">
+            {errorMessages}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
@@ -106,12 +99,12 @@ const handleCreate = async (e) => {
             required
             name="email"
             value={formDani.email}
-            onChange={handleInputText} /* ,setRepeatedE(repeatedEmail(e.target.value)),setErrorEmailMessage('')  */
-            /* isInvalid={errorEmailMessage !== ""} */
+            onChange={(e)=>{handleInputText(e),setErrorMessages("")}}
+            isInvalid={errorMessages === "Email ya registrado"}
           />
-{/*           <Form.Control.Feedback type="invalid">
-            {errorEmailMessage}
-          </Form.Control.Feedback> */}
+          <Form.Control.Feedback type="invalid">
+            {errorMessages}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
@@ -146,6 +139,11 @@ const handleCreate = async (e) => {
             {errorPasswordMessage}
           </Form.Control.Feedback>
         </Form.Group>
+        <Form.Group className="inputNewUser">
+        <Form.Control.Feedback type="invalid">
+            {errorMessages}
+          </Form.Control.Feedback>
+          </Form.Group>
       </Form>
       <div className="btnsUser">
         <button
