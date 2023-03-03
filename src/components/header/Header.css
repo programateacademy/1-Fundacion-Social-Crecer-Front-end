@@ -10,7 +10,7 @@
     font-weight: 500;
     justify-content: space-between;
     box-shadow: 0px 5px 5px -6px black;
-    z-index: 150;
+    z-index: 200;
 }
 a {
     color: black;
@@ -23,7 +23,8 @@ a {
     padding:0px;
 }
 .adminInfo p{
-    margin: 0 10px;
+    margin: 0 15px;
+    margin-bottom: 0px;
 }
 .buttonsHeader, .profile{
     display: flex;
@@ -52,6 +53,14 @@ a {
 .profile{
     align-items: center;
 }
+.profile button{
+    -webkit-appearance: none;
+    -moz-appearance:    none;
+    appearance:         none;
+    border: 2px solid var(--bs-gray-500);
+    padding: 0px 4px;
+    border-radius: 5px;
+}
 .adminName{
     font-size: 16px;
 }
@@ -60,15 +69,10 @@ a {
 }
 .iconuserInfo{
     font-size: 16px;
-    margin-right: 10px;
     color:gray;
 }
 .adminProfile{
     margin-top: -5px;
-}
-.adminInfo p {
-    margin-bottom: 0px;
-    margin-right: 7px;
 }
 
 

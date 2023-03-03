@@ -1,69 +1,54 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
+import Alert from 'react-bootstrap/Alert'
 import users from "../../apis/index";
 
-const EditDeleteFunction = ({ id, docnum1, name1, email1,unity1, setShow ,onClose,setIsEditing,getManagers }) => {
-  const [form, setForm] = useState(
-    {
-      name: name1, 
-      docnum: docnum1, 
-      email: email1, 
-      unity: unity1
-    }
-  )
+const EditDeleteFunction = ({ email1, setShow }) => {
+  const [alertMessage, setAlertMessage] = useState("")
+  const [form, setForm] = useState({email: email1})
+
+
   const handleInputText = (e) => {
     let { name, value } = e.target;
     let newForm = { ...form, [name]: value };
     setForm(newForm);
   };
-const handleEditClick = () => {
-      editManager(id);
-      setIsEditing(false);
-      setShow(false);
-      onClose();
-  };  
-      
-  const deleteManager = async (id) => { 
-    try {
-    const response = await users.delete(`/api/superadmin/admin/${id}`, {headers: {
-      Authorization: localStorage.getItem('token' || 'recovery-token')
-    }})
-    console.log(response);
-  } catch (error) {
-      console.error(error);
-    }
-  };
- 
 
-  const editManager = async (id) => { 
-    try {
-    const response = await users.put(`/api/superadmin/admin/${id}`,form, {headers: {
-      Authorization: localStorage.getItem('token' || 'recovery-token')
-    }})
-    console.log(response);
-  } catch (error) {
-      console.error(error);
+  const handleChangePassword = async () => {
+    try{
+      const response = await users.put('/api/change-password', form, {
+        headers: {
+          Authorization: localStorage.getItem('token' || 'recovery-token')
+        }
+      })
+
+      await setShow(false)
+    }catch(error){
+      console.log(error.response.data)
+      setAlertMessage(error.response.data.error)
+      setTimeout(() => setAlertMessage(''), 3000)
     }
-  };
+  }
 
   return (
     <div id="Form">
+      {alertMessage ? <Alert variant="danger">{alertMessage}</Alert> : ''}
       <Form>
-        <Form.Group className="inputNewUser">
+        <Form.Group className="inputNewUser" controlId="formBasicPassword">
+          <Form.Label>Contraseña nueva</Form.Label>
           <Form.Control
-            type="text"
-            name="name"
-            value={form.name}
-            placeholder={name1}
+            type="password"
+            name="newPassword"
+            placeholder="Contraseña nueva"
             onChange={handleInputText}
           />
         </Form.Group>
-        <Form.Group className="inputNewUser">
+        <Form.Group className="inputNewUser" controlId="formBasicPassword">
+          <Form.Label>Confirmar contraseña</Form.Label>
           <Form.Control
-            type="text"
-            name="unity"
-            value={form.unity}
-            placeholder={unity1}
+            type="password"
+            name="confirmNewPassword"
+            placeholder='Confirmar contraseña'
             onChange={handleInputText}
           />
         </Form.Group>
@@ -71,20 +56,18 @@ const handleEditClick = () => {
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={_=> {handleEditClick();setShow(false)}}
+          onClick={_=> {handleChangePassword()}}
         >
-          Editar
+          Confirmar
         </button>
         <button
           className="btnEliminateUser"
           onClick={() => {
-            deleteManager(id);
+            setShow(false)
             getManagers();
-            setShow(false);
-            onClose();
           }}
         >
-          Eliminar
+          Cancelar
         </button>
       </div>
     </div>

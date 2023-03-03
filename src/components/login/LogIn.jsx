@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Alert from 'react-bootstrap/Alert'
+import Alert from "react-bootstrap/Alert";
 import Logo from "../../assets/img/logo.svg";
 import { BsFillPersonFill, BsFillLockFill } from "react-icons/bs";
 //Import modal components
@@ -18,28 +18,33 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
   const [password, setPassword] = useState();
   const navigate = useNavigate();
   const [showLockedModal, setShowLockedModal] = useState(false);
-  const [showErrorAlert, setShowErrorAlert] = useState(false)
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
 
+  // Define an async function that will handle the form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent the default form submission behavior
     console.log(email, password);
     const sucess = await loginFunction({ email, password });
+    // If the login was successful call the onLogin function
     if (sucess) {
       onLogin();
       navigate("/matrix/");
-    } else if (userInfo[0]) { // If user is locked, show locked modal (true or false)
+    } else if (userInfo[0]) {
+      // If user is locked, show locked modal (true or false)
       setShowLockedModal(true);
     } else {
       console.log("NO Llamo a handleLogin");
-      setShowErrorAlert(true)
-      setTimeout(() => setShowErrorAlert(false), 3000)
+      // Set the showErrorAlert state to true to show the error message
+      setShowErrorAlert(true);
+      // Hide the error message after 3 seconds
+      setTimeout(() => setShowErrorAlert(false), 3000);
       onLogout();
     }
   };
-
+  //Delete all data stored in the localStorage
   const resetLocalStorage = () => {
-    localStorage.clear()
-   } 
+    localStorage.clear();
+  };
 
   return (
     <div className="bodyLogin" onLoad={() => resetLocalStorage()}>
@@ -51,7 +56,11 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
         <div className="form">
           <p className="log-in">Iniciar sesión</p>
           <hr />
-          {showErrorAlert && <Alert variant='warning' className="w-75" >Las credenciales son incorrectas</Alert>}
+          {showErrorAlert && (
+            <Alert variant="warning" className="w-75">
+              Las credenciales son incorrectas
+            </Alert>
+          )}
           <Form className="inputsForm" onSubmit={handleSubmit}>
             <Form.Group as={Row}>
               <Form.Label column sm="1">

@@ -1,7 +1,7 @@
 export const numberF = Intl.NumberFormat("es-ES") 
-import PasswordValidation from './PasswordValidation.jsx'
+import PasswordValidation from './PasswordValidation'
 import modelUser from '../../assets/img/userImage.png';
-import ChangePasswordValidation from './ChangePasswordValidation.jsx';
+import ChangePasswordValidation from './ChangePasswordValidation';
 
 
 export default function CardUser({managers, setManagers, eliminateManager,loading,getManagers}) {

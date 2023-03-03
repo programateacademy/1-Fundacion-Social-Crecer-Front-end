@@ -1,191 +1,211 @@
 /* TABLE COLORS */
 .marix-table {
-    margin-top: 50px;
-    overflow-y: scroll;
-    overflow-x: scroll;
-
+  margin-top: 50px;
+  overflow-y: scroll;
+  overflow-x: scroll;
 }
 
 table {
-    position: relative;
-    text-align: center;
-    margin: 1%;
-    margin-top: 45px;
+  position: relative;
+  text-align: center;
+  margin: 1%;
+  margin-top: 45px;
 }
 
 table input {
-    border: solid 1px transparent;
-    border-radius: 3px;
-    background: transparent;
+  border: solid 1px transparent;
+  border-radius: 3px;
+  background: transparent;
 }
 
 thead td {
-    min-width: 150px;
-    padding: 2px 1px;
-    font-size: 10px;
-    font-weight: 500;
-    border: solid 2px var(--bs-gray);
-    background-color: white;
+  min-width: 150px;
+  padding: 2px 1px;
+  font-size: 10px;
+  font-weight: 500;
+  border: solid 2px var(--bs-gray);
+  background-color: white;
 }
-
 
 .td-smaller-txt {
-    font-size: 12px;
-    font-weight: 500 ;
-    border: solid 2px var(--bs-gray);
-    background-color: white;
+  font-size: 12px;
+  font-weight: 500;
+  border: solid 2px var(--bs-gray);
+  background-color: white;
 }
-thead select{
-    border-radius: 4px;
+thead select {
+  border-radius: 4px;
 }
 
 .tb-unidad {
-    background: var(--tb-unidad);
+  background: var(--tb-unidad);
 }
 
 .tb-dupla {
-    background: var(--tb-dupla);
+  background: var(--tb-dupla);
 }
 
 .tb-beneficiario {
-    background: var(--tb-beneficiario);
+  background: var(--tb-beneficiario);
 }
 
 .tb-acudiente {
-    background: var(--tb-acudiente);
+  background: var(--tb-acudiente);
 }
 
 .tb-padre {
-    background: var(--tb-padre);
+  background: var(--tb-padre);
 }
 
 .tb-madre {
-    background: var(--tb-madre);
+  background: var(--tb-madre);
 }
 
 .tb-historial-medico {
-    background: var(--tb-historial-medico);
+  background: var(--tb-historial-medico);
 }
 
 tbody tr {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
-    font-weight: normal;
-    border: solid 2px var(--bs-gray-500);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  border: solid 2px var(--bs-gray-500);
 }
 
 /* ADD MODAL */
-.flex-gap>div {
-    display: inline-block;
-    margin-right: 5rem;
-    display: flex;
-    flex-direction: column;
+.flex-gap > div {
+  display: inline-block;
+  margin-right: 5rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.flex-gap>div>input,
-.flex-gap>div>select,
-.flex-gap>div>textarea {
-    display: inline-block;
-    width: 100%;
-    min-width: 208px;
-    height: 30px;
-    min-height: 30px;
-    background: #dde0ff;
-    border: 2px solid #538dd5;
-    border-radius: 4px;
-    margin-bottom: 25px;
+.flex-gap > div > input,
+.flex-gap > div > select,
+.flex-gap > div > textarea {
+  display: inline-block;
+  width: 100%;
+  min-width: 208px;
+  height: 30px;
+  min-height: 30px;
+  background: #dde0ff;
+  border: 2px solid #538dd5;
+  border-radius: 4px;
+  margin-bottom: 25px;
 }
 
 .flex-gap h4 {
-    width: 100%;
-    margin: 4% 0;
-    border-radius: 1px;
-    border-bottom: solid 3px #538dd5;
+  width: 100%;
+  margin: 4% 0;
+  border-radius: 1px;
+  border-bottom: solid 3px #538dd5;
 }
 
 .flex-gap label {
-    color: black;
+  color: black;
 }
 
 select option {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  position: relative;
 }
 
 select option:hover::before {
-    content: attr(title);
-    position: absolute;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    padding: 5px;
-    z-index: 1;
-    bottom: 100%;
-    left: 50%;
-    transform: translate(-50%, -10%);
-    white-space: normal;
+  content: attr(title);
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  padding: 5px;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  white-space: normal;
 }
 
 /*visible table*/
 
 .table-head-f {
-    z-index: 100;
-    position: sticky;
-    top: 125px;
-    margin-bottom: -120px;
-    margin-left: 1%;
-    text-align: center;
+  z-index: 100;
+  position: sticky;
+  top: 120px;
+  margin-top: -10px;
+  margin-bottom: -140px;
+  margin-left: 0%;
+  text-align: center;
 }
 
 .table-head {
-    z-index: 100;
-    position: sticky;
-    top: 125px;
-    margin-bottom: -100px;
-    text-align: center;
+  z-index: 100;
+  position: sticky;
+  top: 125px;
+  margin-bottom: -100px;
+  text-align: center;
+  z-index: 110;
 }
 
 .table-head td {
-    border: solid 2px var(--bs-gray);
+  border: solid 2px var(--bs-gray);
 }
 .table-head-f td {
-    border: solid 2px var(--bs-gray);
+  border: 2px solid var(--bs-gray);
+  border-right: 1px;
 }
 
-
 /*transparent table*/
-.transp td {
-    background-color: transparent;
-    color: transparent;
-    border-color: transparent;
+.transp tr td {
+  background-color: transparent;
+  color: transparent;
+  border-color: transparent;
 }
 
 /*paint odd child table (gray)*/
 .prin-table tr:nth-child(odd) {
-    background-color: #e4e0e0;
+  background-color: #e4e0e0;
 }
-.prin-table tr td{
-    width: 30px;
-    max-width: 30px;
-    word-wrap: break-word;
+.prin-table tr td {
+  width: 30px;
+  max-width: 30px;
+  word-wrap: break-word;
 }
 
 /*Edit button styles*/
-.edit-button img {
-    width: 30px;
-}
 .edit-button {
-    transition: 0.5s;
-    border: none;
+  transition: 0.5s;
+}
+.edit-button img {
+  width: 30px;
+}
+.edit-button button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  /*     width: 100%; */
+}
+.edit-button:hover {
+  background-color: #c4ffd1;
+  transition: 0.5s;
 }
 
-.edit-button:hover {
-    background-color: #c4ffd1;
-    transition: 0.5s;
-    cursor: pointer;
+/*select with assigned max width*/
+.selectTbody,
+.selectThead {
+  max-width: 145px;
+  border: none;
+  background: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.selectThead {
+  max-width: 300px;
+  background: white;
 }

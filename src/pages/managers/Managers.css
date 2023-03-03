@@ -8,18 +8,17 @@
     margin-top:10px;
 }
 .cardUser{
-    height: 215px;
-    width: 521px;
+    height: 210px;
+    width: 520px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     border: 3px solid #6A9A15;
     border-radius:1em;
     background-color: #F0FFD7;
-    padding-left: 27px;
-    padding-right: 27px;
-    padding-top: 17px;
+    padding: 17px 27px;
     margin: 27px;
-    box-shadow: 5px 5px 5px -6px black;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.250);
 }
 .dataUser{
     display: flex;
@@ -33,11 +32,9 @@
     height: 116px;
 }
 .profileUserButtons{
-    margin-top: 7px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
 }
 .userButton{
     border: none;
@@ -45,9 +42,7 @@
     color: white;
     font-size: 15px;
     font-weight: 800;
-    padding-left: 17px;
-    padding-right: 17px;
-    padding: 10px;
+    padding: 8px 10px;
     border-radius:0.5em;
 }
 .nameUser,.nameEmail,.idUser{
@@ -58,9 +53,8 @@
     font-size: 25px;
 }
 .nameEmail,.idUser{
-    font-size: 20px;
+    font-size: 17px;
 }
-
 .searchManagers{
     display: flex;
     flex-direction: row;
@@ -74,8 +68,9 @@
     border-radius:0.5em;
 }
 .searchManagers input{
-    font-weight: 500px;
-    font-size: 20px;
+    padding-left: 7px;
+    font-weight: 500;
+    font-size: clamp(.8rem, 1vw, 1.1rem);
     border:3px solid #939393;
     background-color: #D9D9D9;
     border-radius:0.5em;
@@ -94,12 +89,9 @@
 }
 .modal-header{
     box-shadow: 0px 5px 5px -6px #5FB324 !important;
-
 }
 .modal-title.h4{
-
     color:#5FB324 !important;
-
 }
 .btnsUser{
     display: flex;

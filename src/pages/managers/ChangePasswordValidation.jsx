@@ -1,6 +1,6 @@
 import { useState } from "react";
-import PasswordValidationModal from "./PasswordConfirm";
-import EditManagerContainerButton from "./EditModal.jsx";
+import PasswordConfirm from "./PasswordConfirm";
+import EditModal from "./EditModal";
 
 function PasswordValidation({  email, setManagers,getManagers }) {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -25,14 +25,14 @@ function PasswordValidation({  email, setManagers,getManagers }) {
 
   return (
     <>
-      <PasswordValidationModal
+      <PasswordConfirm
         show={showPasswordModal}
         onClose={handleClosePasswordModal}
         onConfirm={handleConfirmPassword}
       />
       <div>
         {isEditing ? (
-          <EditManagerContainerButton 
+          <EditModal 
           email={email} 
           setManagers={setManagers} 
           getManagers={getManagers}
