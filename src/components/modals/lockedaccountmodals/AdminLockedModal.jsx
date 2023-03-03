@@ -15,7 +15,7 @@ const AdminLockedModal = ( props ) => {
   // State for userCode input 
   const [userCode, setUserCode] = useState('')
   // Modal messages 
-  const superAdminMessagge = codeSendMessage || "¿Quires que se te envie un correo con el codigo de recuperacion?";
+  const superAdminMessagge = codeSendMessage || "¿Quieres que se te envíe un correo con el código de recuperación?";
   const adminMessagge = "Ponte en contacto con el encargado ";
 
   
@@ -64,18 +64,18 @@ const AdminLockedModal = ( props ) => {
       <Modal.Body className="d-flex gap-4 p-5">
         <IconPadLock />
         <div className="d-flex flex-column justify-content-between fs-4">
-          <p>Has excedido la cantidad maxima de intentos para iniciar sesion</p>
+          <p>Has excedido la cantidad máxima de intentos para iniciar sesión</p>
           <p> {props.role === "admin" ? adminMessagge : superAdminMessagge}</p>
           <div>
             {
               !codeSendMessage // If the code was not sent
                 ? props.role == "superAdmin" && // Show button if user has a superAdmin role
                   <Button variant="primary" className="w-50" size="sm" onClick={handleSendCode}>
-                    Enviame el codigo
+                    Enviame el código
                   </Button>            
                 : 
                 <form className='mt-2' onSubmit={handleCodeVerify}> 
-                  <label htmlFor="">Tu codigo de recuperacion</label>
+                  <label htmlFor="">Tu código de recuperación</label>
                   <input type='text' placeholder='codigo' value={userCode} name='userCode' onChange={(e) =>setUserCode(e.target.value)}></input>
                   <button type='submit' name='sendUserCode' >Continuar</button>
                 </form>    
