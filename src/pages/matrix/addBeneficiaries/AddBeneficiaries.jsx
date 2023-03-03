@@ -1,19 +1,24 @@
 import { useEffect, useState, useRef } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 import 'react-tabs/style/react-tabs.css';
 import './AddBeneficiaries.css';
 import Modal from 'react-bootstrap/Modal';
-import { IoIosAddCircleOutline } from 'react-icons/io';
+// 
 import app from '../../../apis/index'
 // API 'Sector Catastral Bogotá D.C.'
 import neighborhoods from '../../../apis/SECTOR.json';
+// Add Beneficiaries Schema
+import addBeneficiariesSchema from "./newBeneficiarySchema";
+
 
 function AddBeneficiaries({token}) {
-// ---------------------- Modal state
+// ---------------------- Modal states
 const [show, setShow] = useState(false);
 const handleClose = _=> setShow(false);
 const handleShow = _=> setShow(true);
-// ---------------------- Apis state
+
+// ---------------------- Apis states
 const [departments, setDepartments] = useState([]);
 const [localities, setLocalities] = useState([]);
 
@@ -33,12 +38,14 @@ const [curDepartmentAttendant, setCurDepartmentAttendant] = useState(11);
 const [curDepartmentFather, setCurDepartmentFather] = useState(11);
 const [curDepartmentMother, setCurDepartmentMother] = useState(11);
 
-// Neighborhood
-const [searchText, setSearchText] = useState('');
-const [selectedValue, setSelectedValue] = useState('');
+// ---------------------- State that controls and stores form data (add Beneficiaries form)
+const [form, setForm] = useState(addBeneficiariesSchema);
+
+// ---------------------- Form tabs
+const [tabIndex, setTabIndex] = useState(0);
+const tabListRef = useRef(0);
+
 // ---------------------- addBeneficiaries post function
-
-
 const addBeneficiary = async (e) => {
     e.preventDefault();
     try {
@@ -55,232 +62,99 @@ const addBeneficiary = async (e) => {
     }
 } 
 
-
-    // Form tabs
-    const [tabIndex, setTabIndex] = useState(0);
-    const tabListRef = useRef(0);
-
-    // ---------------------- We request the APIs used for selects
-    const fetchApis = async _=> {
-        try {
-            /* Departments */
-/*             const resDepartments = await fetch(
-                'https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/departamentos.php'
-            );
-            const resDepartmentsJSON = await resDepartments.json();
-            setDepartments(resDepartmentsJSON); */
-            /* Municipalities - Depending on the department code, make the query to the municipality belonging to that department */
-            // Beneficiary
-/*             const resMunicipalities = await fetch(
-                `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartment}`
-            );
-            const resMunicipalitiesJSON = await resMunicipalities.json();
-            setMunicipalities(resMunicipalitiesJSON);
-            // Attendant
-            const resMunicipalitiesAttendant = await fetch(
-                `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentAttendant}`
-            );
-            const resMunicipalitiesAttendantJSON =
-                await resMunicipalitiesAttendant.json();
-            setMunicipalitiesAttendant(resMunicipalitiesAttendantJSON);
-            // Father
-            const resMunicipalitiesFather = await fetch(
-                `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentFather}`
-            );
-            const resMunicipalitiesFatherJSON = await resMunicipalitiesFather.json();
-            setMunicipalitiesFather(resMunicipalitiesFatherJSON);
-            // Mother
-            const resMunicipalitiesMother = await fetch(
-                `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentMother}`
-            );
-            const resMunicipalitiesMotherJSON = await resMunicipalitiesMother.json();
-            setMunicipalitiesMother(resMunicipalitiesMotherJSON);
-            // Localities
-            const resLocalities = await fetch(
-                'https://datosabiertos.bogota.gov.co/dataset/856cb657-8ca3-4ee8-857f-37211173b1f8/resource/497b8756-0927-4aee-8da9-ca4e32ca3a8a/download/loca.json'
-            );
-            const resLocalitiesJSON = await resLocalities.json();
-            setLocalities(resLocalitiesJSON); */
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    useEffect(_=> {
-        //Perform the first fetch of all APIs on page load
-        fetchApis();
-    }, []);
-    useEffect(_=> {
-        //Updates the info when the variables inside the array have been modified
-        fetchApis();
-    }, [
-        curDepartment,
-        curDepartmentAttendant,
-        curDepartmentFather,
-        curDepartmentMother,
-    ]);
-
-    // ------------------------- Neighborhoods alphabetic organization
-    neighborhoods.features.sort((a, b) => {
-        if (a.properties.SCANOMBRE < b.properties.SCANOMBRE) {
-            return -1;
-        }
-        if (a.properties.SCANOMBRE > b.properties.SCANOMBRE) {
-            return 1;
-        }
-            return 0;
-    });
-    // ------------------------- Neighborhood match filter
-    const handleSearchInputChange = e=>{
-        setSearchText(e.target.value.toUpperCase());
-    };
-    const handleSearchClick = () => {
-        const selectElement = document.getElementById('mySelect');
-        let foundOption = null;
-        for (let i = 0; i < selectElement.options.length; i++) {
-            const optionText = selectElement.options[i].text.toUpperCase();
-            if (optionText === searchText) {
-                foundOption = selectElement.options[i];
-                break;
-            }
-        }
-        if (foundOption !== null) {
-            setSelectedValue(foundOption.value);
-        } else {
-            alert('No se encontró ninguna opción que coincida con la búsqueda.');
-        }
-    };
-    // ------------------------- addBeneficiariesSchema
-    const addBeneficiariesSchema ={
-        numDoc: null, 
-        curState: 'ACTIVO', 
-        joinDate: null, 
-        exitDate: null, 
-        enterBy: null, 
-        reasonForExit: null, 
-        otherExitReason: null,
-        unityName: null,
-        duoName: null,
-        teachers: null, 
-        documentType: 'RC',  
-        firstName: null,
-        secondName: null,
-        firstLastName: null,
-        secondLastName: null,
-        birthDate: null,
-        gender: 'FEMENINO',
-        birthCountry: 'COLOMBIA',
-        birthDepartment: 'BOGOTÁ, D.C.',
-        birthMunicipality:'BOGOTÁ, D.C.',
-        disability: 'NO',
-        certifiedDisability: 'NO',    
-        entityCertifiesDisability: null,
-        disabilityCategory: 'NINGUNA', 
-        specifiedDisability: null, 
-        disabilityRegistryEnrollment: 'NO', 
-        requiresAssistance: 'NO', 
-        requiresTechSupport: 'NO',
-        hasTechSupport: 'NO',
-        requiresTherapy: 'NO', 
-        receivesTherapy: 'NO',
-        hasInterdictionProcess: 'NO',
-        countryOfResidence: 'COLOMBIA',
-        residenceDepartment: 'BOGOTÁ, D.C.',
-        locationZone: 'CABECERA',
-        headerType: 'LOCALIDAD',
-        localityName: null,
-        neighborhood: null,
-        foreignZoneName: null, 
-        address: null,
-        primaryPhone: null,
-        secundaryPhone: null,
-        householdStratum: 0,
-        groupEthnicity: 'NO SE AUTORECONOCE EN NINGUNO DE LOS ANTERIORES',
-        beneficiarySisbenized: 'NO',
-        sisbenScore: null,
-        belongsToFamiliesInAction: 'NO',
-        directlyAffectedByArmedConflict: 'NO',
-        focusingCriteria: null,
-        justificationDocumentExists: 'NO', 
-        guardianPersonType: 'MADRE',
-        guardianDocumentType: 'CC',
-        guardianDocumentNumber: null,
-        guardianFirstName: null,
-        guardianSecondName: null,
-        guardianFirstLastname: null,
-        guardianSecondLastname: null,
-        guardianBirthdate: null,
-        guardianBirthCountry: 'COLOMBIA',
-        guardianBirthDepartment: 'BOGOTÁ, D.C.',
-        guardianBirthCity: 'BOGOTÁ, D.C.',
-        fatherDocumentType: null,
-        fatherDocumentNumber: null,
-        fatherFirstName: null,
-        fatherSecondName: null,
-        fatherFirstLastname: null,
-        fatherSecondLastname: null,
-        fatherBirthdate: null,
-        fatherBirthCountry: null,
-        fatherBirthDepartment: null,
-        fatherBirthCity: null,
-        motherDocumentType: null,
-        motherDocumentNumber: null,
-        motherFirstName: null,
-        motherSecondName: null,
-        motherFirstLastname: null,
-        motherSecondLastname: null,
-        motherBirthdate: null,
-        motherBirthCountry: null,
-        motherBirthDepartment: null,
-        motherBirthCity: null,
-        regime: 'SUBSIDIADO',
-        eps: null,
-        hasVaccinationCard: 'SI',
-        vaccinationVerificationDate: null,
-        vaccinationCardUpToDate: null,
-        hasGrowthAndDevelopmentCard: null, 
-        growthDevelopmentControlsReceived: null, 
-        prematurenessBackground: null,
-        under40Weeks: null,
-        cefalicProfile: null, 
-        gestationalAgeAtBirth: null, 
-        weightAtBirth:  null,
-        heightAtBirth: null,
-        exclusivelyBreastfeeding: null,
-        exclusiveBreastfeedingDuration: null, 
-        totalBreastfeedingDuration: null,
-        gestationWeeks: null,
-        ticketNumber: null
+// ---------------------- We request the APIs used for selects
+const fetchApis = async _=> {
+    try {
+/*         // Departments
+            const resDepartments = await fetch(
+            'https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/departamentos.php'
+        );
+        const resDepartmentsJSON = await resDepartments.json();
+        setDepartments(resDepartmentsJSON);
+        // Municipalities - Depending on the department code, make the query to the municipality belonging to that department
+        // Beneficiary
+            const resMunicipalities = await fetch(
+            `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartment}`
+        );
+        const resMunicipalitiesJSON = await resMunicipalities.json();
+        setMunicipalities(resMunicipalitiesJSON);
+        // Attendant
+        const resMunicipalitiesAttendant = await fetch(
+            `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentAttendant}`
+        );
+        const resMunicipalitiesAttendantJSON =
+            await resMunicipalitiesAttendant.json();
+        setMunicipalitiesAttendant(resMunicipalitiesAttendantJSON);
+        // Father
+        const resMunicipalitiesFather = await fetch(
+            `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentFather}`
+        );
+        const resMunicipalitiesFatherJSON = await resMunicipalitiesFather.json();
+        setMunicipalitiesFather(resMunicipalitiesFatherJSON);
+        // Mother
+        const resMunicipalitiesMother = await fetch(
+            `https://geoportal.dane.gov.co/laboratorio/serviciosjson/gdivipola/servicios/municipios.php?codigo_departamento=${curDepartmentMother}`
+        );
+        const resMunicipalitiesMotherJSON = await resMunicipalitiesMother.json();
+        setMunicipalitiesMother(resMunicipalitiesMotherJSON);
+        // Localities
+        const resLocalities = await fetch(
+            'https://datosabiertos.bogota.gov.co/dataset/856cb657-8ca3-4ee8-857f-37211173b1f8/resource/497b8756-0927-4aee-8da9-ca4e32ca3a8a/download/loca.json'
+        );
+        const resLocalitiesJSON = await resLocalities.json();
+        setLocalities(resLocalitiesJSON); */
+    } catch (error) {
+        console.log(error);
     }
-    const [form, setForm] = useState(addBeneficiariesSchema);
-    
-    const resetForm = _=>{
-        setForm(addBeneficiariesSchema);
+};
+useEffect(_=> {
+    //Perform the first fetch of all APIs on page load
+    fetchApis();
+}, []);
+useEffect(_=> {
+    //Updates the info when the variables inside the array have been modified
+    fetchApis();
+}, [curDepartment,curDepartmentAttendant,curDepartmentFather,curDepartmentMother]);
+
+// ------------------------- Form tabs button navegation
+const handleButtonClick = (index) => {
+    setTabIndex(index);
+    tabListRef.current.focus();
+};
+
+// ------------------------- Neighborhoods alphabetic organization
+neighborhoods.features.sort((a, b) => {
+    if (a.properties.SCANOMBRE < b.properties.SCANOMBRE) {
+        return -1;
     }
-    
-    const handleInput = e=>{
-        let {name, value} = e.target;
-        let newForm = {...form, [name]: value};
-        setForm(newForm);
-    };
-    const handleInputNum = e=>{
-        let {name, value} = e.target;
-        let newForm = {...form, [name]: parseInt(value)};
-        setForm(newForm);
-    };
+    if (a.properties.SCANOMBRE > b.properties.SCANOMBRE) {
+        return 1;
+    }
+        return 0;
+});
 
-    // ------------------------- Form tabs button
-    const handleButtonClick = (index) => {
-        setTabIndex(index);
-        tabListRef.current.focus();
-    };
+// ------------------------- Add Beneficiaries functions
+// Set form to default values
+const resetForm = _=>{
+    setForm(addBeneficiariesSchema);
+}
+// Save the data in the form as text
+const handleInput = e=>{
+    let {name, value} = e.target;
+    let newForm = {...form, [name]: value.toUpperCase()};
+    setForm(newForm);
+};
+// Save the data in the form as number
+const handleInputNum = e=>{
+    let {name, value} = e.target;
+    let newForm = {...form, [name]: parseInt(value)};
+    setForm(newForm);
+};
 
-    const handleSubmit = e=>{
-        e.preventDefault();
-        if(e.target.checkValidity()){ // use can also use e.target.reportValidity
-            // submitForm
-        }
-        console.log(form)
-        }
+// ------------------------- Protect page load when pressing submit button
+const handleSubmit = e=>{
+    e.preventDefault();
+}
 
 return (
 <>
@@ -302,7 +176,7 @@ return (
         keyboard={false}
         className='modal-xl modal-dialog-centered'
     >
-        <Modal.Header closeButton onClick={_=>{resetForm();setSelectedValue('');setTabIndex(0);}}>
+        <Modal.Header closeButton onClick={_=>{resetForm();setTabIndex(0);}}>
             <Modal.Title id='example-custom-modal-styling-title'>
                 <h3>AÑADIR BENEFICIARIO</h3>
             </Modal.Title>
@@ -665,18 +539,10 @@ return (
                             </select>
                         </div>
                         {/* NEIGHBORHOODS SEARCH*/}
-                        <div className='long-select'>
+                        <div>
                             <label>BARRIO*</label>
-                            <div className='d-flex flex-row flex-wrap'>
-                                <select
-                                    id='mySelect'
-                                    value={selectedValue}
-                                    onChange={e=>{
-                                        setSelectedValue(e.target.value);
-                                        handleInput(e);
-                                    }}
-                                    name='neighborhood'
-                                >
+                            <div>
+                                <select name='neighborhood' onChange={handleInput}>
                                 <option value={form.neighborhood} hidden>{form.neighborhood}</option>
                                     {!neighborhoods.features
                                         ? 'Cargando'
@@ -691,13 +557,6 @@ return (
                                             );
                                         })}
                                 </select>
-                                <input
-                                    type='text'
-                                    value={searchText}
-                                    onChange={handleSearchInputChange}
-                                    placeholder='Buscar barrio'
-                                />
-                                <button onClick={handleSearchClick}>Buscar</button>
                             </div>
                         </div>
                         <div>
@@ -996,8 +855,8 @@ return (
                         </div>
                         <section className='bottom-tab-button'>
                         <button type='submit' className='verifyInputs'>Verificar campos requeridos</button>
-                            <button className='addUser' onClick={() => handleButtonClick(0)}>Anterior</button>
-                            <button className='addUser' onClick={() => handleButtonClick(2)}>Siguiente</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(0)}>Anterior</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(2)}>Siguiente</button>
                         </section>
                     </TabPanel>
 
@@ -1093,8 +952,8 @@ return (
                             </select>
                         </div>
                         <section className='bottom-tab-button'>
-                            <button className='addUser' onClick={() => handleButtonClick(1)}>Anterior</button>{' '}
-                            <button className='addUser' onClick={() => handleButtonClick(3)}>Siguiente</button>{' '}
+                            <button className='addUser' onClick={_=> handleButtonClick(1)}>Anterior</button>{' '}
+                            <button className='addUser' onClick={_=> handleButtonClick(3)}>Siguiente</button>{' '}
                         </section>
                     </TabPanel>
 
@@ -1190,8 +1049,8 @@ return (
                             </select>
                         </div>
                         <section className='bottom-tab-button'>
-                            <button className='addUser' onClick={() => handleButtonClick(2)}>Anterior</button>
-                            <button className='addUser' onClick={() => handleButtonClick(4)}>Siguiente</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(2)}>Anterior</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(4)}>Siguiente</button>
                         </section>
                     </TabPanel>
 
@@ -1338,7 +1197,7 @@ return (
                         </div>
                         <section className='bottom-tab-button'>
                             <button className='verifyInputs'>Verificar campos requeridos</button>
-                            <button className='addUser' onClick={() => handleButtonClick(3)}>Anterior</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(3)}>Anterior</button>
                             <button className='addUser' onClick={addBeneficiary} type="submit">Guardar beneficiario</button>
                         </section>
                     </TabPanel>

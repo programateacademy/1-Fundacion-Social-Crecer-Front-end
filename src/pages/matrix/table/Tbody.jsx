@@ -6,25 +6,30 @@ import "./BeneficiariesTable.css";
 import { useArrayContext, useSetArrayContext, useFilterContext } from "../../../context/context";
 
 
-//Sacamos los nombres de las llaves de un beneficiario dummy, se convierte en array sacando las llaves con Object.keys
 
 function Tbody({ token }) {
+    //The useFilterContext() function is used to get the current filter for the context.
     const filter = useFilterContext();
+    //Check if there is a filter. If so, the filter is used. If not, the current array context is used via the useArrayContext() function.
     const array = filter[0] ? filter : useArrayContext();
+    //The useSetArrayContext() function is used to get the function that updates the state of the array in the context.
     const setArray = useSetArrayContext();
+    //useState() is used to create a local "isEditing" state with an initial value of false.
     const [isEditing, setIsEditing] = useState(false);
     const [editedItem, setEditedItem] = useState(null);
-    console.log(array)
-
     const dummy = () => {
-
+        //Removes the _id property from the first element in the datas array.
         delete datas[0]._id
         return datas[0]
     }
+    
+    //initializes it with an array of the keys of the object returned by calling the dummy function
     const beneficiariesNameValues = Object.keys(dummy());
-
+    //Array with the names of the input type date
     const dateKeys = ["joinDate", "exitDate", "birthDate", "guardianBirthdate", "fatherBirthdate", "motherBirthdate", "vaccinationVerificationDate", "vaccinationCardUpToDate",];
+    //Array with the names of the input type number
     const numberKeys = ["primaryPhone", "secundaryPhone", "householdStratum", "gestationalAgeAtBirth", "weightAtBirth", "heightAtBirth", "exclusiveBreastfeedingDuration", "totalBreastfeedingDuration", "gestationWeeks", "ticketNumber"]
+    //Selects from the table with their respective options
     const selectOptions = {
         curState: ['ACTIVO', 'INACTIVO'],
         otherExitReason:['MOTIVO 1','MOTIVO 2'],
@@ -71,6 +76,7 @@ function Tbody({ token }) {
         under40Weeks: ['NA','NO','SI'],
         exclusivelyBreastfeeding: ['NO','SI']
     }
+    //Asynchronous function to fetch the beneficiary data and make the HTTP PUT request
     const updateBeneficiary = async (id, beneficiary) => {
         const url = `/api/admin/beneficiary/${id}`;
         const config = {
@@ -86,13 +92,12 @@ function Tbody({ token }) {
         }
     };
 
-    //  edit
     const onChangeInput = (e, _id) => {
         const { name, value } = e.target;
-        // Verifica que el campo que se está actualizando existe en el objeto del beneficiario
+        //  Verify that the field being updated exists in the payee object
         if (Object.keys(array[0]).includes(name)) {
             const editData = array.map((item) =>
-                // Verifica si el numDoc de un beneficiario es igual al valor proporcionado en numDoc y si firstName es una cadena no vacía.
+            //Checks if a beneficiary's _id is equal to the value provided in _id and if the name is a non-empty string.
                 item._id === _id ? { ...item, [name]: value } : item
             );
             setArray(editData);
@@ -102,11 +107,10 @@ function Tbody({ token }) {
         setIsEditing(true);
         setEditedItem(item);
     };
-    // Actualiza los datos en la base de datos y en el estado "array" cuando se hace clic en el botón "Guardar cambios"
+   // Updates the data in the database and in the "array" state when the "Save Changes" button is clicked
     const handleSave = (beneficiary) => {
         setIsEditing(false);
         setEditedItem(null);
-        // Actualiza los datos en la base de datos utilizando el método PUT
         updateBeneficiary(beneficiary._id, beneficiary)
             .then(() => {
                 console.log("Beneficiaries updated successfully!");
@@ -122,8 +126,7 @@ function Tbody({ token }) {
 
             <tbody>
                 {array.map((beneficiary) => (
-                    // numDoc identificador unico
-                    // Key identificador de filas
+                   // Key row identifier
                     <tr key={beneficiary._id}>
                         <td className="edit-button">
                             {!isEditing ? (
@@ -137,11 +140,11 @@ function Tbody({ token }) {
                                 <button onClick={() => handleSave(beneficiary)}>Guardar</button>
                             )}
                         </td>
-                        {/* Array de las propiedades de los beneficiarios */}
+                     {/* Array of beneficiary properties */}
                         {beneficiariesNameValues.map((item) => (
                             <td key={item}>
                                 {isEditing && editedItem._id === beneficiary._id ? (
-                                    // Verificar si el elemento actual es un select
+                                    // Check if the current element is a select
                                     selectOptions[item] ? (
                                         <select
                                             name={item}

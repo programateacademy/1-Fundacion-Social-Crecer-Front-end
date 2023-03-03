@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { BiSearch } from "react-icons/bi";
+// Styles
 import "./Matrix.css";
+// Components
 import BeneficiariesTable from "./table/BeneficiariesTable";
 import AddBeneficiaries from "./addBeneficiaries/AddBeneficiaries";
-import { BiSearch } from "react-icons/bi";
 import Header from "../../components/header/Header";
 import Thead from "./table/Thead";
 import { Filter } from "./Filter";

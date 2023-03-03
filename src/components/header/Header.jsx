@@ -1,7 +1,7 @@
 import logo from '../../assets/img/logo.svg';
 import { FaUserAlt } from "react-icons/fa";
 import './Header.css';
-import { Link } from 'react-router-dom';
+
 import { FiLogOut } from "react-icons/fi";
 import users from "../../apis/index";
 import { useEffect, useState } from 'react';
@@ -29,9 +29,9 @@ function Header({ onLogout, token }) {
         <div className='header'>
             <img className='elLogo' src={logo} alt='fundacionCrecer' />
             <div className='buttonsHeader'>
-                <button type="button" className="buttonHeader"><Link to='/matrix'>Inicio</Link></button>
+                <button type="button" className="buttonHeader">Inicio</button>
                 {userInfo && userInfo.role === 'superAdmin' && (
-                    <button type="button" className="buttonHeader"><Link to='/managers'>Funcionarios</Link></button>
+                    <button type="button" className="buttonHeader">Funcionarios</button>
                 )}
             </div>
             <div className='profile'>
