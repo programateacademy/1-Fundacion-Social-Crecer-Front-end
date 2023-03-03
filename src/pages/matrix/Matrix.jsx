@@ -6,9 +6,25 @@ import { BiSearch } from "react-icons/bi";
 import Header from "../../components/header/Header";
 import Thead from "./table/Thead";
 import { Filter } from "./Filter";
+import { useSetArrayContext } from "../../context/context";
+import app from '../../apis/index'
 
 
 function Matrix({ onLogout, token }) {
+
+    const setArray = useSetArrayContext();
+    useEffect(() => {
+        async function fetchData(){
+        const { data } = await app.get ('/api/admin/beneficiary',{
+            headers: {
+            Authorization: token,
+        },
+        }) 
+        setArray(data);
+        }
+        fetchData();
+    }, [])
+
     return (
         <>
             <div> <Header onLogout={onLogout} token={token}/>
