@@ -1,19 +1,24 @@
 import { useEffect, useState, useRef } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 import 'react-tabs/style/react-tabs.css';
 import './AddBeneficiaries.css';
 import Modal from 'react-bootstrap/Modal';
-import { IoIosAddCircleOutline } from 'react-icons/io';
+// 
 import app from '../../../apis/index'
 // API 'Sector Catastral Bogotá D.C.'
 import neighborhoods from '../../../apis/SECTOR.json';
+// Add Beneficiaries Schema
+import addBeneficiariesSchema from "./newBeneficiarySchema";
+
 
 function AddBeneficiaries({token}) {
-// ---------------------- Modal state
+// ---------------------- Modal states
 const [show, setShow] = useState(false);
 const handleClose = _=> setShow(false);
 const handleShow = _=> setShow(true);
-// ---------------------- Apis state
+
+// ---------------------- Apis states
 const [departments, setDepartments] = useState([]);
 const [localities, setLocalities] = useState([]);
 
@@ -29,9 +34,14 @@ const [curDepartmentAttendant, setCurDepartmentAttendant] = useState('');
 const [curDepartmentFather, setCurDepartmentFather] = useState('');
 const [curDepartmentMother, setCurDepartmentMother] = useState('');
 
+// ---------------------- State that controls and stores form data (add Beneficiaries form)
+const [form, setForm] = useState(addBeneficiariesSchema);
+
+// ---------------------- Form tabs
+const [tabIndex, setTabIndex] = useState(0);
+const tabListRef = useRef(0);
+
 // ---------------------- addBeneficiaries post function
-
-
 const addBeneficiary = async (e) => {
     e.preventDefault();
     try {
@@ -47,11 +57,6 @@ const addBeneficiary = async (e) => {
         console.log(alert(error))
     }
 } 
-
-
-    // Form tabs
-    const [tabIndex, setTabIndex] = useState(0);
-    const tabListRef = useRef(0);
 
     // ---------------------- We request the APIs used for selects
     const fetchApis = async _=> {
@@ -87,152 +92,57 @@ const addBeneficiary = async (e) => {
     useEffect(_=> {
         //Updates the info when the variables inside the array have been modified
         fetchApis();
-    }, [
-        curDepartment,
-        curDepartmentAttendant,
-        curDepartmentFather,
-        curDepartmentMother,
-    ]);
+    }, [curDepartment, curDepartmentAttendant, curDepartmentFather, curDepartmentMother]);
 
-    // ------------------------- Neighborhoods alphabetic organization
-    neighborhoods.features.sort((a, b) => {
-        if (a.properties.SCANOMBRE < b.properties.SCANOMBRE) {
-            return -1;
-        }
-        if (a.properties.SCANOMBRE > b.properties.SCANOMBRE) {
-            return 1;
-        }
-            return 0;
-    });
 
-    // ------------------------- addBeneficiariesSchema
-    const addBeneficiariesSchema ={
-        numDoc: null, 
-        curState: 'ACTIVO', 
-        joinDate: null, 
-        exitDate: null, 
-        enterBy: null, 
-        reasonForExit: null, 
-        otherExitReason: null,
-        unityName: null,
-        duoName: null,
-        teachers: null, 
-        documentType: 'RC',  
-        firstName: null,
-        secondName: null,
-        firstLastName: null,
-        secondLastName: null,
-        birthDate: null,
-        gender: 'FEMENINO',
-        birthCountry: 'COLOMBIA',
-        birthDepartment: 'BOGOTÁ, D.C.',
-        birthMunicipality:'BOGOTÁ, D.C.',
-        disability: 'NO',
-        certifiedDisability: 'NO',    
-        entityCertifiesDisability: null,
-        disabilityCategory: 'NINGUNA', 
-        specifiedDisability: null, 
-        disabilityRegistryEnrollment: 'NO', 
-        requiresAssistance: 'NO', 
-        requiresTechSupport: 'NO',
-        hasTechSupport: 'NO',
-        requiresTherapy: 'NO', 
-        receivesTherapy: 'NO',
-        hasInterdictionProcess: 'NO',
-        countryOfResidence: 'COLOMBIA',
-        residenceDepartment: 'BOGOTÁ, D.C.',
-        locationZone: 'CABECERA',
-        headerType: 'LOCALIDAD',
-        localityName: null,
-        neighborhood: null,
-        foreignZoneName: null, 
-        address: null,
-        primaryPhone: null,
-        secundaryPhone: null,
-        householdStratum: 0,
-        groupEthnicity: 'NO SE AUTORECONOCE EN NINGUNO DE LOS ANTERIORES',
-        beneficiarySisbenized: 'NO',
-        sisbenScore: null,
-        belongsToFamiliesInAction: 'NO',
-        directlyAffectedByArmedConflict: 'NO',
-        focusingCriteria: null,
-        justificationDocumentExists: 'NO', 
-        guardianPersonType: 'MADRE',
-        guardianDocumentType: 'CC',
-        guardianDocumentNumber: null,
-        guardianFirstName: null,
-        guardianSecondName: null,
-        guardianFirstLastname: null,
-        guardianSecondLastname: null,
-        guardianBirthdate: null,
-        guardianBirthCountry: 'COLOMBIA',
-        guardianBirthDepartment: 'BOGOTÁ, D.C.',
-        guardianBirthCity: 'BOGOTÁ, D.C.',
-        fatherDocumentType: null,
-        fatherDocumentNumber: null,
-        fatherFirstName: null,
-        fatherSecondName: null,
-        fatherFirstLastname: null,
-        fatherSecondLastname: null,
-        fatherBirthdate: null,
-        fatherBirthCountry: null,
-        fatherBirthDepartment: null,
-        fatherBirthCity: null,
-        motherDocumentType: null,
-        motherDocumentNumber: null,
-        motherFirstName: null,
-        motherSecondName: null,
-        motherFirstLastname: null,
-        motherSecondLastname: null,
-        motherBirthdate: null,
-        motherBirthCountry: null,
-        motherBirthDepartment: null,
-        motherBirthCity: null,
-        regime: 'SUBSIDIADO',
-        eps: null,
-        hasVaccinationCard: 'SI',
-        vaccinationVerificationDate: null,
-        vaccinationCardUpToDate: null,
-        hasGrowthAndDevelopmentCard: null, 
-        growthDevelopmentControlsReceived: null, 
-        prematurenessBackground: null,
-        under40Weeks: null,
-        cefalicProfile: null, 
-        gestationalAgeAtBirth: null, 
-        weightAtBirth:  null,
-        heightAtBirth: null,
-        exclusivelyBreastfeeding: null,
-        exclusiveBreastfeedingDuration: null, 
-        totalBreastfeedingDuration: null,
-        gestationWeeks: null,
-        ticketNumber: null
+useEffect(_=> {
+    //Perform the first fetch of all APIs on page load
+    fetchApis();
+}, []);
+useEffect(_=> {
+    //Updates the info when the variables inside the array have been modified
+    fetchApis();
+}, [curDepartment,curDepartmentAttendant,curDepartmentFather,curDepartmentMother]);
+
+// ------------------------- Form tabs button navegation
+const handleButtonClick = (index) => {
+    setTabIndex(index);
+    tabListRef.current.focus();
+};
+
+// ------------------------- Neighborhoods alphabetic organization
+neighborhoods.features.sort((a, b) => {
+    if (a.properties.SCANOMBRE < b.properties.SCANOMBRE) {
+        return -1;
     }
-    const [form, setForm] = useState(addBeneficiariesSchema);
-    
-    const resetForm = _=>{
-        setForm(addBeneficiariesSchema);
+    if (a.properties.SCANOMBRE > b.properties.SCANOMBRE) {
+        return 1;
     }
-    
-    const handleInput = e=>{
-        let {name, value} = e.target;
-        let newForm = {...form, [name]: value.toUpperCase()};
-        setForm(newForm);
-    };
-    const handleInputNum = e=>{
-        let {name, value} = e.target;
-        let newForm = {...form, [name]: parseInt(value)};
-        setForm(newForm);
-    };
-    // ------------------------- Form tabs button
-    const handleButtonClick = (index) => {
-        setTabIndex(index);
-        tabListRef.current.focus();
-    };
+        return 0;
+});
 
-    const handleSubmit = e=>{
-        e.preventDefault()
-        console.log(form)
-        }
+// ------------------------- Add Beneficiaries functions
+// Set form to default values
+const resetForm = _=>{
+    setForm(addBeneficiariesSchema);
+}
+// Save the data in the form as text
+const handleInput = e=>{
+    let {name, value} = e.target;
+    let newForm = {...form, [name]: value.toUpperCase()};
+    setForm(newForm);
+};
+// Save the data in the form as number
+const handleInputNum = e=>{
+    let {name, value} = e.target;
+    let newForm = {...form, [name]: parseInt(value)};
+    setForm(newForm);
+};
+
+// ------------------------- Protect page load when pressing submit button
+const handleSubmit = e=>{
+    e.preventDefault();
+}
 
 return (
 <>
@@ -794,21 +704,21 @@ return (
                                 </div>
                                 <select name='focusingCriteria' onChange={handleInput}>
                                     <option value={form.focusingCriteria} hidden>{form.focusingCriteria}</option>
-                                    <option value='A' >A. PERTENECIENTES A HOGARES CON PUNTAJE SISBEN.</option>
-                                    <option value='B'>B. PERTENECIENTES A FAMILIAS IDENTIFICADAS A TRAVÉS DE LA ESTRATEGIA PARA LA SUPERACIÓN DE LA POBREZA EXTREMA – RED UNIDOS.</option>
-                                    <option value='C'>C. NIÑAS, NIÑOS Y MUJERES GESTANTES PERTENECIENTES AL PROGRAMA FAMILIAS EN ACCIÓN DE PROSPERIDAD SOCIAL.</option>
-                                    <option value='D'>D. NIÑAS Y NIÑOS EGRESADOS DE LA ESTRATEGIA DE ATENCIÓN Y PREVENCIÓN DE LA DESNUTRICIÓN AGUDA (CENTROS DE RECUPERACIÓN NUTRICIONAL -CRN- Y 1000 DÍAS PARA CAMBIAR EL MUNDO Y UNIDADES DE BÚSQUEDA ACTIVA).</option>
-                                    <option value='C'>E. REMITIDOS POR LAS ENTIDADES DEL SISTEMA NACIONAL DE BIENESTAR FAMILIAR -SNBF- QUE SE ENCUENTREN EN SITUACIÓN DE VULNERABILIDAD, RIESGO DE VULNERACIÓN DE DERECHOS O PROGRAMAS DE PROTECCIÓN DEL ICBF.</option>
-                                    <option value='F'>F. VÍCTIMAS DE HECHOS VIOLENTOS ASOCIADOS AL CONFLICTO ARMADO, DE ACUERDO CON LAS DIRECTRICES ESTABLECIDAS EN LA LEY 1448 DE 2011 Y LOS DECRETOS LEY 4633, 4634 Y 4635 DE 2011, ASÍ COMO LA SENTENCIA T-025 DE 2004 PROFERIDA POR LA CORTE CONSTITUCIONAL Y DEMÁS DESARROLLOS JURISPRUDENCIALES EN TORNO A LA EXISTENCIA DE UN ESTADO DE COSAS INCONSTITUCIONAL; PARA LO CUAL SE CONSIDERARÁN AQUELLOS CUYO ESTADO SE ENCUENTRE INCLUIDO DENTRO DEL RUV.</option>
-                                    <option value='G'>G. PERTENECIENTES A COMUNIDADES ÉTNICAS (INDÍGENAS, COMUNIDADES NEGRAS, AFROCOLOMBIANAS, PALENQUEROS, RAIZALES Y RROM), QUE DEMANDEN EL SERVICIO.</option>
-                                    <option value='H'>H. NIÑOS Y NIÑAS CON DISCAPACIDAD QUE REQUIEREN DIVERSOS TIPOS DE APOYO PARA SU PARTICIPACIÓN EFECTIVA Y QUE DEMANDAN ACOMPAÑAMIENTO EN LAS ACTIVIDADES DE CUIDADO; ASÍ COMO LOS QUE SEAN REMITIDOS POR LAS ENTIDADES DEL SNBF CON BASE EN EL REGISTRO PARA LA LOCALIZACIÓN Y CARACTERIZACIÓN DE PERSONAS CON DISCAPACIDAD DEL MINISTERIO DE SALUD Y PROTECCIÓN SOCIAL, COMO DE LOS COMITÉS TERRITORIALES Y LOCALES DE DISCAPACIDAD Y LAS ENTIDADES TERRITORIALES EN SALUD.</option>
-                                    <option value='I'>I. USUARIOS DEL SUBSIDIO EN ESPECIE PARA POBLACIÓN VULNERABLE, DEL QUE TRATA EL ARTÍCULO 12 DE LA LEY 1537 DE 2012 (VIVIENDA DE INTERÉS SOCIAL Y VIVIENDA DE INTERÉS PRIORITARIO), Y EL DECRETO 1921 DE 2012 O EL QUE REGLAMENTE LA MATERIA.</option>
-                                    <option value='J'>J. NIÑAS Y NIÑOS CUYOS PADRES ESTÉN EN ESTABLECIMIENTOS DE RECLUSIÓN.</option>
-                                    <option value='K'>K. POBLACIÓN MIGRANTE, REFUGIADA O APÁTRIDA QUE CUMPLA CON ALGUNA DE LAS SIGUIENTES CARACTERÍSTICAS: AUSENCIA DE VIVIENDA O CONDICIONES DE HACINAMIENTO, QUE NO CUENTEN CON ACCESO A SERVICIOS PÚBLICOS DOMICILIARIOS O QUE NO CUENTEN CON NINGÚN TIPO DE AFILIACIÓN AL SISTEMA GENERAL DE SEGURIDAD SOCIAL EN SALUD.</option>
-                                    <option value='L'>L. NIÑAS Y NIÑOS REMITIDOS DEL SERVICIO HCB FAMI Y DIMF QUE AL CUMPLIR LOS DOS (2) AÑOS DEBEN TRANSITAR A OTROS SERVICIOS DE EDUCACIÓN INICIAL DE ATENCIÓN PERMANENTE.</option>
-                                    <option value='M'>M. NIÑAS Y NIÑOS CUYOS PADRES ESTÉN ACTIVOS EN LA RUTA DE REINCORPORACIÓN E IDENTIFICADOS EN LAS BASES DE DATOS REMITIDAS DE FORMA OFICIAL AL ICBF POR LA AGENCIA PARA LA REINCORPORACIÓN Y LA NORMALIZACIÓN – ARN.</option>
-                                    <option value='N'>N. PARA EL SERVICIO DE HOGAR INFANTIL SE ATENDERÁ PRIORITARIAMENTE NIÑOS Y NIÑAS HIJOS DE TRABAJADORES QUE EVIDENCIEN VINCULACIÓN LABORAL Y DEMÁS REQUISITOS ESTABLECIDOS EN LA RESOLUCIÓN 1740 DE 2010.</option>
-                                    <option value='O'>O. INGRESOS IGUALES O INFERIORES A 1.5 SMLV.</option>
+                                    <option value='A'>A</option>
+                                    <option value='B'>B</option>
+                                    <option value='C'>C</option>
+                                    <option value='D'>D</option>
+                                    <option value='C'>E</option>
+                                    <option value='F'>F</option>
+                                    <option value='G'>G</option>
+                                    <option value='H'>H</option>
+                                    <option value='I'>I</option>
+                                    <option value='J'>J</option>
+                                    <option value='K'>K</option>
+                                    <option value='L'>L</option>
+                                    <option value='M'>M</option>
+                                    <option value='N'>N</option>
+                                    <option value='O'>O</option>
                                 </select>
                             </div>
                         </div>
@@ -936,8 +846,8 @@ return (
                         </div>
                         <section className='bottom-tab-button'>
                         <button type='submit' className='verifyInputs'>Verificar campos requeridos</button>
-                            <button className='addUser' onClick={() => handleButtonClick(0)}>Anterior</button>
-                            <button className='addUser' onClick={() => handleButtonClick(2)}>Siguiente</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(0)}>Anterior</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(2)}>Siguiente</button>
                         </section>
                     </TabPanel>
 
@@ -1033,8 +943,8 @@ return (
                             </select>
                         </div>
                         <section className='bottom-tab-button'>
-                            <button className='addUser' onClick={() => handleButtonClick(1)}>Anterior</button>{' '}
-                            <button className='addUser' onClick={() => handleButtonClick(3)}>Siguiente</button>{' '}
+                            <button className='addUser' onClick={_=> handleButtonClick(1)}>Anterior</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(3)}>Siguiente</button>
                         </section>
                     </TabPanel>
 
@@ -1130,8 +1040,8 @@ return (
                             </select>
                         </div>
                         <section className='bottom-tab-button'>
-                            <button className='addUser' onClick={() => handleButtonClick(2)}>Anterior</button>
-                            <button className='addUser' onClick={() => handleButtonClick(4)}>Siguiente</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(2)}>Anterior</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(4)}>Siguiente</button>
                         </section>
                     </TabPanel>
 
@@ -1278,7 +1188,7 @@ return (
                         </div>
                         <section className='bottom-tab-button'>
                             <button className='verifyInputs'>Verificar campos requeridos</button>
-                            <button className='addUser' onClick={() => handleButtonClick(3)}>Anterior</button>
+                            <button className='addUser' onClick={_=> handleButtonClick(3)}>Anterior</button>
                             <button className='addUser' onClick={addBeneficiary} type="submit">Guardar beneficiario</button>
                         </section>
                     </TabPanel>

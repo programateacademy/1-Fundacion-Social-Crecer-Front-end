@@ -9,7 +9,6 @@ function BeneficiariesTable({token}) {
   let data = useArrayContext();
 
   return (
-    
       <Tbody token={token}/>
   )
 }
