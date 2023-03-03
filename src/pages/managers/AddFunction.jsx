@@ -59,6 +59,7 @@ const AddFunction = ({ setShow, getManagers}) => {
       setErrorMessages("");
       setValidated(true);
       getManagers();
+      setShow(false);
     } catch (error) {
       setErrorMessages(error.response.data.error);
       console.error(error.response.data);
