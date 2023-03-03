@@ -1,6 +1,8 @@
 export const numberF = Intl.NumberFormat("es-ES") 
 import PasswordValidation from './PasswordValidation.jsx'
 import modelUser from '../../assets/img/userImage.png';
+import ChangePasswordValidation from './ChangePasswordValidation.jsx';
+
 
 export default function CardUser({managers, setManagers, eliminateManager,loading,getManagers}) {
     return (
@@ -23,6 +25,7 @@ export default function CardUser({managers, setManagers, eliminateManager,loadin
                 </div>
                 <div className="profileUserButtons">
                   <button className="userButton">CAMBIAR CONTRASEÑA</button>
+                  <ChangePasswordValidation  email={email} setManagers={setManagers} getManagers={getManagers}/>
                   <PasswordValidation id={_id} docnum={docnum} name={name} email={email} unity={unity} setManagers={setManagers} getManagers={getManagers}/>
                 </div>
               </div>

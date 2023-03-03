@@ -1,6 +1,7 @@
 import  { useState, useRef } from "react";
 import users from "../../apis/index";
 import Form from "react-bootstrap/Form";
+import Alert from 'react-bootstrap/Alert'
 
 const AddFunction = ({ setShow, getManagers}) => {
   const [validated, setValidated] = useState(false);
@@ -9,14 +10,14 @@ const AddFunction = ({ setShow, getManagers}) => {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [unityText, setunityText] = useState("")
 
   const formModel = {
     name: "",
     email: "",
-    unity: "",
+    unity: unityText,
     password: "",
-    docnum: "",
-    role:"admin"
+    docnum: ""
   };
   const [formDani, setForm] = useState(formModel);
 
@@ -63,11 +64,11 @@ const AddFunction = ({ setShow, getManagers}) => {
     } catch (error) {
       setErrorMessages(error.response.data.error);
       console.error(error.response.data);
-      setSuccessMessage("");
     }
   };
   return (
     <div id="Form">
+      {errorMessages ? <Alert variant="danger">{errorMessages}</Alert> : ''}
       <Form noValidate validated={validated} ref={formRef}>
         <Form.Group className="inputNewUser">
           <Form.Control
@@ -108,14 +109,25 @@ const AddFunction = ({ setShow, getManagers}) => {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="inputNewUser">
-          <Form.Control
+          <Form.Select name="unity" onChange={(e)=>{setunityText(e.target.value)}}>
+            <option value={0}>Unidad</option>
+            <option value='FISCALA' >FISCALA- U1</option>
+            <option value='USME'>USME- U2</option>
+            <option value='SERRANIAS'>SERRANIAS- U3</option>
+            <option value='VIRREY'>VIRREY- U4</option>
+            <option value='SAN JUAN A'>SAN JUAN A- U5</option>
+            <option value='EL UVAL'>EL UVAL - U6</option>
+            <option value='TRIANGULO'>TRIANGULO - U7</option>
+            <option value='LORENZO'>LORENZO- U8</option>
+          </Form.Select>
+{/*           <Form.Control
             type="text"
             placeholder="Unidad"
             required
             name="unity"
             value={formDani.unity}
             onChange={handleInputText}
-          />
+          /> */}
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control
