@@ -53,72 +53,78 @@ const EditDeleteFunction = ({ id, docnum1, name1, email1, unity1, setShow, onClo
   };
 
   return (
-    <div id="Form">
-      <Form>
-        <Form.Group className="inputNewUser">
-          <Form.Control
-            type="text"
-            name="name"
-            value={form.name}
-            placeholder={name1}
-            onChange={handleInputText}
-          />
-        </Form.Group>
-        <Form.Group className="inputNewUser">
-          <Form.Control
-            type="text"
-            name="unity"
-            value={form.unity}
-            placeholder={unity1}
-            onChange={handleInputText}
-          />
-        </Form.Group>
-      </Form>
-      <div className="btnsUser">
-        <button
-          className="btnCreateUser"
-          onClick={(_) => {
-            handleEditClick();
-            setShow(false);
-          }}
-        >
-          Editar
-        </button>
-        <button
-          className="btnEliminateUser"
-          onClick={() => setShowModal(true)} // Abre el modal al hacer click en el botón
-        >
-          Eliminar
-        </button>
-      </div>
-
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirmar eliminación</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>¿Estás seguro de que deseas eliminar a {name1}?
+    
+    <div id="Form" >
+      <div id="Form1" className={showModal ? "overlay" : ""}>
+        <Form>
+          <Form.Group className="inputNewUser">
+            <Form.Label className={showModal ? "overlay" : ""} htmlFor="name">Nombre</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={form.name}
+              placeholder={name1}
+              onChange={handleInputText}
+            />
+          </Form.Group>
+          <Form.Group className="inputNewUser">
+          <Form.Label className={showModal ? "overlay" : ""} htmlFor="unity">Unidad</Form.Label>
+            <Form.Control
+              type="text"
+              name="unity"
+              value={form.unity}
+              placeholder={unity1}
+              onChange={handleInputText}
+            />
+          </Form.Group>
+        </Form>
+        </div>
+        <div className= {showModal ? "overlay" : ""} >
         <div className="btnsUser">
-        <button
-          className="btnCreateUser"
-          onClick={(_) => {
-            deleteManager(id);
-            getManagers();
-            setShow(false);
-            onClose();
-          }}
-        >
-          SÍ
-        </button>
-        <button
-          className="btnEliminateUser"
-          onClick={() => setShowModal(false)} // Abre el modal al hacer click en el botón
->
-          NO
-        </button>
+          <button
+            className="btnCreateUser"
+            onClick={(_) => {
+              handleEditClick();
+              setShow(false);
+            }}
+          >
+            Editar
+          </button>
+          <button
+            className="btnEliminateUser"
+            onClick={() => setShowModal(true)} // Abre el modal al hacer click en el botón
+          >
+            Eliminar
+          </button>
+          </div>
       </div>
-        </Modal.Body>
-      </Modal>
-
+      <div className="secondModal">
+          <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmar eliminación</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>¿Estás seguro de que deseas eliminar a {name1}?
+            <div className="btnsUser">
+            <button
+              className="btnEliminateUser"
+              onClick={(_) => {
+                deleteManager(id);
+                getManagers();
+                setShow(false);
+                onClose();
+              }}
+            >
+              SÍ
+            </button>
+            <button
+              className="btnCreateUser"
+              onClick={() => setShowModal(false)}>
+              NO
+            </button>
+          </div>
+            </Modal.Body>
+          </Modal>
+        </div>
     </div>
   );}
 export default EditDeleteFunction;
