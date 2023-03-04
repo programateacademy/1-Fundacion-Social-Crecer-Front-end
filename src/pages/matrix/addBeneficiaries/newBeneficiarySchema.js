@@ -5,7 +5,6 @@ const addBeneficiariesSchema ={
     gender: 'FEMENINO',
     birthCountry: 'COLOMBIA',
     birthDepartment: 'BOGOTÁ, D.C.',
-    birthMunicipality:'BOGOTÁ, D.C.',
     disability: 'NO',
     certifiedDisability: 'NO',
     disabilityCategory: 'NINGUNA', 
