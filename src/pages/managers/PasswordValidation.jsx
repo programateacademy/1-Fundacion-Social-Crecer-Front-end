@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PasswordConfirm from "./PasswordConfirm";
-import EditModal from "./EditModal.jsx";
+import ReallyEditModal from "./ReallyEditModal.jsx";
 
 function PasswordValidation({
   id,
@@ -40,7 +40,7 @@ function PasswordValidation({
       />
       <div>
         {isEditing ? (
-          <EditModal
+          <ReallyEditModal
             id={id}
             docnum={docnum}
             name={name}
