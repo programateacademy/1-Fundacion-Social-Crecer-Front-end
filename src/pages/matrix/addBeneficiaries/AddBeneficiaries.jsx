@@ -183,7 +183,7 @@ function AddBeneficiaries({ token }) {
               {/* Beneficirie Info*/}
               <TabPanel className='d-flex flex-wrap flex-gap'>
                 <div>
-                  <label>NÚMERO DE DOCUMENTO</label>
+                  <label>NÚMERO DE DOCUMENTO *</label>
                   <input
                     onChange={handleInput} // we call the function that stores the data and adds it to the object plus the default values in addBeneficiariesSchema.
                     name='numDoc'
@@ -203,7 +203,7 @@ function AddBeneficiaries({ token }) {
                   </select>
                 </div>
                 <div>
-                  <label>FECHA DE INGRESO</label>
+                  <label>FECHA DE INGRESO *</label>
                   <input
                     onChange={handleInput}
                     name='joinDate'
@@ -259,7 +259,7 @@ function AddBeneficiaries({ token }) {
                   </select>
                 </div>
                 <div>
-                  <label>UNIDAD</label>
+                  <label>UNIDAD *</label>
                   <select onChange={handleInput} name='unityName' required>
                     <option value={form.unityName} hidden>
                       {form.unityName}
@@ -328,7 +328,7 @@ function AddBeneficiaries({ token }) {
                   </select>
                 </div>
                 <div>
-                  <label>DUPLA</label>
+                  <label>DUPLA *</label>
                   <select name='duoName' onChange={handleInput} required>
                     <option value={form.duoName} hidden>
                       {form.duoName}
@@ -379,7 +379,7 @@ function AddBeneficiaries({ token }) {
                   </select>
                 </div>
                 <div>
-                  <label>PRIMER NOMBRE</label>
+                  <label>PRIMER NOMBRE *</label>
                   <input
                     type='text'
                     name='firstName'
@@ -398,7 +398,7 @@ function AddBeneficiaries({ token }) {
                   />
                 </div>
                 <div>
-                  <label>PRIMER APELLIDO</label>
+                  <label>PRIMER APELLIDO *</label>
                   <input
                     type='text'
                     name='firstLastName'
@@ -417,7 +417,7 @@ function AddBeneficiaries({ token }) {
                   />
                 </div>
                 <div>
-                  <label>FECHA DE NACIMIENTO</label>
+                  <label>FECHA DE NACIMIENTO *</label>
                   <input
                     type='date'
                     name='birthDate'
@@ -496,7 +496,7 @@ function AddBeneficiaries({ token }) {
                 </div>
                 {/* MUNICIPALITIES */}
                 <div>
-                    <label>MUNICIPIO DE NACIMIENTO</label>
+                    <label>MUNICIPIO DE NACIMIENTO *</label>
                     <select name='birthMunicipality' onChange={handleInput} required>
                         <option value={form.birthMunicipality} hidden>{form.birthMunicipality}</option>
                         {!municipalities
@@ -705,7 +705,7 @@ function AddBeneficiaries({ token }) {
                         })}
                   </select>
                 </div>
-                {/* NEIGHBORHOODS SEARCH*/}
+                {/* NEIGHBORHOODS SEARCH */}
                 <div>
                   <label>BARRIO</label>
                   <div>
@@ -738,7 +738,7 @@ function AddBeneficiaries({ token }) {
                   />
                 </div>
                 <div>
-                  <label>DIRECCIÓN</label>
+                  <label>DIRECCIÓN *</label>
                   <textarea
                     name='address'
                     onChange={handleInput}
@@ -750,7 +750,7 @@ function AddBeneficiaries({ token }) {
                   ></textarea>
                 </div>
                 <div>
-                  <label>TELEFONO PRINCIPAL</label>
+                  <label>TELEFONO PRINCIPAL *</label>
                   <input
                     name='primaryPhone'
                     onChange={handleInputNum}
@@ -1057,7 +1057,7 @@ function AddBeneficiaries({ token }) {
                   />
                 </div>
                 <div>
-                  <label>PRIMER NOMBRE ACUDIENTE</label>
+                  <label>PRIMER NOMBRE ACUDIENTE *</label>
                   <input
                     name='guardianFirstName'
                     onChange={handleInput}
@@ -1076,7 +1076,7 @@ function AddBeneficiaries({ token }) {
                   />
                 </div>
                 <div>
-                  <label>PRIMER APELLIDO ACUDIENTE</label>
+                  <label>PRIMER APELLIDO ACUDIENTE *</label>
                   <input
                     name='guardianFirstLastname'
                     onChange={handleInput}
@@ -1095,7 +1095,7 @@ function AddBeneficiaries({ token }) {
                   />
                 </div>
                 <div>
-                  <label>FECHA DE NACIMIENTO ACUDIENTE</label>
+                  <label>FECHA DE NACIMIENTO ACUDIENTE *</label>
                   <input
                     name='guardianBirthdate'
                     onChange={handleInput}
