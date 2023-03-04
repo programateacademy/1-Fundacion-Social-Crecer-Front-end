@@ -15,11 +15,10 @@ const AdminLockedModal = (props) => {
   // State for userCode input
   const [userCode, setUserCode] = useState("");
   // Modal messages
-  const superAdminMessagge =
+  const superadminMessage =
     codeSendMessage ||
     "¿Quieres que se te envíe un correo con el código de recuperación?";
-  const adminMessagge = "Ponte en contacto con el encargado ";
-
+  const adminMessage = "Ponte en contacto con el encargado ";
   const handleSendCode = async () => {
     try {
       const response = await app.get(`/api/code/${props.email}`, {
@@ -55,8 +54,6 @@ const AdminLockedModal = (props) => {
     }
   };
 
-  console.log(props.userInfo)
-
   return (
     <Modal
       {...props}
@@ -73,10 +70,10 @@ const AdminLockedModal = (props) => {
         <IconPadLock />
         <div className="d-flex flex-column justify-content-between fs-4">
           <p>Has excedido la cantidad máxima de intentos para iniciar sesión</p>
-          <p> {props.role === "admin" ? adminMessagge : superAdminMessagge}</p>
+          <p> {props.role === "admin" ? adminMessage : superadminMessage}</p>
           <div>
             {!codeSendMessage ? ( // If the code was not sent
-              props.role == "superAdmin" && ( // Show button if user has a superAdmin role
+              props.role === "superAdmin" && ( // Show button if user has a superAdmin role
                 <Button
                   variant="primary"
                   className="w-50"

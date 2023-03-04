@@ -32,6 +32,8 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
     } else if (userInfo[0]) {
       // If user is locked, show locked modal (true or false)
       setShowLockedModal(true);
+      // Save super admin info into local storage (isLocked, role, email)
+      localStorage.setItem({ adminUserInfo: userInfo })
       // localStorage.setItem('userEmail', userInfo[2])
     } else {
       console.log("NO Llamo a handleLogin");
@@ -42,10 +44,6 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
       onLogout();
     }
   };
-  // const handleEmailChange = (email) => {
-  //   console.log(`El correo electrónico es ${email}`);
-  // };
-  //Delete all data stored in the localStorage
   const resetLocalStorage = () => {
     localStorage.clear();
   };

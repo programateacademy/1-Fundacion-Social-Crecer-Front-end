@@ -16,7 +16,7 @@ const RecoveryPassword = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   const passwordModel = {
-    email: "pruebasuperadmin@prueba.com",
+    email: "dijfsoijfsdoijfso",
     newPassword,
     confirmNewPassword,
   };

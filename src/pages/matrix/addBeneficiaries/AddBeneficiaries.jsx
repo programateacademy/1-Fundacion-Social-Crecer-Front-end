@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { IoIosAddCircleOutline } from "react-icons/io";
+// Styles 
 import "react-tabs/style/react-tabs.css";
 import "./AddBeneficiaries.css";
 import Modal from "react-bootstrap/Modal";
-//
+// use remote APIs form backend
 import app from "../../../apis/index";
 // API 'Sector Catastral Bogotá D.C.'
 import neighborhoods from "../../../apis/SECTOR.json";
@@ -57,13 +58,13 @@ function AddBeneficiaries({ token }) {
           setShow(false);
           setTabIndex(0);
         })
-        .catch((error) => alert(JSON.stringify(error.response.data.message)));
+        .catch((error) => alert("Por favor, ingrese todos los datos requeridos"));
     } catch (error) {
       console.log(alert(error));
     }
   };
 
-  // ---------------------- We request the APIs used for selects
+  // ---------------------- Request of APIs used for selects
   const fetchApis = async (_) => {
     try {
       /* Departments */
@@ -71,24 +72,16 @@ function AddBeneficiaries({ token }) {
       setDepartments(resDepartments.data);
       // Municipalities - Depending on the department code, make the query to the municipality belonging to that department
       // Beneficiary
-      const resMunicipalities = await app.get(
-        `/api/formapi/municipio?codigo_departamento=${curDepartment}`
-      );
+      const resMunicipalities = await app.get(`https://www.datos.gov.co/resource/xdk5-pm3f.json?departamento=${curDepartment}`);
       setMunicipalities(resMunicipalities.data);
       // Attendant
-      const resMunicipalitiesAttendant = await app.get(
-        `/api/formapi/municipio?codigo_departamento=${curDepartmentAttendant}`
-      );
+      const resMunicipalitiesAttendant = await app.get(`https://www.datos.gov.co/resource/xdk5-pm3f.json?departamento=${curDepartmentAttendant}`);
       setMunicipalitiesAttendant(resMunicipalitiesAttendant.data);
       // Father
-      const resMunicipalitiesFather = await app.get(
-        `/api/formapi/municipio?codigo_departamento=${curDepartmentFather}`
-      );
+      const resMunicipalitiesFather = await app.get(`https://www.datos.gov.co/resource/xdk5-pm3f.json?departamento=${curDepartmentFather}`);
       setMunicipalitiesFather(resMunicipalitiesFather.data);
       // Mother
-      const resMunicipalitiesMother = await app.get(
-        `/api/formapi/municipio?codigo_departamento=${curDepartmentMother}`
-      );
+      const resMunicipalitiesMother = await app.get(`https://www.datos.gov.co/resource/xdk5-pm3f.json?departamento=${curDepartmentMother}`);
       setMunicipalitiesMother(resMunicipalitiesMother.data);
       // Localities
       const resLocalities = await fetch(
@@ -101,35 +94,14 @@ function AddBeneficiaries({ token }) {
     }
   };
 
-  useEffect(
-    (_) => {
-      //Updates the info when the variables inside the array have been modified
-      fetchApis();
-    },
-    [
-      curDepartment,
-      curDepartmentAttendant,
-      curDepartmentFather,
-      curDepartmentMother,
-    ]
-  );
-
   useEffect((_) => {
     //Perform the first fetch of all APIs on page load
     fetchApis();
   }, []);
-  useEffect(
-    (_) => {
+  useEffect(_=>{
       //Updates the info when the variables inside the array have been modified
       fetchApis();
-    },
-    [
-      curDepartment,
-      curDepartmentAttendant,
-      curDepartmentFather,
-      curDepartmentMother,
-    ]
-  );
+    },[curDepartment,curDepartmentAttendant,curDepartmentFather,curDepartmentMother]);
 
   // ------------------------- Form tabs button navegation
   const handleButtonClick = (index) => {
@@ -481,50 +453,67 @@ function AddBeneficiaries({ token }) {
                 </div>
                 {/* DEPARTMENTS */}
                 <div>
-                  <label>DEPARTAMENTO DE NACIMIENTO</label>
-                  <select
-                    required
-                    name="birthDepartment"
-                    onClick={(e) => {
-                      setCurDepartment(e.target.value);
-                    }}
-                    onChange={(e) => {
-                      handleInput(e);
-                    }}
-                  >
-                    <option value={form.birthDepartment} hidden>{form.birthDepartment}</option>
-                    <option value="EXTERIOR">EXTERIOR</option>
-                    {!departments
-                      ? "Cargando"
-                      : departments.map((department) => {
-                          return (
-                            <option
-                              key={department.CODIGO_DEPARTAMENTO}
-                              value={department.CODIGO_DEPARTAMENTO}
-                            >
-                              {department.NOMBRE_DEPARTAMENTO}
-                            </option>
-                          );
-                        })}
-                  </select>
-                </div>
+                          <label>DEPARTAMENTO DE NACIMIENTO</label>
+                          <select
+                              name='birthDepartment'
+                              onChange={(e) => {
+                                  setCurDepartment(e.target.value);
+                                  handleInput(e);
+                              }}>
+                              <option value={form.birthDepartment} hidden>{form.birthDepartment}</option>
+                              <option value='Arauca'>Arauca</option>
+                              <option value='Antioquia'>Antioquia</option>
+                              <option value='Amazonas'>Amazonas</option>
+                              <option value='Atlántico'>Atlántico</option>
+                              <option value='Boyacá'>Boyacá</option>
+                              <option value='Casanare'>Casanare</option>
+                              <option value='Córdoba'>Córdoba</option>
+                              <option value='Guainía'>Guainía</option>
+                              <option value='Norte de Santander'>Norte de Santander</option>
+                              <option value='Risaralda'>Risaralda</option>
+                              <option value='Vichada'>Vichada</option>
+                              <option value='Bogotá D.C.'>Bogotá D.C.</option>
+                              <option value='Cundinamarca'>Cundinamarca</option>
+                              <option value='Guaviare'>Guaviare</option>
+                              <option value='Huila'>Huila</option>
+                              <option value='La Guajira'>La Guajira</option>
+                              <option value='Meta'>Meta</option>
+                              <option value='Santander'>Santander</option>
+                              <option value='Caquetá'>Caquetá</option>
+                              <option value='Cauca'>Cauca</option>
+                              <option value='Cesar'>Cesar</option>
+                              <option value='Chocó'>Chocó</option>
+                              <option value='Magdalena'>Magdalena</option>
+                              <option value='Nariño'>Nariño</option>
+                              <option value='Quindío'>Quindío</option>
+                              <option value='Tolima'>Tolima</option>
+                              <option value='Valle del Cauca'>Valle del Cauca</option>
+                              <option value='Vaupés'>Vaupés</option>
+                              <option value='Archipiélago de San Andrés, Providencia y Santa Catalina'>Archipiélago de San Andrés, Providencia y Santa Catalina</option>
+                              <option value='Bolívar'>Bolívar</option>
+                              <option value='Caldas'>Caldas</option>
+                              <option value='Putumayo'>Putumayo</option>
+                              <option value='Sucre'>Sucre</option>
+                          </select>
+                      </div>
                 {/* MUNICIPALITIES */}
                 <div>
-                  <label>MUNICIPIO DE NACIMIENTO</label>
-                  <select name="birthMunicipality" onChange={handleInput}>
-                    {!municipalities
-                      ? "Cargando"
-                      : municipalities.map((municipality) => {
-                          return (
-                            <option
-                              key={municipality.NOMBRE_MUNICIPIO}
-                              value={municipality.CODIGO_MUNICIPIO}
-                            >
-                              {municipality.NOMBRE_MUNICIPIO}
-                            </option>
-                          );
-                        })}
-                  </select>
+                    <label>MUNICIPIO DE NACIMIENTO</label>
+                    <select name='birthMunicipality' onChange={handleInput}>
+                        <option value={form.birthMunicipality} hidden>{form.birthMunicipality}</option>
+                        {!municipalities
+                            ? 'Cargando'
+                            : municipalities.map((municipality) => {
+                                return (
+                                    <option
+                                        key={municipality.c_digo_dane_del_municipio}
+                                        value={municipality.municipio}
+                                    >
+                                        {municipality.municipio}
+                                    </option>
+                                );
+                            })}
+                    </select>
                 </div>
                 <div>
                   <label>DISCAPACIDAD*</label>
@@ -536,70 +525,68 @@ function AddBeneficiaries({ token }) {
                     <option value="SI">SI</option>
                   </select>
                 </div>
-                <div>
-                  <label>DISCAPACIDAD CERTIFICADA</label>
-                  <select name="certifiedDisability" onChange={handleInput}>
-                    <option value={form.certifiedDisability} hidden>
-                      {form.certifiedDisability}
-                    </option>
-                    <option value="NO">NO</option>
-                    <option value="SI">SI</option>
-                  </select>
+                {form.disability === "SI" && (
+                    <div>
+                      <label>ENTIDAD QUE CERTIFICA LA DISCAPACIDAD</label>
+                      <input
+                        type="text"
+                        name="entityCertifiesDisability"
+                        onChange={handleInput}
+                        value={form.entityCertifiesDisability}
+                      />
+                    </div>
+                )}
+                {form.disability === "SI" && (
+                  <div>
+                    <label>CATEGORÍA DE LA DISCAPACIDAD</label>
+                    <select name="disabilityCategory" onChange={handleInput}>
+                        <option value={form.disabilityCategory} hidden>
+                          {form.disabilityCategory}
+                        </option>
+                        <option value="NINGUNA">NINGUNA</option>
+                        <option value="FÍSICA">FÍSICA</option>
+                        <option value="INTELECTUAL">INTELECTUAL</option>
+                        <option value="PSICOSOCIAL">PSICOSOCIAL</option>
+                        <option value="AUDITIVA">AUDITIVA</option>
+                        <option value="VISUAL">VISUAL</option>
+                        <option value="SORDO SEGUERA">SORDO SEGUERA</option>
+                        <option value="MULTIPLE">MULTIPLE</option>
+                        <option value="SENSORIAL">SENSORIAL</option>
+                        <option value="SISTEMICA">SISTEMICA</option>
+                        <option value="VOZ Y HABLA">VOZ Y HABLA</option>
+                        <option value="PIEL, PELO Y UÑAS">PIEL, PELO Y UÑAS</option>
+                    </select>
+                  </div>
+                )}
+                {form.disability === "SI" && (
+                  <div>
+                    <label>ESPECIFICAR LA DISCAPACIDAD</label>
+                    <input
+                      type="text"
+                      name="specifiedDisability"
+                      onChange={handleInput}
+                      value={form.specifiedDisability}
+                    />
                 </div>
-                <div>
-                  <label>ENTIDAD QUE CERTIFICA LA DISCAPACIDAD</label>
-                  <input
-                    type="text"
-                    name="entityCertifiesDisability"
-                    onChange={handleInput}
-                    value={form.entityCertifiesDisability}
-                  />
-                </div>
-                <div>
-                  <label>CATEGORÍA DE LA DISCAPACIDAD</label>
-                  <select name="disabilityCategory" onChange={handleInput}>
-                    <option value={form.disabilityCategory} hidden>
-                      {form.disabilityCategory}
-                    </option>
-                    <option value="NINGUNA">NINGUNA</option>
-                    <option value="FÍSICA">FÍSICA</option>
-                    <option value="INTELECTUAL">INTELECTUAL</option>
-                    <option value="PSICOSOCIAL">PSICOSOCIAL</option>
-                    <option value="AUDITIVA">AUDITIVA</option>
-                    <option value="VISUAL">VISUAL</option>
-                    <option value="SORDO SEGUERA">SORDO SEGUERA</option>
-                    <option value="MULTIPLE">MULTIPLE</option>
-                    <option value="SENSORIAL">SENSORIAL</option>
-                    <option value="SISTEMICA">SISTEMICA</option>
-                    <option value="VOZ Y HABLA">VOZ Y HABLA</option>
-                    <option value="PIEL, PELO Y UÑAS">PIEL, PELO Y UÑAS</option>
-                  </select>
-                </div>
-                <div>
-                  <label>ESPECIFICAR LA DISCAPACIDAD</label>
-                  <input
-                    type="text"
-                    name="specifiedDisability"
-                    onChange={handleInput}
-                    value={form.specifiedDisability}
-                  />
-                </div>
-                <div>
-                  <label>
-                    ¿ESTÁ INSCRITO EN EL REGISTRO PARA LA LOCALIZACIÓN Y
-                    CARACTERIZACIÓN DE PERSONAS CON DISCAPACIDAD?
-                  </label>
-                  <select
-                    name="disabilityRegistryEnrollment"
-                    onChange={handleInput}
-                  >
-                    <option value={form.disabilityRegistryEnrollment} hidden>
-                      {form.disabilityRegistryEnrollment}
-                    </option>
-                    <option value="NO">NO</option>
-                    <option value="SI">SI</option>
-                  </select>
-                </div>
+                )}
+                {form.disability === "SI" && (
+                  <div>
+                    <label>
+                      ¿ESTÁ INSCRITO EN EL REGISTRO PARA LA LOCALIZACIÓN Y
+                      CARACTERIZACIÓN DE PERSONAS CON DISCAPACIDAD?
+                    </label>
+                      <select
+                        name="disabilityRegistryEnrollment"
+                        onChange={handleInput}
+                      >
+                        <option value={form.disabilityRegistryEnrollment} hidden>
+                          {form.disabilityRegistryEnrollment}
+                        </option>
+                        <option value="NO">NO</option>
+                        <option value="SI">SI</option>
+                      </select>
+                  </div>
+                )}
                 <div>
                   <label>¿REQUIERE LA AYUDA DE OTRA PERSONA?</label>
                   <select name="requiresAssistance" onChange={handleInput}>
@@ -643,7 +630,7 @@ function AddBeneficiaries({ token }) {
                   </select>
                 </div>
                 <div>
-                  <label>RECIBE ATENCIÓN EN TERAPIA Y/O REHABILITACIÓN?</label>
+                  <label>¿RECIBE ATENCIÓN EN TERAPIA Y/O REHABILITACIÓN?</label>
                   <select name="receivesTherapy" onChange={handleInput}>
                     <option value={form.receivesTherapy} hidden>
                       {form.receivesTherapy}
@@ -653,7 +640,7 @@ function AddBeneficiaries({ token }) {
                   </select>
                 </div>
                 <div>
-                  <label>TIENE PROCESO DE INTERDICCIÓN?</label>
+                  <label>¿TIENE PROCESO DE INTERDICCIÓN?</label>
                   <select name="hasInterdictionProcess" onChange={handleInput}>
                     <option value={form.hasInterdictionProcess} hidden>
                       {form.hasInterdictionProcess}
@@ -822,46 +809,50 @@ function AddBeneficiaries({ token }) {
                     <option value="SI">SI</option>
                   </select>
                 </div>
-                <div>
-                  <label>PUNTAJE SISBEN</label>
-                  <select name="sisbenScore" onChange={handleInput}>
-                    <option value={form.sisbenScore} hidden>
-                      {form.sisbenScore}
-                    </option>
-                    <option value="A1">A1</option>
-                    <option value="A2">A2</option>
-                    <option value="A3">A3</option>
-                    <option value="A4">A4</option>
-                    <option value="A5">A5</option>
-                    <option value="B1">B1</option>
-                    <option value="B2">B2</option>
-                    <option value="B3">B3</option>
-                    <option value="B4">B4</option>
-                    <option value="B5">B5</option>
-                    <option value="B6">B6</option>
-                    <option value="B7">B7</option>
-                    <option value="C1">C1</option>
-                    <option value="C2">C2</option>
-                    <option value="C3">C3</option>
-                    <option value="C4">C4</option>
-                    <option value="C5">C5</option>
-                    <option value="C6">C6</option>
-                    <option value="C7">C7</option>
-                  </select>
-                </div>
-                <div>
-                  <label>PERTENECE A FAMILIAS EN ACCIÓN</label>
-                  <select
-                    name="belongsToFamiliesInAction"
-                    onChange={handleInput}
-                  >
-                    <option value={form.belongsToFamiliesInAction} hidden>
-                      {form.belongsToFamiliesInAction}
-                    </option>
-                    <option value="NO">NO</option>
-                    <option value="SI">SI</option>
-                  </select>
-                </div>
+                {form.beneficiarySisbenized === "SI" && (
+                  <div>
+                    <label>PUNTAJE SISBEN</label>
+                      <select name="sisbenScore" onChange={handleInput}>
+                        <option value={form.sisbenScore} hidden>
+                          {form.sisbenScore}
+                        </option>
+                        <option value="A1">A1</option>
+                        <option value="A2">A2</option>
+                        <option value="A3">A3</option>
+                        <option value="A4">A4</option>
+                        <option value="A5">A5</option>
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                        <option value="B3">B3</option>
+                        <option value="B4">B4</option>
+                        <option value="B5">B5</option>
+                        <option value="B6">B6</option>
+                        <option value="B7">B7</option>
+                        <option value="C1">C1</option>
+                        <option value="C2">C2</option>
+                        <option value="C3">C3</option>
+                        <option value="C4">C4</option>
+                        <option value="C5">C5</option>
+                        <option value="C6">C6</option>
+                        <option value="C7">C7</option>
+                      </select>
+                  </div>
+                )}
+                {form.beneficiarySisbenized === "SI" && (
+                  <div>
+                    <label>PERTENECE A FAMILIAS EN ACCIÓN</label>
+                      <select
+                        name="belongsToFamiliesInAction"
+                        onChange={handleInput}
+                      >
+                        <option value={form.belongsToFamiliesInAction} hidden>
+                          {form.belongsToFamiliesInAction}
+                        </option>
+                        <option value="NO">NO</option>
+                        <option value="SI">SI</option>
+                      </select>
+                  </div>
+                )}
                 <div>
                   <label>
                     EL BENEFICIARIO HA SIDO VICTIMA DIRECTA CONFLICTO ARMADO
@@ -1131,47 +1122,70 @@ function AddBeneficiaries({ token }) {
                 </div>
                 {/* DEPARTMENTS */}
                 <div>
-                  <label>DEPARTAMENTO DE NACIMIENTO ACUDIENTE</label>
-                  <select
-                    name="birthDepartment"
-                    onClick={(e) => {
-                      setCurDepartmentAttendant(e.target.value);
-                    }}
-                    onChange={(e) => {
-                      handleInput(e);
-                    }}
-                  >
-                    {!departments
-                      ? "Cargando"
-                      : departments.map((department) => {
-                          return (
-                            <option
-                              key={department.CODIGO_DEPARTAMENTO}
-                              value={department.CODIGO_DEPARTAMENTO}
-                            >
-                              {department.NOMBRE_DEPARTAMENTO}
-                            </option>
-                          );
-                        })}
-                  </select>
+                    <label>DEPARTAMENTO DE NACIMIENTO ACUDIENTE</label>
+                    <select
+                        name='guardianBirthDepartment'
+                        onChange={(e) => {
+                            setCurDepartmentAttendant(e.target.value);
+                            handleInput(e);
+                        }}
+                    >
+                        <option value={form.guardianBirthDepartment} hidden>{form.guardianBirthDepartment}</option>
+                        <option value='Arauca'>Arauca</option>
+                        <option value='Antioquia'>Antioquia</option>
+                        <option value='Amazonas'>Amazonas</option>
+                        <option value='Atlántico'>Atlántico</option>
+                        <option value='Boyacá'>Boyacá</option>
+                        <option value='Casanare'>Casanare</option>
+                        <option value='Córdoba'>Córdoba</option>
+                        <option value='Guainía'>Guainía</option>
+                        <option value='Norte de Santander'>Norte de Santander</option>
+                        <option value='Risaralda'>Risaralda</option>
+                        <option value='Vichada'>Vichada</option>
+                        <option value='Bogotá D.C.'>Bogotá D.C.</option>
+                        <option value='Cundinamarca'>Cundinamarca</option>
+                        <option value='Guaviare'>Guaviare</option>
+                        <option value='Huila'>Huila</option>
+                        <option value='La Guajira'>La Guajira</option>
+                        <option value='Meta'>Meta</option>
+                        <option value='Santander'>Santander</option>
+                        <option value='Caquetá'>Caquetá</option>
+                        <option value='Cauca'>Cauca</option>
+                        <option value='Cesar'>Cesar</option>
+                        <option value='Chocó'>Chocó</option>
+                        <option value='Magdalena'>Magdalena</option>
+                        <option value='Nariño'>Nariño</option>
+                        <option value='Quindío'>Quindío</option>
+                        <option value='Tolima'>Tolima</option>
+                        <option value='Valle del Cauca'>Valle del Cauca</option>
+                        <option value='Vaupés'>Vaupés</option>
+                        <option value='Archipiélago de San Andrés, Providencia y Santa Catalina'>Archipiélago de San Andrés, Providencia y Santa Catalina</option>
+                        <option value='Bolívar'>Bolívar</option>
+                        <option value='Caldas'>Caldas</option>
+                        <option value='Putumayo'>Putumayo</option>
+                        <option value='Sucre'>Sucre</option>
+                    </select>
                 </div>
                 {/* MUNICIPALITIES */}
                 <div>
-                  <label>MUNICIPIO DE NACIMIENTO ACUDIENTE</label>
-                  <select name="guardianBirthCity" onChange={handleInput}>
-                    {!municipalitiesAttendant
-                      ? "Cargando"
-                      : municipalitiesAttendant.map((municipality) => {
-                          return (
-                            <option
-                              key={municipality.NOMBRE_MUNICIPIO}
-                              value={municipality.CODIGO_MUNICIPIO}
-                            >
-                              {municipality.NOMBRE_MUNICIPIO}
-                            </option>
-                          );
-                        })}
-                  </select>
+                    <label>MUNICIPIO DE NACIMIENTO ACUDIENTE</label>
+                    <select name='guardianBirthCity' onChange={handleInput}>
+                        <option value={form.guardianBirthCity} hidden>{form.guardianBirthCity}</option>
+                        {!municipalitiesAttendant
+                            ? 'Cargando'
+                            : municipalitiesAttendant.map(
+                                (municipality) => {
+                                    return (
+                                        <option
+                                        key={municipality.c_digo_dane_del_municipio}
+                                        value={municipality.municipio}
+                                        >
+                                            {municipality.municipio}
+                                        </option>
+                                    );
+                                }
+                            )}
+                    </select>
                 </div>
                 <section className="bottom-tab-button">
                   <button type="submit" className="verifyInputs">
@@ -1278,47 +1292,68 @@ function AddBeneficiaries({ token }) {
                 </div>
                 {/* DEPARTMENTS */}
                 <div>
-                  <label>DEPARTAMENTO DE NACIMIENTO PADRE</label>
-                  <select
-                    name="birthDepartment"
-                    onClick={(e) => {
-                      setCurDepartmentFather(e.target.value);
-                    }}
-                    onChange={(e) => {
-                      handleInput(e);
-                    }}
-                  >
-                    {!departments
-                      ? "Cargando"
-                      : departments.map((department) => {
-                          return (
-                            <option
-                              key={department.CODIGO_DEPARTAMENTO}
-                              value={department.CODIGO_DEPARTAMENTO}
+                            <label>DEPARTAMENTO DE NACIMIENTO PADRE</label>
+                            <select
+                                name='fatherBirthDepartment'
+                                onChange={(e) => {
+                                    setCurDepartmentFather(e.target.value);
+                                    handleInput(e);
+                                }}
                             >
-                              {department.NOMBRE_DEPARTAMENTO}
-                            </option>
-                          );
-                        })}
-                  </select>
-                </div>
+                                <option value={form.fatherBirthDepartment} hidden>{form.fatherBirthDepartment}</option>
+                                <option value='Arauca'>Arauca</option>
+                                <option value='Antioquia'>Antioquia</option>
+                                <option value='Amazonas'>Amazonas</option>
+                                <option value='Atlántico'>Atlántico</option>
+                                <option value='Boyacá'>Boyacá</option>
+                                <option value='Casanare'>Casanare</option>
+                                <option value='Córdoba'>Córdoba</option>
+                                <option value='Guainía'>Guainía</option>
+                                <option value='Norte de Santander'>Norte de Santander</option>
+                                <option value='Risaralda'>Risaralda</option>
+                                <option value='Vichada'>Vichada</option>
+                                <option value='Bogotá D.C.'>Bogotá D.C.</option>
+                                <option value='Cundinamarca'>Cundinamarca</option>
+                                <option value='Guaviare'>Guaviare</option>
+                                <option value='Huila'>Huila</option>
+                                <option value='La Guajira'>La Guajira</option>
+                                <option value='Meta'>Meta</option>
+                                <option value='Santander'>Santander</option>
+                                <option value='Caquetá'>Caquetá</option>
+                                <option value='Cauca'>Cauca</option>
+                                <option value='Cesar'>Cesar</option>
+                                <option value='Chocó'>Chocó</option>
+                                <option value='Magdalena'>Magdalena</option>
+                                <option value='Nariño'>Nariño</option>
+                                <option value='Quindío'>Quindío</option>
+                                <option value='Tolima'>Tolima</option>
+                                <option value='Valle del Cauca'>Valle del Cauca</option>
+                                <option value='Vaupés'>Vaupés</option>
+                                <option value='Archipiélago de San Andrés, Providencia y Santa Catalina'>Archipiélago de San Andrés, Providencia y Santa Catalina</option>
+                                <option value='Bolívar'>Bolívar</option>
+                                <option value='Caldas'>Caldas</option>
+                                <option value='Putumayo'>Putumayo</option>
+                                <option value='Sucre'>Sucre</option>
+                            </select>
+                        </div>
                 {/* MUNICIPALITIES */}
                 <div>
-                  <label>MUNICIPIO DE NACIMIENTO ACUDIENTE</label>
-                  <select name="guardianBirthCity" onChange={handleInput}>
-                    {!municipalitiesFather
-                      ? "Cargando"
-                      : municipalitiesFather.map((municipality) => {
-                          return (
-                            <option
-                              key={municipality.NOMBRE_MUNICIPIO}
-                              value={municipality.CODIGO_MUNICIPIO}
-                            >
-                              {municipality.NOMBRE_MUNICIPIO}
-                            </option>
-                          );
-                        })}
-                  </select>
+                    <label>MUNICIPIO DE NACIMIENTO PADRE</label>
+                    <select name='fatherBirthCity' onChange={handleInput}>
+                        <option value={form.fatherBirthCity} hidden>{form.fatherBirthCity}</option>
+                        {!municipalitiesFather
+                            ? 'Cargando'
+                            : municipalitiesFather.map((municipality) => {
+                                return (
+                                    <option
+                                        key={municipality.c_digo_dane_del_municipio}
+                                        value={municipality.municipio}
+                                    >
+                                        {municipality.municipio}
+                                    </option>
+                                );
+                            })}
+                    </select>
                 </div>
                 <section className="bottom-tab-button">
                   <button
@@ -1422,47 +1457,68 @@ function AddBeneficiaries({ token }) {
                 </div>
                 {/* DEPARTMENTS */}
                 <div>
-                  <label>DEPARTAMENTO DE NACIMIENTO PADRE</label>
-                  <select
-                    name="birthDepartment"
-                    onClick={(e) => {
-                      setCurDepartmentMother(e.target.value);
-                    }}
-                    onChange={(e) => {
-                      handleInput(e);
-                    }}
-                  >
-                    {!departments
-                      ? "Cargando"
-                      : departments.map((department) => {
-                          return (
-                            <option
-                              key={department.CODIGO_DEPARTAMENTO}
-                              value={department.CODIGO_DEPARTAMENTO}
-                            >
-                              {department.NOMBRE_DEPARTAMENTO}
-                            </option>
-                          );
-                        })}
-                  </select>
+                    <label>DEPARTAMENTO DE NACIMIENTO MADRE</label>
+                    <select
+                        name='motherBirthDepartment'
+                        onChange={(e) => {
+                            setCurDepartmentMother(e.target.value);
+                            handleInput(e);
+                        }}
+                    >
+                        <option value={form.motherBirthDepartment} hidden>{form.motherBirthDepartment}</option>
+                        <option value='Arauca'>Arauca</option>
+                        <option value='Antioquia'>Antioquia</option>
+                        <option value='Amazonas'>Amazonas</option>
+                        <option value='Atlántico'>Atlántico</option>
+                        <option value='Boyacá'>Boyacá</option>
+                        <option value='Casanare'>Casanare</option>
+                        <option value='Córdoba'>Córdoba</option>
+                        <option value='Guainía'>Guainía</option>
+                        <option value='Norte de Santander'>Norte de Santander</option>
+                        <option value='Risaralda'>Risaralda</option>
+                        <option value='Vichada'>Vichada</option>
+                        <option value='Bogotá D.C.'>Bogotá D.C.</option>
+                        <option value='Cundinamarca'>Cundinamarca</option>
+                        <option value='Guaviare'>Guaviare</option>
+                        <option value='Huila'>Huila</option>
+                        <option value='La Guajira'>La Guajira</option>
+                        <option value='Meta'>Meta</option>
+                        <option value='Santander'>Santander</option>
+                        <option value='Caquetá'>Caquetá</option>
+                        <option value='Cauca'>Cauca</option>
+                        <option value='Cesar'>Cesar</option>
+                        <option value='Chocó'>Chocó</option>
+                        <option value='Magdalena'>Magdalena</option>
+                        <option value='Nariño'>Nariño</option>
+                        <option value='Quindío'>Quindío</option>
+                        <option value='Tolima'>Tolima</option>
+                        <option value='Valle del Cauca'>Valle del Cauca</option>
+                        <option value='Vaupés'>Vaupés</option>
+                        <option value='Archipiélago de San Andrés, Providencia y Santa Catalina'>Archipiélago de San Andrés, Providencia y Santa Catalina</option>
+                        <option value='Bolívar'>Bolívar</option>
+                        <option value='Caldas'>Caldas</option>
+                        <option value='Putumayo'>Putumayo</option>
+                        <option value='Sucre'>Sucre</option>
+                    </select>
                 </div>
                 {/* MUNICIPALITIES */}
                 <div>
-                  <label>MUNICIPIO DE NACIMIENTO MADRE</label>
-                  <select name="motherBirthCity" onChange={handleInput}>
-                    {!municipalitiesMother
-                      ? "Cargando"
-                      : municipalitiesMother.map((municipality) => {
-                          return (
-                            <option
-                              key={municipality.NOMBRE_MUNICIPIO}
-                              value={municipality.CODIGO_MUNICIPIO}
-                            >
-                              {municipality.NOMBRE_MUNICIPIO}
-                            </option>
-                          );
-                        })}
-                  </select>
+                    <label>MUNICIPIO DE NACIMIENTO MADRE</label>
+                    <select name='motherBirthCity' onChange={handleInput}>
+                        <option value={form.motherBirthCity} hidden>{form.motherBirthCity}</option>
+                        {!municipalitiesMother
+                            ? 'Cargando'
+                            : municipalitiesMother.map((municipality) => {
+                                return (
+                                    <option
+                                        key={municipality.c_digo_dane_del_municipio}
+                                        value={municipality.municipio}
+                                    >
+                                        {municipality.municipio}
+                                    </option>
+                                );
+                            })}
+                    </select>
                 </div>
                 <section className="bottom-tab-button">
                   <button

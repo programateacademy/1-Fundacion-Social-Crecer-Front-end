@@ -30,6 +30,7 @@ function Header({ onLogout, token }) {
       setUserInfo(data.data.user);
     }
   }
+
   return (
     <div className="header">
       <img className="elLogo" src={logo} alt="fundacionCrecer" />
@@ -51,7 +52,6 @@ function Header({ onLogout, token }) {
           <div className="adminInfo">
             <p>{userInfo.name}</p>
             <p>{userInfo.role}</p>
-            {/* <p>{userInfo.email}</p> */}
           </div>
         )}
         <button
