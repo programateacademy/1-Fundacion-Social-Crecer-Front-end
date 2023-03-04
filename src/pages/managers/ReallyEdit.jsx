@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Alert from 'react-bootstrap/Alert'
 import users from "../../apis/index";
@@ -32,7 +32,7 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
   }
   const handleEditUser= async () => {
     try{
-      const response = await users.put('/superadmin/admin', form, {
+      const response = await users.put(`/api/superadmin/admin/${id}`, form, {
         headers: {
           Authorization: localStorage.getItem('token' || 'recovery-token')
         }
@@ -109,7 +109,7 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={_=> {handleChangePassword()}}
+          onClick={_=> {handleEditUser();setShow(false);getManagers()}}
         >
           Confirmar
         </button>
