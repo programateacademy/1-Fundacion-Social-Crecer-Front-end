@@ -37,7 +37,7 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
           Authorization: localStorage.getItem('token' || 'recovery-token')
         }
       })
-
+      console.log(response)
       await setShow(false)
     }catch(error){
       console.log(error.response.data)
@@ -109,7 +109,7 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={_=> {handleEditUser();setShow(false);getManagers()}}
+          onClick={_=> {handleEditUser();getManagers()}}
         >
           Confirmar
         </button>

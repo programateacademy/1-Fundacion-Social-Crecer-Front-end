@@ -450,7 +450,7 @@ function AddBeneficiaries({ token }) {
                 </div>
                 {/* DEPARTMENTS */}
                 <div>
-                    <label>DEPARTAMENTO DE NACIMIENTO</label>
+                    <label>DEPARTAMENTO DE NACIMIENTO *</label>
                     <select
                         name='birthDepartment'
                         onChange={(e) => {
@@ -1053,7 +1053,6 @@ function AddBeneficiaries({ token }) {
                     onChange={handleInput}
                     type='text'
                     value={form.guardianDocumentNumber}
-                    required
                   />
                 </div>
                 <div>
@@ -1611,7 +1610,7 @@ function AddBeneficiaries({ token }) {
                   <label>
                     ¿EL BENEFICIARIO CUENTA CON CARNET DE VACUNCIÓN?*
                   </label>
-                  <select name='hasVaccinationCard' onChange={handleInput}>
+                  <select name='hasVaccinationCard' onChange={handleInput} required>
                     <option value={form.hasVaccinationCard} hidden>
                       {form.hasVaccinationCard}
                     </option>

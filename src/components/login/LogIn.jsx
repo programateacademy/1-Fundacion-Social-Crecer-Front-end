@@ -54,7 +54,7 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
         </div>
         <div className="vr"></div>
         <div className="form">
-          <p className="log-in">Iniciar sesión</p>
+          <h1 className="log-in">Iniciar sesión</h1>
           <hr />
           {showErrorAlert && (
             <Alert variant="warning" className="w-75">
