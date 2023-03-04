@@ -1,54 +1,62 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
-import app from '../../../apis/index'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import app from "../../../apis/index";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Alert from 'react-bootstrap/Alert'
+import Alert from "react-bootstrap/Alert";
 import IconPadLock from "../../icons/IconPadLock";
 
-const AdminLockedModal = ( props ) => {
-  const navigate = useNavigate()
-  // State for get request message 
-  const [codeSendMessage, setCodeSendMessage] = useState('')
+const AdminLockedModal = (props) => {
+  const navigate = useNavigate();
+  // State for get request message
+  const [codeSendMessage, setCodeSendMessage] = useState("");
   // State for post request message
-  const [codeVerifyMessage, setCodeVerifyMessage] = useState('')
-  // State for userCode input 
-  const [userCode, setUserCode] = useState('')
-  // Modal messages 
-  const superAdminMessagge = codeSendMessage || "¿Quieres que se te envíe un correo con el código de recuperación?";
+  const [codeVerifyMessage, setCodeVerifyMessage] = useState("");
+  // State for userCode input
+  const [userCode, setUserCode] = useState("");
+  // Modal messages
+  const superAdminMessagge =
+    codeSendMessage ||
+    "¿Quieres que se te envíe un correo con el código de recuperación?";
   const adminMessagge = "Ponte en contacto con el encargado ";
-
-  
 
   const handleSendCode = async () => {
     try {
-      const response = await app.get('/api/code/superadmin@locked.com', { headers: { Code: import.meta.env.VITE_CODE_KEY }});
-      setCodeSendMessage(response.data.message)
+      const response = await app.get(`/api/code/${props.email}`, {
+        headers: { Code: import.meta.env.VITE_CODE_KEY },
+      });
+      setCodeSendMessage(response.data.message);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const handleCodeVerify = async (e) => {
     e.preventDefault();
     try {
-    const response = await app.post('/api/code/', {email: 'superadmin@locked.com', code: userCode }, {
-      headers: {
-        Code: import.meta.env.VITE_CODE_KEY 
-      }
-    });
-    localStorage.setItem("recovery-token", response.data.token);
-    // Allow user to login 
-    props.onLogin();
-    // Move user to /recover-password/ route
-    navigate("/recover-password/");
-    }catch (error){
-      console.log(error.response)
-      setCodeVerifyMessage(error.response.data.message)
-      setTimeout(() => setCodeVerifyMessage(''), 4000)
+      const response = await app.post(
+        "/api/code/",
+        {email:props.email, code: userCode },
+        {
+          headers: {
+            Code: import.meta.env.VITE_CODE_KEY,
+          },
+        }
+      );
+      localStorage.setItem("recovery-token", response.data.token);
+      // Allow user to login
+      props.onLogin();
+      // Move user to /recover-password/ route
+      navigate("/recover-password/");
+    } catch (error) {
+      console.log(error.response);
+      setCodeVerifyMessage(error.response.data.message);
+      setTimeout(() => setCodeVerifyMessage(""), 4000);
     }
-  } 
-  
+  };
+
+  console.log(props.userInfo)
+
   return (
     <Modal
       {...props}
@@ -67,21 +75,40 @@ const AdminLockedModal = ( props ) => {
           <p>Has excedido la cantidad máxima de intentos para iniciar sesión</p>
           <p> {props.role === "admin" ? adminMessagge : superAdminMessagge}</p>
           <div>
-            {
-              !codeSendMessage // If the code was not sent
-                ? props.role == "superAdmin" && // Show button if user has a superAdmin role
-                  <Button variant="primary" className="w-50" size="sm" onClick={handleSendCode}>
-                    Enviame el código
-                  </Button>            
-                : 
-                <form className='mt-2' onSubmit={handleCodeVerify}> 
-                  <label htmlFor="">Tu código de recuperación</label>
-                  <input type='text' placeholder='codigo' value={userCode} name='userCode' onChange={(e) =>setUserCode(e.target.value)}></input>
-                  <button type='submit' name='sendUserCode' >Continuar</button>
-                </form>    
-            }
+            {!codeSendMessage ? ( // If the code was not sent
+              props.role == "superAdmin" && ( // Show button if user has a superAdmin role
+                <Button
+                  variant="primary"
+                  className="w-50"
+                  size="sm"
+                  onClick={handleSendCode}
+                >
+                  Enviame el código
+                </Button>
+              )
+            ) : (
+              <form className="mt-2" onSubmit={handleCodeVerify}>
+                <label htmlFor="">Tu código de recuperación</label>
+                <input
+                  type="text"
+                  placeholder="codigo"
+                  value={userCode}
+                  name="userCode"
+                  onChange={(e) => setUserCode(e.target.value)}
+                ></input>
+                <button type="submit" name="sendUserCode">
+                  Continuar
+                </button>
+              </form>
+            )}
           </div>
-          {codeVerifyMessage ? <Alert className='w-75' variant='danger'>{codeVerifyMessage}</Alert> : ''}
+          {codeVerifyMessage ? (
+            <Alert className="w-75" variant="danger">
+              {codeVerifyMessage}
+            </Alert>
+          ) : (
+            ""
+          )}
         </div>
       </Modal.Body>
     </Modal>

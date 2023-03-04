@@ -5,14 +5,15 @@ import Matrix from "../pages/matrix/Matrix";
 import RecoveryPassword from "../pages/recoverypassword/RecoveryPassword";
 import users from "../apis/index";
 import { RequireAuth } from "../components/login/RequireAuth";
-import { useEffect, useState} from "react";
+import { useState } from "react";
 import { RequireAuthSuper } from "../components/login/RequireAuthSuper";
 import { useArrayContext } from "../context/context";
 import { useSetArrayContext } from "../context/context";
 
 function App() {
+
   const array = useArrayContext();
-  const setArray = useSetArrayContext(); 
+  const setArray = useSetArrayContext();
   //Login status
   const [isLogged, setIsLogged] = useState(
     localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false
@@ -33,21 +34,20 @@ function App() {
 
   async function fetchData() {
     if (!token) {
-        handleLogout();
+      handleLogout();
     } else {
-        const { data } = await users.get("/api/admin", {
-            headers: {
-                Authorization: token,
-            },
-        });
-        console.log("Data" , data)
-        setUserInfo(data.data.user);
-        localStorage.setItem("userData", JSON.stringify(data.data.user));
+      const { data } = await users.get("/api/admin", {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log("Data", data);
+      setUserInfo(data.data.user);
+      localStorage.setItem("userData", JSON.stringify(data.data.user));
     }
-}
-      
-  const login = (item) => {
+  }
 
+  const login = (item) => {
     return users
       .post("/api/login", item)
       .then((response) => {
@@ -56,12 +56,12 @@ function App() {
         console.log(token);
         console.log(response.data);
         const validLogin = response.status == 200 && !!response.data.data;
-        if (validLogin){
-          fetchData()
+        if (validLogin) {
+          fetchData();
         }
-        
+
         //Check if the status is correct and the token seems valid
-        // !! convert data.data into a boolean value 
+        // !! convert data.data into a boolean value
         return validLogin;
       })
       .catch((error) => {
@@ -76,31 +76,49 @@ function App() {
 
   return (
     <>
-
       <BrowserRouter>
         <Routes>
           <Route
             path="/"
-            element={<LogIn loginFunction={login} onLogin={handleLogin} userInfo={userInfo}/>}
+            element={
+              <LogIn
+                loginFunction={login}
+                onLogin={handleLogin}
+                userInfo={userInfo}
+              />
+            }
           />
           <Route
             path="/matrix"
             element={
-              <RequireAuth isLogged={isLogged}  children= {<Matrix  onLogout={handleLogout}  token={token} />}/>
+              <RequireAuth
+                isLogged={isLogged}
+                children={<Matrix onLogout={handleLogout} token={token} />}
+              />
             }
           />
           <Route
             path="/managers"
             element={
-              <RequireAuthSuper isLogged={isLogged} children= {<Managers onLogout={handleLogout}  token={token} />}/>
+              <RequireAuthSuper
+                isLogged={isLogged}
+                children={<Managers onLogout={handleLogout} token={token} />}
+              />
             }
           />
-          <Route path="/recover-password/" element={ 
-              <RequireAuthSuper isLogged={isLogged} children= {<RecoveryPassword onLogout={handleLogout}  token={token} />}/>
+          <Route
+            path="/recover-password/"
+            element={
+              <RequireAuthSuper
+                isLogged={isLogged}
+                children={
+                  <RecoveryPassword onLogout={handleLogout} token={token} />
+                }
+              />
             }
           />
         </Routes>
-      </BrowserRouter>  
+      </BrowserRouter>
     </>
   );
 }

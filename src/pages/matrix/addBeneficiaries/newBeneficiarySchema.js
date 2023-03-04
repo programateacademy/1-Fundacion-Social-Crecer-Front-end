@@ -1,4 +1,4 @@
-// ------------------------- addBeneficiariesSchema
+// ------------------------- addBeneficiariesSchema - We set some default values (Mostly used)
 const addBeneficiariesSchema ={
     curState: 'ACTIVO',
     documentType: 'RC',

@@ -14,12 +14,12 @@ import { BsFillPersonFill, BsFillLockFill } from "react-icons/bs";
 import AdminLockedModal from "../modals/lockedaccountmodals/AdminLockedModal";
 
 const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState();
   const navigate = useNavigate();
   const [showLockedModal, setShowLockedModal] = useState(false);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
-
+  
   // Define an async function that will handle the form submission
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
@@ -32,6 +32,7 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
     } else if (userInfo[0]) {
       // If user is locked, show locked modal (true or false)
       setShowLockedModal(true);
+      // localStorage.setItem('userEmail', userInfo[2])
     } else {
       console.log("NO Llamo a handleLogin");
       // Set the showErrorAlert state to true to show the error message
@@ -41,11 +42,14 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
       onLogout();
     }
   };
+  // const handleEmailChange = (email) => {
+  //   console.log(`El correo electrónico es ${email}`);
+  // };
   //Delete all data stored in the localStorage
   const resetLocalStorage = () => {
     localStorage.clear();
   };
-
+  
   return (
     <div className="bodyLogin" onLoad={() => resetLocalStorage()}>
       <div className="containerLogIn">
@@ -81,7 +85,7 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
               </Form.Label>
               <Col sm="11">
                 <Form.Control
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value) }
                   type="password"
                   className="logInInput"
                   placeholder="Contraseña "
@@ -97,6 +101,7 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
         show={showLockedModal}
         onHide={() => setShowLockedModal(false)}
         role={userInfo[1]}
+        email={userInfo[2]}
       />
     </div>
   );

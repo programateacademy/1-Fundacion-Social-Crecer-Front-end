@@ -385,7 +385,7 @@ function AddBeneficiaries({ token }) {
                   </select>
                 </div>
                 <div>
-                  <label>DOCENTE*</label>
+                  <label>DOCENTE</label>
                   <input
                     type="text"
                     name="teachers"
@@ -395,7 +395,7 @@ function AddBeneficiaries({ token }) {
                 </div>
                 <div>
                   <label>TIPO DE DOCUMENTO*</label>
-                  <select name="documentType" onChange={handleInput}>
+                  <select name="documentType" onChange={handleInput} required>
                     <option value={form.documentType} hidden>
                       {form.documentType}
                     </option>
@@ -470,9 +470,7 @@ function AddBeneficiaries({ token }) {
                 <div>
                   <label>PAÍS DE NACIMIENTO*</label>
                   <select name="birthCountry" onChange={handleInput}>
-                    <option value={form.birthCountry} hidden>
-                      {form.birthCountry}
-                    </option>
+                    <option value={form.birthCountry} hidden>{form.birthCountry}</option>
                     <option value="COLOMBIA">COLOMBIA</option>
                     <option value="VENEZUELA">VENEZUELA</option>
                     <option value="ECUADOR">ECUADOR</option>
@@ -485,6 +483,7 @@ function AddBeneficiaries({ token }) {
                 <div>
                   <label>DEPARTAMENTO DE NACIMIENTO</label>
                   <select
+                    required
                     name="birthDepartment"
                     onClick={(e) => {
                       setCurDepartment(e.target.value);
@@ -493,7 +492,8 @@ function AddBeneficiaries({ token }) {
                       handleInput(e);
                     }}
                   >
-                    {/* <option value="EXTERIOR">EXTERIOR</option> */}
+                    <option value={form.birthDepartment} hidden>{form.birthDepartment}</option>
+                    <option value="EXTERIOR">EXTERIOR</option>
                     {!departments
                       ? "Cargando"
                       : departments.map((department) => {

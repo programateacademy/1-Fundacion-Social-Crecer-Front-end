@@ -38,9 +38,7 @@ function Matrix({ onLogout, token }) {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log(filter);
-  }, [filter]);
+  useEffect(() => {}, [filter]);
 
   let quitAccent = (string) => {
     const acentos = {
