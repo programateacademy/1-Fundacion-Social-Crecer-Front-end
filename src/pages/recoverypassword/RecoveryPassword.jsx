@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./RecoveryPassword.css";
 
-const RecoveryPassword = () => {
+const RecoveryPassword = ( {userInfo} ) => {
   const navigate = useNavigate();
   // State for error alert
   const [alertMessage, setAlertMessage] = useState("");
@@ -16,7 +16,7 @@ const RecoveryPassword = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   const passwordModel = {
-    email: "dijfsoijfsdoijfso",
+    email: userInfo[2],
     newPassword,
     confirmNewPassword,
   };
@@ -28,7 +28,7 @@ const RecoveryPassword = () => {
           Authorization: localStorage.getItem("recovery-token"),
         },
       });
-      navigate("/matrix/");
+      navigate("/matrix");
       console.log(response);
     } catch (error) {
       console.log(error.response.data);

@@ -3,13 +3,10 @@ import datas from "../../../apis/model";
 import app from "../../../apis/index";
 import edit from "../../../assets/icons/edit.svg";
 import "./BeneficiariesTable.css";
-import {
-  useArrayContext,
-  useSetArrayContext,
-  useFilterContext,
-} from "../../../context/context";
+import { useArrayContext, useSetArrayContext, useFilterContext } from "../../../context/context";
+import { GiCancel } from 'react-icons/gi';
 
-function Tbody({ token }) {
+function Tbody() {
   //The useFilterContext() function is used to get the current filter for the context.
   const filter = useFilterContext();
   //Check if there is a filter. If so, the filter is used. If not, the current array context is used via the useArrayContext() function.
@@ -19,14 +16,14 @@ function Tbody({ token }) {
   //useState() is used to create a local "isEditing" state with an initial value of false.
   const [isEditing, setIsEditing] = useState(false);
   const [editedItem, setEditedItem] = useState(null);
-  const dummy = () => {
+  const removeId = () => {
     //Removes the _id property from the first element in the datas array.
     delete datas[0]._id;
     return datas[0];
   };
 
-  //initializes it with an array of the keys of the object returned by calling the dummy function
-  const beneficiariesNameValues = Object.keys(dummy());
+  //initializes it with an array of the keys of the object returned by calling the removeId function
+  const beneficiariesNameValues = Object.keys(removeId());
   //Array with the names of the input type date
   const dateKeys = [
     "joinDate",
@@ -36,7 +33,6 @@ function Tbody({ token }) {
     "fatherBirthdate",
     "motherBirthdate",
     "vaccinationVerificationDate",
-    "vaccinationCardUpToDate",
   ];
   //Array with the names of the input type number
   const numberKeys = [
@@ -338,11 +334,14 @@ function Tbody({ token }) {
           <tr key={beneficiary._id}>
             <td className="edit-button">
               {!isEditing ? (
-                <button onClick={() => handleEdit(beneficiary)}>
-                  <img src={edit} alt="" />
-                </button>
+                  <button onClick={() => handleEdit(beneficiary)}>
+                    <img src={edit} alt="" />
+                  </button>
               ) : (
-                <button onClick={() => handleSave(beneficiary)}>Guardar</button>
+                <>
+                  <button onClick={() => handleSave(beneficiary)}>Guardar</button> 
+                  <button type="button" onClick={() => setIsEditing(false)}><GiCancel/></button>
+                </>
               )}
             </td>
             {/* Array of beneficiary properties */}

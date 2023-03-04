@@ -19,7 +19,7 @@ function App() {
     localStorage.getItem("isLogged") ? localStorage.getItem("isLogged") : false
   );
   const [token, setToken] = useState(localStorage.getItem("token"));
-  //Object with the user info
+  //Object with the user info (email, role and isLocked)
   const [userInfo, setUserInfo] = useState([]);
 
   const handleLogin = () => {
@@ -112,7 +112,7 @@ function App() {
               <RequireAuthSuper
                 isLogged={isLogged}
                 children={
-                  <RecoveryPassword onLogout={handleLogout} token={token} />
+                  <RecoveryPassword userInfo={userInfo} onLogout={handleLogout} token={token} />
                 }
               />
             }

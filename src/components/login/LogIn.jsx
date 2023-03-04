@@ -14,6 +14,7 @@ import { BsFillPersonFill, BsFillLockFill } from "react-icons/bs";
 import AdminLockedModal from "../modals/lockedaccountmodals/AdminLockedModal";
 
 const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
+  // States for login inputs 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState();
   const navigate = useNavigate();
@@ -32,9 +33,6 @@ const LogIn = ({ loginFunction, onLogin, onLogout, userInfo }) => {
     } else if (userInfo[0]) {
       // If user is locked, show locked modal (true or false)
       setShowLockedModal(true);
-      // Save super admin info into local storage (isLocked, role, email)
-      localStorage.setItem({ adminUserInfo: userInfo })
-      // localStorage.setItem('userEmail', userInfo[2])
     } else {
       console.log("NO Llamo a handleLogin");
       // Set the showErrorAlert state to true to show the error message
