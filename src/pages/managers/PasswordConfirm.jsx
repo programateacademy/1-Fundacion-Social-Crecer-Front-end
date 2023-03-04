@@ -8,7 +8,7 @@ const PasswordConfirm = ({ show, onClose, onConfirm }) => {
   
   const handleVerifyPassword = async () => {
     try{
-      const response = await app.post('/api/superadmin/verify-password', {email: "noborrar@gmail.com", password}, {
+      const response = await app.post('/api/superadmin/verify-password', {email: "fundacioncrecer@gmail.com", password}, {
         headers: {
           Authorization: localStorage.getItem('token')
         }

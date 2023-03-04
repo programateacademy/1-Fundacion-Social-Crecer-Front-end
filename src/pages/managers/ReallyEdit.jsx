@@ -6,13 +6,19 @@ import users from "../../apis/index";
 const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getManagers,onClose,
   setIsEditing={setIsEditing} }) => {
   const [alertMessage, setAlertMessage] = useState("")
-  const [form, setForm] = useState({email: email1})
+  const [form, setForm] = useState(
+    {
+      email: undefined
+    
+    }
+  )
 
 
   const handleInputText = (e) => {
     let { name, value } = e.target;
     let newForm = { ...form, [name]: (value? value: key) };
     setForm(newForm);
+    console.log(form)
   };
 
   const handleChangePassword = async () => {
@@ -37,8 +43,8 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
           Authorization: localStorage.getItem('token' || 'recovery-token')
         }
       })
-      console.log(response)
-      await setShow(false)
+      setShow(false)
+      setForm({})
     }catch(error){
       console.log(error.response.data)
       setAlertMessage(error.response.data.error)
@@ -46,7 +52,6 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
     }
   }
 
-  
 
   return (
     <div id="Form">
@@ -76,7 +81,7 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
           <Form.Label>Correo Electrónico</Form.Label>
           <Form.Control
             type="email"
-            name="docNum"
+            name="email"
             placeholder={email1}
             onChange={handleInputText}
             key={email1}
@@ -95,21 +100,13 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
             <option value='TRIANGULO'>TRIANGULO - U7</option>
             <option value='LORENZO'>LORENZO- U8</option>
           </Form.Select>
-{/*           <Form.Control
-            type='text'
-            placeholder='Unidad'
-            required
-            name='unity'
-            value={formManager.unity}
-            onChange={handleInputText}
-          /> */}
         </Form.Group>
                 
       </Form>
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={_=> {handleEditUser();getManagers()}}
+          onClick={_=> {handleEditUser()}}
         >
           Confirmar
         </button>

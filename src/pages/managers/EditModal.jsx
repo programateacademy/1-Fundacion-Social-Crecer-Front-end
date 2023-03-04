@@ -31,7 +31,7 @@ function EditModal({
             onClose();
           }}
         >
-          <Modal.Title>Cambiar contraseña</Modal.Title>
+          <Modal.Title>Editar usuario</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <EditDeleteFunction
