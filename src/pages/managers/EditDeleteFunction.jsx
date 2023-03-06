@@ -68,14 +68,18 @@ const EditDeleteFunction = ({ id, docnum1, name1, email1, unity1, setShow, onClo
             />
           </Form.Group>
           <Form.Group className="inputNewUser">
-          <Form.Label className={showModal ? "overlay" : ""} htmlFor="unity">Unidad</Form.Label>
-            <Form.Control
-              type="text"
-              name="unity"
-              value={form.unity}
-              placeholder={unity1}
-              onChange={handleInputText}
-            />
+          <label>Unidad</label>
+          <Form.Select name="unity" onChange={handleInputText}>
+            <option value={form.unity} hidden></option>
+            <option value='FISCALA' >FISCALA- U1</option>
+            <option value='USME'>USME- U2</option>
+            <option value='SERRANIAS'>SERRANIAS- U3</option>
+            <option value='VIRREY'>VIRREY- U4</option>
+            <option value='SAN JUAN A'>SAN JUAN A- U5</option>
+            <option value='EL UVAL'>EL UVAL - U6</option>
+            <option value='TRIANGULO'>TRIANGULO - U7</option>
+            <option value='LORENZO'>LORENZO- U8</option>
+          </Form.Select>
           </Form.Group>
         </Form>
         </div>

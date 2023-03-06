@@ -1,7 +1,7 @@
-import React from 'react';
- function SearchManagers({searchValue, setSearchValue}) {
+function SearchManagers({searchValue, setSearchValue}) {
 
-
+    //This function logs the value of the input field to the console and updates 
+    //the searchValue state by calling the setSearchValue function.
     const onSearchManagersChange=(event)=>{
         console.log(event.target.value);
         setSearchValue(event.target.value);
@@ -15,7 +15,6 @@ import React from 'react';
                 value={searchValue}
                 placeholder="Buscar Usuario"
             />
-            {/* <button className="searchButton">Buscar</button> */}
         </div>
         </>
         

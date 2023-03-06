@@ -1,8 +1,8 @@
 import { useState } from "react";
 import PasswordValidationModal from "./PasswordConfirm";
-import EditManagerContainerButton from "./EditModal.jsx";
+import EditModal from "./EditModal.jsx";
 
-function PasswordValidation({ id,docnum, name, email,unity, setManagers,getManagers }) {
+function PasswordValidation({ id,docnum, name, email,unity,getManagers }) {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -32,13 +32,12 @@ function PasswordValidation({ id,docnum, name, email,unity, setManagers,getManag
       />
       <div>
         {isEditing ? (
-          <EditManagerContainerButton 
+          <EditModal 
           id={id}
           docnum={docnum} 
           name={name} 
           email={email} 
           unity={unity}
-          setManagers={setManagers} 
           getManagers={getManagers}
           setShow={() => setShowPasswordModal(true)} onClose={handleEditClose} setIsEditing={setIsEditing}/>
         ) : null}

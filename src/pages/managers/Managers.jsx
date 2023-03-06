@@ -77,7 +77,6 @@ function Managers({onLogout, token}) {
       <CardUser 
         managers={searchedManagers} 
         getManagers={getManagers}
-        setManagers={setManagers} 
         loading={loading}/>
     </>
   );

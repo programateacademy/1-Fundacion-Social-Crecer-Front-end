@@ -120,14 +120,6 @@ const AddFunction = ({ setShow, getManagers}) => {
             <option value='TRIANGULO'>TRIANGULO - U7</option>
             <option value='LORENZO'>LORENZO- U8</option>
           </Form.Select>
-{/*           <Form.Control
-            type="text"
-            placeholder="Unidad"
-            required
-            name="unity"
-            value={formDani.unity}
-            onChange={handleInputText}
-          /> */}
         </Form.Group>
         <Form.Group className="inputNewUser">
           <Form.Control

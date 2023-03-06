@@ -4,7 +4,7 @@ import modelUser from '../../assets/img/userImage.png';
 import ChangePasswordValidation from './ChangePasswordValidation.jsx';
 
 
-export default function CardUser({managers, setManagers, eliminateManager,loading,getManagers}) {
+export default function CardUser({managers,loading,getManagers}) {
     return (
       <div className="userCards">
         {loading ? (
@@ -24,8 +24,8 @@ export default function CardUser({managers, setManagers, eliminateManager,loadin
                   <img className="imgUser" src={modelUser} alt="" />
                 </div>
                 <div className="profileUserButtons">
-                  <ChangePasswordValidation  email={email} setManagers={setManagers} getManagers={getManagers}/>
-                  <PasswordValidation id={_id} docnum={docnum} name={name} email={email} unity={unity} setManagers={setManagers} getManagers={getManagers}/>
+                  <ChangePasswordValidation  email={email} getManagers={getManagers}/>
+                  <PasswordValidation id={_id} docnum={docnum} name={name} email={email} unity={unity} getManagers={getManagers}/>
                 </div>
               </div>
             );
