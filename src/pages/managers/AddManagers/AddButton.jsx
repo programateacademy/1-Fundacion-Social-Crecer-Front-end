@@ -6,7 +6,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 //  Modal component
 function AddButton({ getManagers }) {
   //  State assignment
-  const values = [true];
+  const values = [false];
   const [fullscreen, setFullscreen] = useState(true);
   const [show, setShow] = useState(false);
 
@@ -18,15 +18,13 @@ function AddButton({ getManagers }) {
 
   return (
     <div>
-      {values.map((v, idx) => (
-        <button key={idx} className="addUser" onClick={() => handleShow(v)}>
+        <button className="addUser" onClick={() => handleShow(true)}>
           <span className="iconAddUser">
             <IoIosAddCircleOutline />
           </span>
-          {typeof v === "string" && `below ${v.split("-")[0]}`}
           <span className="createUser">Crear funcionario</span>
         </button>
-      ))}
+
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Crear nuevo usuario</Modal.Title>

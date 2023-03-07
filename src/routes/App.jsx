@@ -1,6 +1,6 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import LogIn from "../components/login/LogIn";
-import Managers from "../pages/managers/Managers";
+import Managers from '../pages/managers/Managers';
 import Matrix from "../pages/matrix/Matrix";
 import RecoveryPassword from "../pages/recoverypassword/RecoveryPassword";
 import users from "../apis/index";

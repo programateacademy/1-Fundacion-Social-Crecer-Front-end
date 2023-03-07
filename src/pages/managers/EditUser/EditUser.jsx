@@ -1,8 +1,8 @@
 import { useState } from "react";
-import PasswordConfirm from "./PasswordConfirm";
-import ReallyEditModal from "./ReallyEditModal.jsx";
+import PasswordConfirm from "../PasswordConfirm";
+import EditUserModal from "./EditUserModal.jsx";
 
-function PasswordValidation({
+function EditUser({
   id,
   docnum,
   name,
@@ -40,7 +40,7 @@ function PasswordValidation({
       />
       <div>
         {isEditing ? (
-          <ReallyEditModal
+          <EditUserModal
             id={id}
             docnum={docnum}
             name={name}
@@ -51,6 +51,7 @@ function PasswordValidation({
             setShow={() => setShowPasswordModal(true)}
             onClose={handleEditClose}
             setIsEditing={setIsEditing}
+            show={show}
           />
         ) : null}
         <div>
@@ -63,4 +64,4 @@ function PasswordValidation({
   );
 }
 
-export default PasswordValidation;
+export default EditUser;

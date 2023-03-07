@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import EditDeleteFunction from "./EditDeleteFunction";
+import ChangePasswordForm from "./ChangePasswordForm";
 
-function EditModal({
+function ChangePasswordModal({
   id,
   docnum,
   name,
@@ -31,20 +31,12 @@ function EditModal({
             onClose();
           }}
         >
-          <Modal.Title>Editar usuario</Modal.Title>
+          <Modal.Title>Cambiar Contraseña</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <EditDeleteFunction
-            id={id}
-            docnum1={docnum}
-            name1={name}
+          <ChangePasswordForm
             email1={email}
-            unity1={unity}
             setShow={setShow}
-            setManagers={setManagers}
-            getManagers={getManagers}
-            onClose={onClose}
-            setIsEditing={setIsEditing}
           />
         </Modal.Body>
       </Modal>
@@ -52,4 +44,4 @@ function EditModal({
   );
 }
 
-export default EditModal;
+export default ChangePasswordModal;
