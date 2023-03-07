@@ -42,6 +42,37 @@ function AddBeneficiaries({ token }) {
   const tabListRef = useRef(0);
 
   // ---------------------- addBeneficiaries post function
+  // Translation of required fields of the modal to add beneficiaries used in funtion getMissingFields
+  const translations = {
+    eps: 'EPS',
+    guardianBirthdate: 'Fecha de nacimiento del acudiente',
+    guardianFirstLastname: 'Apellido del acudiente',
+    guardianFirstName: 'Nombre del acudiente',
+    primaryPhone: 'Teléfono principal',
+    address: 'Dirección',
+    birthMunicipality: 'Municipio de nacimiento',
+    birthDate: 'Fecha de nacimiento',
+    firstLastName: 'Apellido',
+    firstName: 'Nombre',
+    duoName: 'Nombre del duo',
+    unityName: 'Nombre de la unidad',
+    joinDate: 'Fecha de ingreso',
+    numDoc: 'Número de documento'
+  };
+  // Error message configuration when adding Beneficiaries
+  const getMissingFields = (error) => {
+    const regex = /Path `([^`]+)` is required./g;
+    let match;
+    const missingFields = [];
+    while ((match = regex.exec(error.message)) !== null) {
+      missingFields.push(translations[match[1]] || match[1]);
+    }
+    if (missingFields.length > 0) {
+      return `Por favor, complete los siguientes campos:\n\n  - ${missingFields.join(' \n  - ')}`;
+    }
+    return 'El beneficiario se encuentra registrado en el sistema';
+  };
+  
   const addBeneficiary = async (e) => {
     e.preventDefault();
     try {
@@ -51,20 +82,24 @@ function AddBeneficiaries({ token }) {
           headers: {
             Authorization: token,
           },
-        })// Skip the alert when a beneficiary is added, clear the data and leave it as default, close the modal and return to the first tab
+        })
         .then((_) => {
           alert('Beneficiario añadido');
           resetForm();
-          setShow(false);
           setTabIndex(0);
         })
-        .catch((error) =>alert(JSON.stringify(error.response.data.message)));
+        .catch((error) => {
+          if (error.response.status === 401) {
+            alert('No está autorizado para realizar esta acción');
+          } else {
+            alert(getMissingFields(error.response.data));
+          }
+        });
     } catch (error) {
-      console.log(alert(error));
+      alert('Se ha producido un error al añadir el beneficiario');
+      console.log(error);
     }
   };
-
-  
 
   // ---------------------- Request of APIs used for selects
   const fetchApis = async (_) => {
