@@ -6,7 +6,7 @@ import "./BeneficiariesTable.css";
 import { useArrayContext, useSetArrayContext, useFilterContext } from "../../../context/context";
 import { GiCancel } from 'react-icons/gi';
 
-function Tbody() {
+function Tbody({token}) {
   //The useFilterContext() function is used to get the current filter for the context.
   const filter = useFilterContext();
   //Check if there is a filter. If so, the filter is used. If not, the current array context is used via the useArrayContext() function.
