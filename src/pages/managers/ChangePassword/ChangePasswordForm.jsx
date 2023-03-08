@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Alert from 'react-bootstrap/Alert'
-import users from "../../apis/index";
+import users from "../../../apis/index";
 
-const EditDeleteFunction = ({ email1, setShow }) => {
+const ChangePasswordForm = ({ email1, setShow }) => {
   const [alertMessage, setAlertMessage] = useState("")
   const [form, setForm] = useState({email: email1})
 
@@ -22,7 +22,9 @@ const EditDeleteFunction = ({ email1, setShow }) => {
         }
       })
 
-      await setShow(false)
+      getManagers();
+      setForm({})
+      setShow(false)
     }catch(error){
       console.log(error.response.data)
       setAlertMessage(error.response.data.error)
@@ -56,7 +58,7 @@ const EditDeleteFunction = ({ email1, setShow }) => {
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={_=> {handleChangePassword()}}
+          onClick={_=> {handleChangePassword(id)}}
         >
           Confirmar
         </button>
@@ -64,7 +66,6 @@ const EditDeleteFunction = ({ email1, setShow }) => {
           className="btnEliminateUser"
           onClick={() => {
             setShow(false)
-            getManagers();
           }}
         >
           Cancelar
@@ -72,4 +73,4 @@ const EditDeleteFunction = ({ email1, setShow }) => {
       </div>
     </div>
   );}
-export default EditDeleteFunction;
+export default ChangePasswordForm;

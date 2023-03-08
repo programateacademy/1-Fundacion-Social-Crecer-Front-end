@@ -1,9 +1,9 @@
 import  { useState, useRef } from 'react';
-import users from '../../apis/index';
+import users from '../../../apis/index';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert'
 
-const AddFunction = ({ setShow, getManagers}) => {
+const AddManagersModal = ({ setShow, getManagers}) => {
   const [validated, setValidated] = useState(false);
   const [errorMessages,setErrorMessages]=useState('');
   const [errorPasswordMessage, setErrorPasswordMessage] = useState('');
@@ -167,4 +167,4 @@ const AddFunction = ({ setShow, getManagers}) => {
   );
 };
 
-export default AddFunction;
+export default AddManagersModal;

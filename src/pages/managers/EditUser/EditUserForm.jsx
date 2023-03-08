@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Alert from 'react-bootstrap/Alert'
-import users from "../../apis/index";
+import users from "../../../apis/index";
 
-const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getManagers,onClose,
+const EditUserForm = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getManagers,onClose,
   setIsEditing={setIsEditing} }) => {
   const [alertMessage, setAlertMessage] = useState("")
   const [form, setForm] = useState(
@@ -18,24 +18,8 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
     let { name, value } = e.target;
     let newForm = { ...form, [name]: (value? value: key) };
     setForm(newForm);
-    console.log(form)
   };
 
-  const handleChangePassword = async () => {
-    try{
-      const response = await users.put('/api/change-password', form, {
-        headers: {
-          Authorization: localStorage.getItem('token' || 'recovery-token')
-        }
-      })
-
-      await setShow(false)
-    }catch(error){
-      console.log(error.response.data)
-      setAlertMessage(error.response.data.error)
-      setTimeout(() => setAlertMessage(''), 3000)
-    }
-  }
   const handleEditUser= async () => {
     try{
       const response = await users.put(`/api/superadmin/admin/${id}`, form, {
@@ -43,8 +27,9 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
           Authorization: localStorage.getItem('token' || 'recovery-token')
         }
       })
-      setShow(false)
+      getManagers();
       setForm({})
+      setShow(false)
     }catch(error){
       console.log(error.response.data)
       setAlertMessage(error.response.data.error)
@@ -103,18 +88,19 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
         </Form.Group>
                 
       </Form>
+      
       <div className="btnsUser">
         <button
           className="btnCreateUser"
-          onClick={_=> {handleEditUser()}}
+          onClick={_=> {handleEditUser(id)}}
         >
           Confirmar
+        
         </button>
         <button
           className="btnEliminateUser"
           onClick={() => {
             setShow(false)
-            getManagers();
           }}
         >
           Cancelar
@@ -122,4 +108,4 @@ const ReallyEdit = ({ id, docnum1,name1,email1,unity1,setShow,setManagers,getMan
       </div>
     </div>
   );}
-export default ReallyEdit;
+export default EditUserForm;

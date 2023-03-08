@@ -15,7 +15,9 @@ const PasswordConfirm = ({ show, onClose, onConfirm }) => {
       })
       if (response.status === 200) { // Cambiar "1234" por la contraseña que se desea validar hacer petición post desde
         //este frontend, mirar el login de cami
+        
         onConfirm();
+        setPassword('')
       }
     }catch(error){
       setErrorMessage(error.response.data.error)
@@ -51,7 +53,7 @@ const PasswordConfirm = ({ show, onClose, onConfirm }) => {
         <button className="btnCreateUser" onClick={handleVerifyPassword}>
           Confirmar
         </button>
-        <button className="btnCancelUser" onClick={onClose}>
+        <button className="btnCancelUser" onClick={()=>{setPassword('');onClose()}}>
           Cancelar
         </button>
       </Modal.Footer>

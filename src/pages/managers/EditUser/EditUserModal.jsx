@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import ReallyEdit from "./ReallyEdit";
+import EditUserForm from "./EditUserForm";
 
-function ReallyEditModal({
+function EditUserModal({
   id,
   docnum,
   name,
@@ -31,10 +31,10 @@ function ReallyEditModal({
             onClose();
           }}
         >
-          <Modal.Title>Cambiar contraseña</Modal.Title>
+          <Modal.Title>Editar Perfil {name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ReallyEdit
+          <EditUserForm
             id={id}
             docnum1={docnum}
             name1={name}
@@ -52,4 +52,4 @@ function ReallyEditModal({
   );
 }
 
-export default ReallyEditModal;
+export default EditUserModal;

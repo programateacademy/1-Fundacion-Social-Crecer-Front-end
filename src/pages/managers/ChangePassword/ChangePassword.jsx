@@ -1,8 +1,8 @@
 import { useState } from "react";
-import PasswordConfirm from "./PasswordConfirm";
-import EditModal from "./EditModal";
+import PasswordConfirm from "../PasswordConfirm";
+import ChangePasswordModal from "./ChangePasswordModal";
 
-function PasswordValidation({  email, setManagers,getManagers }) {
+function ChangePassword({  email, setManagers,getManagers }) {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -32,11 +32,12 @@ function PasswordValidation({  email, setManagers,getManagers }) {
       />
       <div>
         {isEditing ? (
-          <EditModal 
+          <ChangePasswordModal 
           email={email} 
           setManagers={setManagers} 
           getManagers={getManagers}
-          setShow={() => setShowPasswordModal(true)} onClose={handleEditClose} setIsEditing={setIsEditing}/>
+          setShow={() => setShowPasswordModal(true)} onClose={handleEditClose} setIsEditing={setIsEditing}
+          />
         ) : null}
         <div>
           <button className='userButton' onClick={handleEditClick}>CAMBIAR CONTRASEÑA</button>
@@ -46,4 +47,4 @@ function PasswordValidation({  email, setManagers,getManagers }) {
   );
 }
 
-export default PasswordValidation;
+export default ChangePassword;
