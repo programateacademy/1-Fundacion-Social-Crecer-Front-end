@@ -24,7 +24,12 @@ function ChangePasswordModal({
   }
   return (
     <div>
-      <Modal show={show} onHide={() => setShow(false)}>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        backdrop="static"
+        keyboard={false}
+        >
         <Modal.Header
           closeButton
           onClick={() => {

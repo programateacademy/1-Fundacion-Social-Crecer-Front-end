@@ -25,7 +25,12 @@ function AddButton({ getManagers }) {
           <span className="createUser">Crear funcionario</span>
         </button>
 
-      <Modal show={show} onHide={() => setShow(false)}>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        backdrop="static"
+        keyboard={false}
+        >
         <Modal.Header closeButton>
           <Modal.Title>Crear nuevo usuario</Modal.Title>
         </Modal.Header>
