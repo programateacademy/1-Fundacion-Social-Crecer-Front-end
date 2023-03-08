@@ -25,9 +25,14 @@ MERN STACK
 - ReactJS
 - NodeJS
 
-STYLES 
+LIBRARIES
+- Vite
+- Axios
 - React Bootstrap
 - React Tabs
+- React Router
+- React Icons
+
 ## Mockups
 Login
 <p align="center">
