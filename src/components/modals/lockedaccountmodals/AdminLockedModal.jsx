@@ -14,11 +14,11 @@ const AdminLockedModal = (props) => {
   const [codeVerifyMessage, setCodeVerifyMessage] = useState("");
   // State for userCode input
   const [userCode, setUserCode] = useState("");
+  
   // Modal messages
-  const superadminMessage =
-    codeSendMessage ||
-    "¿Quieres que se te envíe un correo con el código de recuperación?";
-  const adminMessage = "Ponte en contacto con el encargado ";
+  const superadminMessage = codeSendMessage || "¿Quieres que se te envíe un correo con el código de recuperación?";
+  const adminMessage = "Ponte en contacto con el encargado.";
+  
   const handleSendCode = async () => {
     try {
       const response = await app.get(`/api/code/${props.email}`, {

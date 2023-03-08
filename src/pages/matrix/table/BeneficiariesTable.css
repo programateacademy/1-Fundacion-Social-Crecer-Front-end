@@ -134,7 +134,7 @@ select option:hover::before {
 .table-head-f {
   z-index: 100;
   position: sticky;
-  top: 120px;
+  top: 125px;
   margin-top: -10px;
   margin-bottom: -140px;
   margin-left: 0%;
@@ -144,7 +144,7 @@ select option:hover::before {
 .table-head {
   z-index: 100;
   position: sticky;
-  top: 125px;
+  top: 120px;
   margin-bottom: -100px;
   text-align: center;
   z-index: 110;
